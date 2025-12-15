@@ -7,7 +7,11 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Relicta Docs',
-      logo: { src: './src/assets/brand/relicta-logo-light.svg', alt: 'Relicta' },
+      logo: {
+        light: './src/assets/brand/relicta-logo-light.svg',
+        dark: './src/assets/brand/relicta-logo-dark.svg',
+        alt: 'Relicta',
+      },
       sidebar: [
         { label: 'Overview', link: '/' },
         {
