@@ -15,23 +15,28 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: relicta-tech/relicta-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          ai-provider: openai
-          publish: true
+          plugins: 'github'  # Download GitHub plugin for release creation
           config: relicta.config.yaml
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}  # Optional: for AI release notes
 ```
 
 ## Inputs to know
 - `github-token` (required for GitHub releases and repo access).
-- `ai-provider` (`openai`, `anthropic`, `gemini`, `azure`, `ollama`) and provider-specific keys/secrets.
+- `plugins`: comma-separated list of plugins to download (`github`, `slack`, `discord`, `jira`, `launchnotes`, `gitlab`, `npm`).
 - `config`: path to `relicta.config.yaml` (defaults to repo root).
+- `command`: `full` (default), `plan`, `bump`, `notes`, `approve`, `publish`.
 - `dry-run`: `true` to preview without tagging/publishing.
-- `publish`: `true` to run the full flow; set `false` for plan/notes-only checks.
-- `args`: extra CLI args (e.g., `--json` or `--from <ref>`).
+- `auto-approve`: `true` (default) to skip interactive approval.
 
 See the action docs: https://github.com/relicta-tech/relicta-action
 
