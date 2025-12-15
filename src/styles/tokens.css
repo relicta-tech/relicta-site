@@ -7,7 +7,7 @@
   --color-accent-strong: #47d8b1;
   --color-accent-warm: #f5a524;
   --color-text: #eef3ff;
-  --color-muted: #9fb1d1;
+  --color-muted: #c7d4eb;
   --color-border: rgba(255, 255, 255, 0.08);
 
   /* Gradients */
@@ -44,7 +44,7 @@
   --color-accent-strong: #0fa271;
   --color-accent-warm: #f08c00;
   --color-text: #0c1020;
-  --color-muted: #55627a;
+  --color-muted: #3b4961;
   --color-border: rgba(12, 16, 32, 0.08);
   --gradient-bg: radial-gradient(circle at 20% 20%, rgba(18, 184, 134, 0.08), transparent 35%),
     radial-gradient(circle at 80% 0%, rgba(240, 140, 0, 0.08), transparent 30%);
