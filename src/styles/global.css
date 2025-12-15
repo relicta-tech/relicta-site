@@ -17,6 +17,25 @@ a {
   text-decoration: none;
 }
 
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 16px;
+  padding: 10px 14px;
+  background: var(--color-accent);
+  color: #04140e;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  transition: top 0.2s ease;
+  z-index: 20;
+}
+
+.skip-link:focus-visible {
+  top: 12px;
+  outline: 2px solid #04140e;
+  outline-offset: 3px;
+}
+
 .page-bg .orb {
   position: fixed;
   filter: blur(60px);
@@ -86,6 +105,13 @@ a {
 
 .nav a:hover {
   color: var(--color-text);
+}
+
+.nav a:focus-visible,
+.btn:focus-visible,
+.demo-label:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
 .cta {
