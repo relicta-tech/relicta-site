@@ -22,6 +22,7 @@ npm run build  # outputs to dist/
 2. In Cloudflare Pages, create a new project pointing at the repo.
 3. Build settings: command `npm run build`, output directory `dist`.
 4. Deploy. The Starlight docs are served at `/docs/` (no redirects needed).
+5. For wrangler-based deploys, use the included `wrangler.jsonc` or run `npx wrangler deploy --assets=./dist` after `npm run build`.
 
 ## Updating brand assets
 Replace the SVGs in `public/brand/` with updates from the main Relicta repo (`../relicta/brand/`).

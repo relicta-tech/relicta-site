@@ -1,0 +1,7 @@
+{
+  "name": "relicta-site",
+  "compatibility_date": "2024-12-15",
+  "assets": {
+    "directory": "./dist"
+  }
+}
