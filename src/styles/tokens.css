@@ -35,6 +35,22 @@
   --space-8: 48px;
 }
 
+/* Explicit light theme tokens for manual toggle */
+:root[data-theme="light"] {
+  --color-bg: #f9fbff;
+  --color-surface: rgba(255, 255, 255, 0.9);
+  --color-card: rgba(10, 20, 40, 0.06);
+  --color-accent: #12b886;
+  --color-accent-strong: #0fa271;
+  --color-accent-warm: #f08c00;
+  --color-text: #0c1020;
+  --color-muted: #55627a;
+  --color-border: rgba(12, 16, 32, 0.08);
+  --gradient-bg: radial-gradient(circle at 20% 20%, rgba(18, 184, 134, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(240, 140, 0, 0.08), transparent 30%);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     --color-bg: #f9fbff;
