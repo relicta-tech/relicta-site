@@ -11,15 +11,15 @@ const {
   description = "Relicta automates semantic versioning, release notes, approvals, and publishing with a friendly CLI and GitHub Action."
 } = Astro.props as Props;
 
-const toggleScript = `
-(() => {
-  const root = document.documentElement;
-  const toggle = document.querySelector('[data-theme-toggle]');
-  const preferred = localStorage.getItem('theme');
-  const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-  const initial = preferred || (systemPrefersLight ? 'light' : 'dark');
-  root.dataset.theme = initial;
-  if (toggle) {
+const toggleScript = `(() => {
+  const init = () => {
+    const root = document.documentElement;
+    const toggle = document.querySelector('[data-theme-toggle]');
+    const preferred = localStorage.getItem('theme');
+    const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    const initial = preferred || (systemPrefersLight ? 'light' : 'dark');
+    root.dataset.theme = initial;
+    if (!toggle) return;
     toggle.textContent = initial === 'light' ? 'Dark mode' : 'Light mode';
     toggle.setAttribute('aria-pressed', initial === 'light' ? 'false' : 'true');
     toggle.addEventListener('click', () => {
@@ -29,9 +29,13 @@ const toggleScript = `
       toggle.textContent = next === 'light' ? 'Dark mode' : 'Light mode';
       toggle.setAttribute('aria-pressed', next === 'light' ? 'false' : 'true');
     });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
   }
-})();
-`;
+})();`;
 ---
 <!doctype html>
 <html lang="en">
@@ -46,7 +50,7 @@ const toggleScript = `
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <script is:inline>{toggleScript}</script>
+    <script is:inline set:html={toggleScript}></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>

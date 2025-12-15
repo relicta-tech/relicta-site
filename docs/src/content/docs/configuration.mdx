@@ -10,6 +10,8 @@ Relicta reads `relicta.config.yaml` in your repo root by default. Example:
 versioning:
   strategy: conventional
   tag_prefix: v
+  prerelease: false        # e.g., rc, beta when true
+  build_metadata: ""       # optional +build meta
   git_tag: true
   git_push: true
 
@@ -41,14 +43,29 @@ workflow:
     - main
 ```
 
-### Common flags
-- `--config`: path to the config file
-- `--dry-run`: preview without changing the repo
-- `--json`: machine-readable output
+## Sections and options
+- **versioning**: `strategy` (conventional), `tag_prefix`, `prerelease`, `build_metadata`, `git_tag`, `git_push`.
+- **changelog**: `file`, `format` (e.g., keep-a-changelog), `repository_url` for links.
+- **ai**: `enabled`, `provider` (`openai`, `anthropic`, `gemini`, `azure`, `ollama`), `model`, `tone`, `audience`.
+- **plugins**: list of plugins with `name`, `enabled`, and `config` (see [Plugins](/plugins) for each).
+- **workflow**: `require_approval`, `allowed_branches`, optional `auto_publish` or other org policies.
 
-### Environment variables
-- `OPENAI_API_KEY`
+## Flags to know
+- `--config`: path to the config file (defaults to `relicta.config.yaml` in repo root).
+- `--dry-run`: preview without changing the repo.
+- `--json`: emit machine-readable output.
+- `--chdir`: run as if started in another directory.
+
+## Environment variables
+- `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT`
+- `OLLAMA_HOST` (if using local Ollama)
 - `GITHUB_TOKEN`
-- `SLACK_WEBHOOK_URL`
+- Plugin credentials (see [Plugins](/plugins)):
+  - Slack: `SLACK_WEBHOOK_URL`
+  - npm: `NPM_TOKEN` (if publishing)
+  - LaunchNotes: `LAUNCHNOTES_API_TOKEN`
 
-Adjust AI provider keys as needed (Anthropic, Gemini, Azure, Ollama).
+## Tips
+- Commit `relicta.config.yaml` so CI and local runs are identical.
+- Use environment-variable substitution for secrets (e.g., `${SLACK_WEBHOOK_URL}`) to keep config in git.
+- Pair `--json` with `jq` for automation and dashboards.

@@ -37,9 +37,9 @@
 
 /* Explicit light theme tokens for manual toggle */
 :root[data-theme="light"] {
-  --color-bg: #f9fbff;
-  --color-surface: rgba(255, 255, 255, 0.9);
-  --color-card: rgba(10, 20, 40, 0.06);
+  --color-bg: #f3f7fb;
+  --color-surface: #ffffff;
+  --color-card: rgba(12, 20, 40, 0.04);
   --color-accent: #12b886;
   --color-accent-strong: #0fa271;
   --color-accent-warm: #f08c00;

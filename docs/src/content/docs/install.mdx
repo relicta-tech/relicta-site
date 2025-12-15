@@ -6,12 +6,22 @@ draft: false
 
 Pick the install path that fits your environment.
 
-### Homebrew (recommended)
+## Requirements
+- Git installed and available on PATH
+- macOS, Linux, or Windows (x86_64/arm64)
+- For AI features: provider API keys (OpenAI, Anthropic, Gemini, Azure OpenAI, or local Ollama)
+
+## Homebrew (recommended)
 ```bash
 brew install relicta-tech/tap/relicta
 ```
 
-### Direct download (macOS Apple Silicon example)
+Upgrade:
+```bash
+brew upgrade relicta
+```
+
+## Direct download (macOS Apple Silicon example)
 ```bash
 curl -L https://github.com/relicta-tech/\
 relicta/releases/latest/download/relicta_\
@@ -21,12 +31,22 @@ sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/
 
 Replace platform/arch as needed (`Darwin_x86_64`, `Linux_x86_64`, `Linux_aarch64`, `Windows_x86_64`).
 
-### Go install
+## Go install
 ```bash
 go install github.com/relicta-tech/relicta/cmd/relicta@latest
 ```
 
-### Verify
+## Verify & self-check
 ```bash
 relicta --version
+relicta plan --help
 ```
+
+## Uninstall
+- Homebrew: `brew uninstall relicta`
+- Manual: remove the binary you placed on PATH
+
+## Troubleshooting
+- **“command not found”**: Ensure the install path (e.g., `/usr/local/bin` or `$HOME/go/bin`) is on PATH.
+- **Missing SSL/CA errors**: Update CA bundles on your OS; curl-based installs require HTTPS.
+- **AI provider errors**: Verify the correct API key environment variable for your provider (see Configuration).

@@ -3,14 +3,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const title = "Relicta — AI-powered release management";
 const description = "Relicta is an AI-powered release management CLI that automates versioning, release notes, approvals, and publishing.";
+
+const getLatestVersion = async () => {
+  try {
+    const res = await fetch("https://api.github.com/repos/relicta-tech/relicta/releases/latest", {
+      headers: { "User-Agent": "relicta-site" },
+    });
+    if (!res.ok) throw new Error(`GitHub responded ${res.status}`);
+    const json = await res.json();
+    return json.tag_name || "v2.1.0";
+  } catch (err) {
+    return "v2.1.0";
+  }
+};
+
+const version = await getLatestVersion();
 ---
 <BaseLayout {title} {description}>
   <header class="top-bar">
     <div class="brand">
-      <picture>
-        <source srcset="/brand/relicta-logo-dark.svg" media="(prefers-color-scheme: dark)" />
-        <img src="/brand/relicta-logo-light.svg" alt="Relicta" class="brand-mark" />
-      </picture>
+      <div class="brand-logos">
+        <img src="/brand/relicta-logo-light.svg" alt="Relicta" class="brand-mark logo-light" />
+        <img src="/brand/relicta-logo-dark.svg" alt="Relicta" class="brand-mark logo-dark" />
+      </div>
     </div>
     <nav class="nav">
       <a href="#features">Features</a>
@@ -37,6 +52,8 @@ const description = "Relicta is an AI-powered release management CLI that automa
           <a class="btn ghost" href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">View on GitHub</a>
         </div>
         <div class="hero-meta">
+          <span>Latest CLI: {version}</span>
+          <span class="divider">•</span>
           <span>Works with GitHub, npm, Slack, and more</span>
           <span class="divider">•</span>
           <span>Supports OpenAI, Anthropic, Gemini, Azure, Ollama</span>
@@ -44,20 +61,11 @@ const description = "Relicta is an AI-powered release management CLI that automa
       </div>
       <div class="hero-card">
         <div class="terminal">
-<pre><code>$ relicta plan
-• Current: v1.2.3
-• Next:    v1.3.0 (minor)
-• Commits: 14
-
-$ relicta notes --ai
-✓ Release notes drafted
-✓ Changelog updated
-
-$ relicta publish
-✓ Tag v1.3.0 created
-✓ GitHub release posted
-✓ npm package published
-✓ Slack notified</code></pre>
+          <video autoplay loop muted playsinline poster="/brand/relicta-preview.png">
+            <source src="/brand/relicta-preview.webm" type="video/webm" />
+            <source src="/brand/relicta-preview.mp4" type="video/mp4" />
+            <img src="/brand/relicta-preview.gif" alt="Relicta CLI run showing plan, notes, and publish steps" loading="lazy" />
+          </video>
         </div>
         <div class="card-foot">Designed for modern teams that care about release quality.</div>
       </div>
@@ -170,25 +178,110 @@ jobs:
       </div>
       <div class="preview-grid">
         <div class="preview-card preview-media">
-          <img src="/brand/relicta-preview.gif" alt="Relicta CLI run showing plan, notes, and publish steps" loading="lazy" />
+          <video autoplay loop muted playsinline poster="/brand/relicta-approval.png">
+            <source src="/brand/relicta-approval.webm" type="video/webm" />
+            <source src="/brand/relicta-approval.mp4" type="video/mp4" />
+            <img src="/brand/relicta-approval.gif" alt="Relicta approval flow showing locks and publish gate" loading="lazy" />
+          </video>
         </div>
         <div class="preview-card">
           <div class="preview-title">Release checklist</div>
           <div class="preview-rows">
-            <div class="preview-row pulse"><span class="dot done"></span>Tests passed</div>
-            <div class="preview-row pulse delay-1"><span class="dot done"></span>Changelog updated</div>
-            <div class="preview-row pulse delay-2"><span class="dot pending"></span>Approval pending</div>
-            <div class="preview-row pulse delay-3"><span class="dot pending"></span>Publish to GitHub + npm</div>
+            <div class="preview-row pulse"><span class="dot done"></span>Plan ready (version + diff)</div>
+            <div class="preview-row pulse delay-1"><span class="dot done"></span>Notes drafted + changelog updated</div>
+            <div class="preview-row pulse delay-2"><span class="dot pending"></span>Approval recorded</div>
+            <div class="preview-row pulse delay-3"><span class="dot pending"></span>Publish: tags + plugins</div>
           </div>
           <div class="preview-title">Approvals</div>
           <div class="preview-rows">
-            <div class="preview-row"><span class="avatar">FG</span> Felix approved · 10:24</div>
-            <div class="preview-row"><span class="avatar ghost">SK</span> Sarah reviewing…</div>
-            <div class="preview-note">Audit-ready context for every release.</div>
+            <div class="preview-row"><span class="dot done"></span> Approval recorded</div>
+            <div class="preview-row"><span class="dot pending"></span> Waiting for final publish</div>
+            <div class="preview-note">Approvals are tracked with timestamps and audit context.</div>
           </div>
         </div>
       </div>
     </section>
+
+    <section class="section highlights">
+      <div class="section-heading">
+        <p class="eyebrow">Quick looks</p>
+        <h2>What a Relicta run looks like</h2>
+        <p class="lede">A few stills from the new walkthrough so visitors can skim the flow without playing the video.</p>
+      </div>
+      <div class="highlight-grid">
+        <figure class="highlight-card">
+          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-01.png" data-alt="Relicta prompt ready for commands in a dark terminal">
+            <img src="/brand/relicta-highlight-01.png" alt="Relicta prompt ready for commands in a dark terminal" loading="lazy" />
+          </button>
+          <figcaption>Minimal CLI ready for your release workflow.</figcaption>
+        </figure>
+        <figure class="highlight-card">
+          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-02.png" data-alt="Relicta showing version plan and generated release notes">
+            <img src="/brand/relicta-highlight-02.png" alt="Relicta showing version plan and generated release notes" loading="lazy" />
+          </button>
+          <figcaption>Automatic version planning and AI-crafted notes.</figcaption>
+        </figure>
+        <figure class="highlight-card">
+          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-03.png" data-alt="Relicta publishing release artifacts with checklist">
+            <img src="/brand/relicta-highlight-03.png" alt="Relicta publishing release artifacts with checklist" loading="lazy" />
+          </button>
+          <figcaption>Publish with checklists and audit-friendly output.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const createLightbox = () => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'lightbox';
+          wrapper.hidden = true;
+          wrapper.setAttribute('aria-hidden', 'true');
+          wrapper.innerHTML = `
+            <div class="lightbox-backdrop" data-lightbox-close></div>
+            <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Expanded highlight image">
+              <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close">×</button>
+              <img data-lightbox-image src="" alt="" />
+            </div>
+          `;
+          document.body.appendChild(wrapper);
+          return wrapper;
+        };
+
+        const lightbox = createLightbox();
+        const imgEl = lightbox.querySelector('[data-lightbox-image]');
+        const closeTriggers = lightbox.querySelectorAll('[data-lightbox-close]');
+
+        const open = (src, alt) => {
+          imgEl.src = src;
+          imgEl.alt = alt || '';
+          lightbox.hidden = false;
+          lightbox.classList.add('open');
+          lightbox.setAttribute('aria-hidden', 'false');
+        };
+
+        const close = () => {
+          lightbox.classList.remove('open');
+          lightbox.hidden = true;
+          imgEl.src = '';
+          imgEl.alt = '';
+          lightbox.setAttribute('aria-hidden', 'true');
+        };
+
+        document.querySelectorAll('.highlight-zoom').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            open(btn.dataset.src, btn.dataset.alt);
+          });
+        });
+
+        closeTriggers.forEach((el) => el.addEventListener('click', close));
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && !lightbox.hidden) {
+            close();
+          }
+        });
+      });
+    </script>
 
     <section id="install" class="section install">
       <div class="section-heading">
@@ -300,16 +393,16 @@ sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/</code></pre>
 
   <footer class="footer">
     <div class="brand">
-      <picture>
-        <source srcset="/brand/relicta-icon-dark.svg" media="(prefers-color-scheme: dark)" />
-        <img src="/brand/relicta-icon-light.svg" alt="Relicta" class="brand-icon" />
-      </picture>
+      <div class="brand-logos">
+        <img src="/brand/relicta-icon-light.svg" alt="Relicta" class="brand-icon icon-light" />
+        <img src="/brand/relicta-icon-dark.svg" alt="Relicta" class="brand-icon icon-dark" />
+      </div>
       <span>Relicta — Release management, automated.</span>
     </div>
     <div class="footer-links">
       <a href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">CLI Source</a>
       <a href="https://github.com/relicta-tech/relicta-action" target="_blank" rel="noopener">GitHub Action</a>
-      <a href="https://github.com/relicta-tech/relicta/blob/main/README.md" target="_blank" rel="noopener">Docs</a>
+      <a href="https://docs.relicta.tech" target="_blank" rel="noopener">Docs</a>
     </div>
   </footer>
 </BaseLayout>

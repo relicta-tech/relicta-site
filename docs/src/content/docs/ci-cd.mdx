@@ -22,13 +22,24 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           ai-provider: openai
           publish: true
+          config: relicta.config.yaml
 ```
 
-### Inputs to note
-- `github-token` (required for GitHub releases)
-- `ai-provider` and related keys (OpenAI, Anthropic, Gemini, Azure, Ollama)
-- `config`: path to `relicta.config.yaml` if not in repo root
-- `dry-run`: `true` to preview
-- `publish`: `true` to run the full flow
+## Inputs to know
+- `github-token` (required for GitHub releases and repo access).
+- `ai-provider` (`openai`, `anthropic`, `gemini`, `azure`, `ollama`) and provider-specific keys/secrets.
+- `config`: path to `relicta.config.yaml` (defaults to repo root).
+- `dry-run`: `true` to preview without tagging/publishing.
+- `publish`: `true` to run the full flow; set `false` for plan/notes-only checks.
+- `args`: extra CLI args (e.g., `--json` or `--from <ref>`).
 
 See the action docs: https://github.com/relicta-tech/relicta-action
+
+## Secrets and environment
+- Set provider tokens as encrypted secrets (e.g., `OPENAI_API_KEY`, `SLACK_WEBHOOK_URL`, `NPM_TOKEN`, `LAUNCHNOTES_API_TOKEN`).
+- Ensure `actions/checkout` fetches tags if you plan to publish (`fetch-depth: 0`).
+
+## CI patterns
+- **Plan-only PR check**: run `publish: false` with `args: --json` and annotate the PR with the proposed version and notes.
+- **Manual approval gate**: combine with environment protection rules; run `publish: true` only after approval.
+- **Matrix releases**: use strategy matrices for multi-platform testing, then a single release job that runs Relicta once.

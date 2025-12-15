@@ -13,6 +13,7 @@ relicta plan
 - Analyzes commits since the last tag.
 - Calculates the required semantic bump.
 - Shows a preview of the release plan.
+- Flags: `--from <ref>`, `--to <ref>`, `--json`, `--dry-run`.
 
 ## 2) Generate notes (optional AI)
 ```bash
@@ -20,6 +21,7 @@ relicta notes --ai
 ```
 - Drafts release notes and changelog entries.
 - Uses your configured AI provider and tone.
+- Flags: `--ai-provider`, `--tone`, `--audience`, `--json`, `--dry-run`.
 
 ## 3) Approve
 ```bash
@@ -27,6 +29,7 @@ relicta approve
 ```
 - Locks the plan and captures approval context.
 - Keeps an audit trail before publishing.
+- Flags: `--by <name>` to record approver, `--note <text>` for context.
 
 ## 4) Publish
 ```bash
@@ -34,6 +37,15 @@ relicta publish
 ```
 - Creates the tag and runs plugins (GitHub release, npm, Slack, etc.).
 - Uses your config for tag prefix, push behavior, and targets.
+- Flags: `--force` (skip approval if policy allows), `--dry-run`, `--json`.
 
 ## Dry runs
 Add `--dry-run` to preview without modifying the repo.
+
+## JSON + automation
+Every command supports `--json` for structured output. Pair with `jq` to feed dashboards, chat notifications, or custom CI steps.
+
+## Common patterns
+- **Local preview**: `relicta plan --json | jq` then `relicta notes --ai --dry-run`.
+- **Approval flow**: Have a second reviewer run `relicta approve --by "<name>" --note "<context>"` before publish.
+- **Hotfix**: Run `relicta plan --from <last-release> --to HEAD --json` to verify the bump and publish from a hotfix branch; ensure branch is in `allowed_branches`.

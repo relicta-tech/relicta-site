@@ -4,30 +4,75 @@ description: Use built-in plugins and extend Relicta via gRPC plugins.
 draft: false
 ---
 
-Relicta ships with plugins for GitHub releases, npm, Slack, LaunchNotes, and more. Enable them in `relicta.config.yaml`:
+Relicta ships with built-in plugins and supports custom gRPC plugins. Enable them in `relicta.config.yaml` and keep secrets in env vars.
 
-```yaml
-plugins:
+## Built-in plugins
+
+### GitHub Releases
+- **Purpose**: Create a GitHub release with notes and assets.
+- **Config**:
+  ```yaml
   - name: github
     enabled: true
     config:
-      draft: false
+      draft: false           # create as draft release
+      prerelease: false      # mark as prerelease
+      discussion_category: ""# optional GH discussions category
+  ```
+- **Env**: `GITHUB_TOKEN` with `repo` scope.
+
+### npm Publish
+- **Purpose**: Publish your package to npm.
+- **Config**:
+  ```yaml
   - name: npm
     enabled: true
     config:
-      tag: latest
+      tag: latest            # dist-tag (e.g., next, beta)
+      access: public         # or restricted
+  ```
+- **Env**: `NPM_TOKEN` with publish rights.
+
+### Slack Notifications
+- **Purpose**: Post release summaries to a Slack channel.
+- **Config**:
+  ```yaml
   - name: slack
     enabled: true
     config:
       webhook: ${SLACK_WEBHOOK_URL}
+      channel: ""            # optional if webhook enforces channel
+      template: default      # optionally point to a custom message template
+  ```
+- **Env**: `SLACK_WEBHOOK_URL`.
+
+### LaunchNotes
+- **Purpose**: Send release notes to LaunchNotes.
+- **Config**:
+  ```yaml
   - name: launchnotes
-    enabled: false
-```
+    enabled: true
+    config:
+      project_id: YOUR_PROJECT
+      category: releases
+      publish: true
+  ```
+- **Env**: `LAUNCHNOTES_API_TOKEN`.
 
-## Writing your own plugin
-- Relicta plugins use gRPC. Implement the plugin interface and register it.
-- Build a binary and point Relicta to it (see plugin docs in the CLI repo for the full schema and examples).
+## Custom gRPC plugins
+- Implement the Relicta gRPC plugin interface (see CLI repo for protobuf definitions).
+- Build a binary and make it executable in your PATH.
+- Reference it in config:
+  ```yaml
+  - name: my-custom-plugin
+    enabled: true
+    path: ./bin/my-plugin     # optional override if not on PATH
+    config:
+      some_key: some_value
+  ```
+- Plugins receive the planned release payload and must return status, messages, and optional URLs.
 
-## Tips
-- Use `--dry-run` to validate plugin output without publishing.
-- Keep credentials in environment variables or your CI secret store.
+## Operational tips
+- Use `relicta publish --dry-run` to validate plugin wiring without pushing tags or publishing.
+- Keep secrets out of config; use env var substitution (`${VAR}`) instead.
+- Combine with `--json` to capture plugin responses in CI logs or dashboards.

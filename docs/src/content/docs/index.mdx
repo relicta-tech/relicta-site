@@ -7,30 +7,36 @@ draft: false
 Relicta is an AI-powered release management CLI that automates semantic versioning, release notes, approvals, and publishing. It works locally or in CI and plugs into GitHub releases, npm, Slack, LaunchNotes, and more via plugins.
 
 ## When to use Relicta
-- You want consistent semantic versions from conventional commits.
-- You need clean release notes and changelog updates without hand-editing.
-- You prefer an approval step before publishing.
-- You want one tool to tag repos and trigger downstream notifications/publications.
+- You want **predictable semantic versions** from conventional commits without manual bumping.
+- You need **polished release notes** and changelog updates that stay on-message.
+- You require an **approval step** before publishing for auditability or compliance.
+- You want one CLI that can **tag, publish, and notify** across your release channels.
 
-## Key capabilities
-- **Versioning**: Detects required bump from commit history (supports prerelease/build metadata).
-- **Notes**: Drafts release notes and changelog entries with AI tone control.
-- **Approval**: Locks a plan with auditability before publishing.
-- **Publishing**: Creates tags and runs plugins (GitHub, npm, Slack, LaunchNotes, etc.).
-- **CI-first**: GitHub Action downloads the right binary with checksums; no Go toolchain needed.
-- **Dry runs**: Preview everything without modifying the repo.
+## What Relicta does
+- **Plan**: Reads git history to propose the correct semantic version (supports prerelease + build metadata).
+- **Notes**: Drafts release notes and changelog entries with AI tone, audience, and provider selection (OpenAI, Anthropic, Gemini, Azure, Ollama).
+- **Approve**: Locks the plan, capturing approver context for audit.
+- **Publish**: Creates tags and drives plugins for GitHub releases, npm, Slack, LaunchNotes, and custom gRPC plugins.
+- **Dry runs & JSON**: Preview everything without touching your repo; consume structured output in automation.
+- **CI-first**: GitHub Action fetches signed binaries with checksums; no toolchain required on runners.
 
-## Quickstart
+## Quickstart (local)
 ```bash
 brew install relicta-tech/tap/relicta
-relicta init
-relicta plan
-relicta notes --ai
-relicta approve
-relicta publish
+relicta init                        # write relicta.config.yaml
+relicta plan --json                 # inspect proposed version and changes
+relicta notes --ai --dry-run        # draft notes without touching files
+relicta approve                     # lock the plan
+relicta publish                     # tag + run plugins
 ```
+
+## Next steps
+- Install: see [Install the CLI](/install)
+- Configure: see [Configuration](/configuration)
+- Run in CI: see [CI/CD (GitHub Action)](/ci-cd)
+- Plugins: see [Plugins](/plugins)
 
 ## Links
 - CLI source: https://github.com/relicta-tech/relicta
 - GitHub Action: https://github.com/relicta-tech/relicta-action
-- npm tap: relicta-tech/tap/relicta
+- Docs home: https://docs.relicta.tech
