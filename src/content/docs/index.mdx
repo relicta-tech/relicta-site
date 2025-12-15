@@ -1,0 +1,35 @@
+---
+title: Relicta overview
+description: What Relicta is, when to use it, and the core workflow.
+---
+
+Relicta is an AI-powered release management CLI that automates semantic versioning, release notes, approvals, and publishing. It works locally or in CI and plugs into GitHub releases, npm, Slack, LaunchNotes, and more via plugins.
+
+## When to use Relicta
+- You want consistent semantic versions from conventional commits.
+- You need clean release notes and changelog updates without hand-editing.
+- You prefer an approval step before publishing.
+- You want one tool to tag repos and trigger downstream notifications/publications.
+
+## Key capabilities
+- **Versioning**: Detects required bump from commit history (supports prerelease/build metadata).
+- **Notes**: Drafts release notes and changelog entries with AI tone control.
+- **Approval**: Locks a plan with auditability before publishing.
+- **Publishing**: Creates tags and runs plugins (GitHub, npm, Slack, LaunchNotes, etc.).
+- **CI-first**: GitHub Action downloads the right binary with checksums; no Go toolchain needed.
+- **Dry runs**: Preview everything without modifying the repo.
+
+## Quickstart
+```bash
+brew install relicta-tech/tap/relicta
+relicta init
+relicta plan
+relicta notes --ai
+relicta approve
+relicta publish
+```
+
+## Links
+- CLI source: https://github.com/relicta-tech/relicta
+- GitHub Action: https://github.com/relicta-tech/relicta-action
+- npm tap: relicta-tech/tap/relicta

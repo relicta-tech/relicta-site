@@ -1,0 +1,246 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Relicta — AI-powered release management";
+const description = "Relicta is an AI-powered release management CLI that automates versioning, release notes, approvals, and publishing.";
+---
+<BaseLayout {title} {description}>
+  <header class="top-bar">
+    <div class="brand">
+      <img src="/brand/relicta-logo-light.svg" alt="Relicta" class="brand-mark" />
+    </div>
+    <nav class="nav">
+      <a href="#features">Features</a>
+      <a href="/docs/">Docs</a>
+      <a href="#install">Install</a>
+      <a href="#workflow">Workflow</a>
+      <a href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <div class="cta">
+      <a class="btn ghost" href="https://github.com/relicta-tech/relicta/releases/latest">Download</a>
+      <a class="btn solid" href="https://github.com/relicta-tech/relicta-action" target="_blank" rel="noopener">Use in CI</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">AI-powered release management</p>
+        <h1>Ship clean releases without the release-day scramble</h1>
+        <p class="lede">Relicta reads your commits, calculates the right semantic version, writes polished notes, and publishes across your channels. One CLI for the entire release workflow.</p>
+        <div class="hero-actions">
+          <a class="btn solid" href="#install">Get the CLI</a>
+          <a class="btn ghost" href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">View on GitHub</a>
+        </div>
+        <div class="hero-meta">
+          <span>Works with GitHub, npm, Slack, and more</span>
+          <span class="divider">•</span>
+          <span>Supports OpenAI, Anthropic, Gemini, Azure, Ollama</span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="terminal">
+<pre><code>$ relicta plan
+• Current: v1.2.3
+• Next:    v1.3.0 (minor)
+• Commits: 14
+
+$ relicta notes --ai
+✓ Release notes drafted
+✓ Changelog updated
+
+$ relicta publish
+✓ Tag v1.3.0 created
+✓ GitHub release posted
+✓ npm package published
+✓ Slack notified</code></pre>
+        </div>
+        <div class="card-foot">Designed for modern teams that care about release quality.</div>
+      </div>
+    </section>
+
+    <section id="features" class="section grid">
+      <div class="section-heading">
+        <p class="eyebrow">Why teams choose Relicta</p>
+        <h2>Automate the boring parts, keep humans in control</h2>
+        <p class="lede">Relicta combines conventional commits, AI summaries, and an approval flow so you can ship confidently every time.</p>
+        <div class="feature-list">
+          <div>
+            <h4>Core workflow</h4>
+            <ul>
+              <li>Semantic versioning from conventional commits</li>
+              <li>AI-generated notes with tone control</li>
+              <li>Approval gate before publishing</li>
+              <li>Dry runs to preview changes safely</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Integrations</h4>
+            <ul>
+              <li>GitHub releases, npm, Slack, LaunchNotes plugins</li>
+              <li>Supports OpenAI, Anthropic, Gemini, Azure, Ollama</li>
+              <li>GitHub Action for zero-install CI</li>
+              <li>Extensible via gRPC plugin system</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="feature-cards">
+        <article class="card">
+          <h3>Automatic versioning</h3>
+          <p>Relicta reads your history and calculates the correct semantic version, including prereleases and build metadata.</p>
+        </article>
+        <article class="card">
+          <h3>AI-grade release notes</h3>
+          <p>Generate polished notes with your preferred AI provider (OpenAI, Anthropic, Gemini, Azure, Ollama) and keep them consistent.</p>
+        </article>
+        <article class="card">
+          <h3>Pluggable publishing</h3>
+          <p>Ship to GitHub releases, npm, Slack, LaunchNotes, and more via gRPC plugins. Extend with your own targets.</p>
+        </article>
+        <article class="card">
+          <h3>Approval workflow</h3>
+          <p>Plan, review, and approve before publishing. Dry runs let you see every change without touching your repo.</p>
+        </article>
+        <article class="card">
+          <h3>CI-first</h3>
+          <p>Use the GitHub Action for zero-install pipelines or run the binary directly. Checksums included for every release.</p>
+        </article>
+        <article class="card">
+          <h3>Friendly CLI</h3>
+          <p>Guided setup, JSON output for automation, and sensible defaults so you get value in minutes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section demo">
+      <div class="section-heading">
+        <p class="eyebrow">Demo the flow</p>
+        <h2>Everything from planning to publishing in one CLI</h2>
+        <p class="lede">Try the core commands locally or wire them into your pipeline. The output stays predictable and copy-paste ready.</p>
+      </div>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <div class="demo-label">Local CLI</div>
+<pre><code>$ relicta plan
+✓ Detects next version from commits
+✓ Shows diff, change types, and release type
+
+$ relicta notes --ai
+✓ Generates release notes and changelog
+✓ Uses your preferred AI provider
+
+$ relicta approve
+✓ Locks the plan with auditability
+
+$ relicta publish
+✓ Tags repo, runs plugins, posts release</code></pre>
+        </div>
+        <div class="demo-card">
+          <div class="demo-label">GitHub Action</div>
+<pre><code>name: Release
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: relicta-tech/relicta-action@v2
+        with:
+          github-token: &#36;&#123;&#123; secrets.GITHUB_TOKEN &#125;&#125;
+          ai-provider: openai
+          publish: true</code></pre>
+          <p class="demo-note">Zero-install CI: the action downloads the right binary, verifies checksums, and runs the full workflow.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="section install">
+      <div class="section-heading">
+        <p class="eyebrow">Get started fast</p>
+        <h2>Install the CLI</h2>
+        <p class="lede">Pick your path: Homebrew, direct download, or Go install.</p>
+      </div>
+      <div class="install-grid">
+        <div class="install-card">
+          <h3>Homebrew</h3>
+<pre><code>brew install relicta-tech/tap/relicta</code></pre>
+        </div>
+        <div class="install-card">
+          <h3>Direct download</h3>
+<pre><code>curl -L https://github.com/relicta-tech/\
+relicta/releases/latest/download/relicta_\
+Darwin_aarch64.tar.gz | tar xz
+sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/</code></pre>
+        </div>
+        <div class="install-card">
+          <h3>Go install</h3>
+<pre><code>go install github.com/relicta-tech/relicta/cmd/relicta@latest</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="section workflow">
+      <div class="section-heading">
+        <p class="eyebrow">Workflow</p>
+        <h2>Plan → Notes → Approve → Publish</h2>
+      </div>
+      <div class="workflow-steps">
+        <div class="step">
+          <span class="step-number">1</span>
+          <div>
+            <h3>Plan</h3>
+            <p>Analyze commits, detect the right bump, and preview what will ship.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-number">2</span>
+          <div>
+            <h3>Generate notes</h3>
+            <p>Draft changelog entries and release notes with AI tone control.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <div>
+            <h3>Approve</h3>
+            <p>Lock in the plan, capture approver context, and keep an audit trail.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-number">4</span>
+          <div>
+            <h3>Publish</h3>
+            <p>Create tags, release artifacts, and trigger plugins for your channels.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-band">
+      <div>
+        <h2>Ready to ship your next release?</h2>
+        <p class="lede">Install Relicta and keep your releases consistent, auditable, and stress-free.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="btn solid" href="#install">Install the CLI</a>
+        <a class="btn ghost" href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">Star on GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="brand">
+      <img src="/brand/relicta-icon-light.svg" alt="Relicta" class="brand-icon" />
+      <span>Relicta — Release management, automated.</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">CLI Source</a>
+      <a href="https://github.com/relicta-tech/relicta-action" target="_blank" rel="noopener">GitHub Action</a>
+      <a href="https://github.com/relicta-tech/relicta/blob/main/README.md" target="_blank" rel="noopener">Docs</a>
+    </div>
+  </footer>
+</BaseLayout>

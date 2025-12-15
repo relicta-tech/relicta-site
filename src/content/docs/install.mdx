@@ -1,0 +1,31 @@
+---
+title: Install the CLI
+description: Install Relicta via Homebrew, direct download, or Go.
+---
+
+Pick the install path that fits your environment.
+
+### Homebrew (recommended)
+```bash
+brew install relicta-tech/tap/relicta
+```
+
+### Direct download (macOS Apple Silicon example)
+```bash
+curl -L https://github.com/relicta-tech/\
+relicta/releases/latest/download/relicta_\
+Darwin_aarch64.tar.gz | tar xz
+sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/
+```
+
+Replace platform/arch as needed (`Darwin_x86_64`, `Linux_x86_64`, `Linux_aarch64`, `Windows_x86_64`).
+
+### Go install
+```bash
+go install github.com/relicta-tech/relicta/cmd/relicta@latest
+```
+
+### Verify
+```bash
+relicta --version
+```

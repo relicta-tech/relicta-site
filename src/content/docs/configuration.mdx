@@ -1,0 +1,53 @@
+---
+title: Configuration
+description: Configure versioning, changelog, AI provider, plugins, and workflow options.
+---
+
+Relicta reads `relicta.config.yaml` in your repo root by default. Example:
+
+```yaml
+versioning:
+  strategy: conventional
+  tag_prefix: v
+  git_tag: true
+  git_push: true
+
+changelog:
+  file: CHANGELOG.md
+  format: keep-a-changelog
+  repository_url: https://github.com/your-org/your-repo
+
+a:
+  enabled: true
+  provider: openai
+  model: gpt-4
+tone: professional
+  audience: developers
+
+plugins:
+  - name: github
+    enabled: true
+    config:
+      draft: false
+  - name: slack
+    enabled: true
+    config:
+      webhook: ${SLACK_WEBHOOK_URL}
+
+workflow:
+  require_approval: true
+  allowed_branches:
+    - main
+```
+
+### Common flags
+- `--config`: path to the config file
+- `--dry-run`: preview without changing the repo
+- `--json`: machine-readable output
+
+### Environment variables
+- `OPENAI_API_KEY`
+- `GITHUB_TOKEN`
+- `SLACK_WEBHOOK_URL`
+
+Adjust AI provider keys as needed (Anthropic, Gemini, Azure, Ollama).

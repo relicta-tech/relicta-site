@@ -1,0 +1,32 @@
+---
+title: Plugins
+description: Use built-in plugins and extend Relicta via gRPC plugins.
+---
+
+Relicta ships with plugins for GitHub releases, npm, Slack, LaunchNotes, and more. Enable them in `relicta.config.yaml`:
+
+```yaml
+plugins:
+  - name: github
+    enabled: true
+    config:
+      draft: false
+  - name: npm
+    enabled: true
+    config:
+      tag: latest
+  - name: slack
+    enabled: true
+    config:
+      webhook: ${SLACK_WEBHOOK_URL}
+  - name: launchnotes
+    enabled: false
+```
+
+## Writing your own plugin
+- Relicta plugins use gRPC. Implement the plugin interface and register it.
+- Build a binary and point Relicta to it (see plugin docs in the CLI repo for the full schema and examples).
+
+## Tips
+- Use `--dry-run` to validate plugin output without publishing.
+- Keep credentials in environment variables or your CI secret store.

@@ -1,0 +1,38 @@
+---
+title: Workflow
+description: Plan, generate notes, approve, and publish a release.
+---
+
+Relicta wraps the full release flow in one CLI.
+
+## 1) Plan
+```bash
+relicta plan
+```
+- Analyzes commits since the last tag.
+- Calculates the required semantic bump.
+- Shows a preview of the release plan.
+
+## 2) Generate notes (optional AI)
+```bash
+relicta notes --ai
+```
+- Drafts release notes and changelog entries.
+- Uses your configured AI provider and tone.
+
+## 3) Approve
+```bash
+relicta approve
+```
+- Locks the plan and captures approval context.
+- Keeps an audit trail before publishing.
+
+## 4) Publish
+```bash
+relicta publish
+```
+- Creates the tag and runs plugins (GitHub release, npm, Slack, etc.).
+- Uses your config for tag prefix, push behavior, and targets.
+
+## Dry runs
+Add `--dry-run` to preview without modifying the repo.
