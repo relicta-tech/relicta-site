@@ -1,6 +1,7 @@
 ---
 title: Configuration
 description: Configure versioning, changelog, AI provider, plugins, and workflow options.
+draft: false
 ---
 
 Relicta reads `relicta.config.yaml` in your repo root by default. Example:
@@ -17,11 +18,11 @@ changelog:
   format: keep-a-changelog
   repository_url: https://github.com/your-org/your-repo
 
-a:
+ai:
   enabled: true
   provider: openai
   model: gpt-4
-tone: professional
+  tone: professional
   audience: developers
 
 plugins:

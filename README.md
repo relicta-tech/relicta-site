@@ -21,8 +21,7 @@ npm run build  # outputs to dist/
 1. Push this repo (e.g., `relicta-site`) to GitHub.
 2. In Cloudflare Pages, create a new project pointing at the repo.
 3. Build settings: command `npm run build`, output directory `dist`.
-4. Deploy. The Starlight docs are served at `/docs/` (no redirects needed).
-5. For wrangler-based deploys, use the included `wrangler.jsonc` or run `npx wrangler deploy --assets=./dist` after `npm run build`.
+4. Deploy. For wrangler-based deploys, use the included `wrangler.jsonc` or run `npx wrangler deploy --assets=./dist` after `npm run build`.
 
 ## Updating brand assets
 Replace the SVGs in `public/brand/` with updates from the main Relicta repo (`../relicta/brand/`).
@@ -30,7 +29,8 @@ Replace the SVGs in `public/brand/` with updates from the main Relicta repo (`..
 ## Design tokens
 Tokens live in `src/styles/tokens.css` (colors, gradients, radii, shadows, spacing, typography). Components/styles pull from these CSS variables via `global.css`; add new primitives there before consuming them in pages or components.
 
-## Docs (Starlight)
-- Content lives in `src/content/docs/` as `.mdx`.
-- Sidebar/nav is configured in `astro.config.mjs`.
-- Collection schema is in `src/content/config.ts`.
+## Docs (Starlight, separate project)
+- Lives in `docs/` (standalone Astro/Starlight project)
+- Build: `cd docs && npm install && npm run build` (outputs to `docs/dist`)
+- Deploy docs separately (e.g., Cloudflare Pages project at `docs.relicta.tech`)
+- Nav links from the marketing site point to `https://docs.relicta.tech`
