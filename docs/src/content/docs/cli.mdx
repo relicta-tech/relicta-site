@@ -1,0 +1,71 @@
+---
+title: CLI commands
+description: All Relicta CLI commands, flags, and when to use them.
+draft: false
+---
+
+Relicta ships as a single binary with a handful of core commands. Every command supports `--help`, `--dry-run`, and `--json` for safe previews and machine-readable output.
+
+## `relicta init`
+Scaffold a `relicta.config.yaml` in the current repo.
+
+```bash
+relicta init
+```
+- Prompts for providers (AI, GitHub, npm) and writes a starter config.
+- Use `--config <path>` to write to a custom location.
+
+## `relicta plan`
+Analyze commits since the last tag and propose the next semantic version.
+
+```bash
+relicta plan [--from <ref>] [--to <ref>] [--json] [--dry-run]
+```
+- Detects major/minor/patch (supports prerelease/build metadata via config).
+- `--from/--to` let you override the commit range.
+- `--json` emits structured output for CI dashboards.
+
+## `relicta notes`
+Generate release notes and changelog entries (optionally with AI).
+
+```bash
+relicta notes [--ai] [--ai-provider <provider>] [--tone <tone>] [--audience <audience>] [--json] [--dry-run]
+```
+- Uses your configured AI provider (OpenAI, Anthropic, Gemini, Azure, Ollama).
+- Writes to the changelog file defined in config; `--dry-run` skips file writes.
+- `--json` returns the generated content without modifying files.
+
+## `relicta approve`
+Lock the planned release and capture approval context.
+
+```bash
+relicta approve [--by "<name>"] [--note "<context>"] [--json]
+```
+- Records approver info for auditability before publish.
+- `--by` and `--note` annotate the approval record.
+
+## `relicta publish`
+Tag the repo and run plugins (GitHub releases, npm, Slack, LaunchNotes, custom gRPC).
+
+```bash
+relicta publish [--force] [--dry-run] [--json]
+```
+- Creates the tag and executes configured plugins.
+- `--force` skips approval if your policy allows.
+- `--dry-run` validates plugin wiring without writing tags or publishing.
+
+## Global flags
+- `--config <path>`: point to a specific config file.
+- `--chdir <dir>`: run as if started in another directory.
+- `--json`: emit machine-readable output for automation.
+- `--dry-run`: preview without changing the repo.
+
+## Environment variables
+- AI: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT`, `OLLAMA_HOST`
+- GitHub: `GITHUB_TOKEN`
+- Plugins: `SLACK_WEBHOOK_URL`, `NPM_TOKEN`, `LAUNCHNOTES_API_TOKEN` (see [Plugins](/plugins)).
+
+## Tips
+- Pair `--json` with `jq` for CI annotations and dashboards.
+- Use `relicta publish --dry-run` to validate tags/plugins before a real release.
+- Keep `relicta.config.yaml` in git so local and CI runs behave identically.

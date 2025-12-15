@@ -19,6 +19,7 @@ export default defineConfig({
           items: [
             { label: 'Install the CLI', link: '/install' },
             { label: 'Workflow', link: '/workflow' },
+            { label: 'CLI commands', link: '/cli' },
             { label: 'CI/CD (GitHub Action)', link: '/ci-cd' },
             { label: 'Configuration', link: '/configuration' },
             { label: 'Plugins', link: '/plugins' },
