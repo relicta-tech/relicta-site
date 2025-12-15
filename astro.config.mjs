@@ -2,6 +2,9 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 export default defineConfig({
+  // Set to your production docs domain for correct sitemaps/canonicals.
+  // Update before deploying the custom domain.
+  site: 'https://docs.relicta.tech',
   output: 'static',
   integrations: [
     starlight({
