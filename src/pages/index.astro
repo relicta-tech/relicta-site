@@ -29,10 +29,10 @@ const version = await getLatestVersion();
     </div>
     <nav class="nav">
       <a href="#features">Features</a>
+      <a href="#plugins">Plugins</a>
       <a href="#governance">Governance</a>
       <a href="https://docs.relicta.tech" target="_blank" rel="noopener">Docs</a>
       <a href="#install">Install</a>
-      <a href="#workflow">Workflow</a>
       <a href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">GitHub</a>
     </nav>
     <div class="cta">
@@ -55,7 +55,7 @@ const version = await getLatestVersion();
         <div class="hero-meta">
           <span>Latest CLI: {version}</span>
           <span class="divider">•</span>
-          <span>Works with GitHub, npm, Slack, and more</span>
+          <span>20 official plugins for GitHub, npm, Docker, PyPI, and more</span>
           <span class="divider">•</span>
           <span>Supports OpenAI, Anthropic, Gemini, Azure, Ollama</span>
         </div>
@@ -86,10 +86,10 @@ const version = await getLatestVersion();
           <div>
             <h4>Integrations</h4>
             <ul>
-              <li>GitHub releases, npm, Slack, LaunchNotes plugins</li>
+              <li>20 official plugins: GitHub, GitLab, npm, PyPI, Docker, Homebrew, and more</li>
               <li>Supports OpenAI, Anthropic, Gemini, Azure, Ollama</li>
               <li>GitHub Action for zero-install CI</li>
-              <li>Extensible via gRPC plugin system</li>
+              <li>Extensible via gRPC plugin SDK</li>
             </ul>
           </div>
         </div>
@@ -105,7 +105,7 @@ const version = await getLatestVersion();
         </article>
         <article class="card">
           <h3>Pluggable publishing</h3>
-          <p>Ship to GitHub releases, npm, Slack, LaunchNotes, and more via gRPC plugins. Extend with your own targets.</p>
+          <p>Ship to 20+ targets: GitHub, GitLab, npm, PyPI, Docker, Homebrew, Slack, Teams, and more. Build custom plugins with the gRPC SDK.</p>
         </article>
         <article class="card">
           <h3>Approval workflow</h3>
@@ -119,6 +119,66 @@ const version = await getLatestVersion();
           <h3>Friendly CLI</h3>
           <p>Guided setup, JSON output for automation, and sensible defaults so you get value in minutes.</p>
         </article>
+      </div>
+    </section>
+
+    <section id="plugins" class="section plugins">
+      <div class="section-heading">
+        <p class="eyebrow">Ecosystem</p>
+        <h2>20 Official Plugins</h2>
+        <p class="lede">Publish to every major platform with zero configuration. All plugins are open source and installable via the CLI.</p>
+      </div>
+      <div class="plugin-grid">
+        <div class="plugin-category">
+          <h4>Version Control</h4>
+          <ul class="plugin-list">
+            <li><strong>github</strong> - Create releases &amp; upload assets</li>
+            <li><strong>gitlab</strong> - Create GitLab releases</li>
+          </ul>
+        </div>
+        <div class="plugin-category">
+          <h4>Notifications</h4>
+          <ul class="plugin-list">
+            <li><strong>slack</strong> - Slack channel notifications</li>
+            <li><strong>discord</strong> - Discord webhook messages</li>
+            <li><strong>teams</strong> - Microsoft Teams cards</li>
+          </ul>
+        </div>
+        <div class="plugin-category">
+          <h4>Package Managers</h4>
+          <ul class="plugin-list">
+            <li><strong>npm</strong> - npm registry</li>
+            <li><strong>pypi</strong> - Python Package Index</li>
+            <li><strong>homebrew</strong> - Homebrew formulas</li>
+            <li><strong>chocolatey</strong> - Windows packages</li>
+            <li><strong>linuxpkg</strong> - deb, rpm, apk</li>
+            <li><strong>crates</strong> - Rust crates.io</li>
+            <li><strong>nuget</strong> - .NET packages</li>
+            <li><strong>maven</strong> - Maven Central</li>
+            <li><strong>rubygems</strong> - Ruby gems</li>
+            <li><strong>hex</strong> - Elixir/Erlang Hex.pm</li>
+            <li><strong>packagist</strong> - PHP Composer</li>
+            <li><strong>gomod</strong> - Go modules</li>
+          </ul>
+        </div>
+        <div class="plugin-category">
+          <h4>Project Management</h4>
+          <ul class="plugin-list">
+            <li><strong>jira</strong> - Jira release versions</li>
+            <li><strong>launchnotes</strong> - Customer announcements</li>
+          </ul>
+        </div>
+        <div class="plugin-category">
+          <h4>Containers</h4>
+          <ul class="plugin-list">
+            <li><strong>docker</strong> - Build &amp; push images</li>
+          </ul>
+        </div>
+      </div>
+      <div class="plugin-cta">
+        <p>Install any plugin with one command:</p>
+        <pre><code>relicta plugin install github npm docker slack</code></pre>
+        <a class="btn ghost" href="https://docs.relicta.tech/plugins" target="_blank" rel="noopener">View all plugin docs</a>
       </div>
     </section>
 

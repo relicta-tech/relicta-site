@@ -1,78 +1,783 @@
 ---
 title: Plugins
-description: Use built-in plugins and extend Relicta via gRPC plugins.
+description: Extend Relicta with 20 official plugins for publishing, notifications, and integrations.
 draft: false
 ---
 
-Relicta ships with built-in plugins and supports custom gRPC plugins. Enable them in `relicta.config.yaml` and keep secrets in env vars.
+import { Tabs, TabItem, Card, CardGrid, Badge, Aside } from '@astrojs/starlight/components';
 
-## Built-in plugins
+Relicta's plugin system lets you integrate with external services at any point in the release lifecycle. All official plugins are distributed separately and installed via the plugin registry.
 
-### GitHub Releases
-- **Purpose**: Create a GitHub release with notes and assets.
-- **Config**:
-  ```yaml
+## Quick Start
+
+```bash
+# List all available plugins
+relicta plugin list --available
+
+# Install a plugin
+relicta plugin install github
+
+# Enable it
+relicta plugin enable github
+
+# View details
+relicta plugin info github
+```
+
+## Available Plugins
+
+Relicta provides **20 official plugins** across 5 categories:
+
+<CardGrid>
+  <Card title="Version Control" icon="github">
+    - **github** - Create GitHub releases
+    - **gitlab** - Create GitLab releases
+  </Card>
+  <Card title="Notifications" icon="rocket">
+    - **slack** - Slack notifications
+    - **discord** - Discord notifications
+    - **teams** - Microsoft Teams
+  </Card>
+  <Card title="Package Managers" icon="seti:npm">
+    - **npm** - npm registry
+    - **homebrew** - Homebrew formulas
+    - **pypi** - Python packages
+    - **chocolatey** - Windows packages
+    - **linuxpkg** - deb/rpm/apk
+    - **crates** - Rust crates
+    - **nuget** - .NET packages
+    - **maven** - Java/Maven
+    - **rubygems** - Ruby gems
+    - **hex** - Elixir/Erlang
+    - **packagist** - PHP/Composer
+    - **gomod** - Go modules
+  </Card>
+  <Card title="Project Management" icon="list-format">
+    - **jira** - Jira versions
+    - **launchnotes** - LaunchNotes
+  </Card>
+</CardGrid>
+
+Plus **docker** for container image builds.
+
+---
+
+## Version Control
+
+### GitHub
+
+Create GitHub releases and upload build artifacts automatically.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
   - name: github
     enabled: true
     config:
-      draft: false           # create as draft release
-      prerelease: false      # mark as prerelease
-      discussion_category: ""# optional GH discussions category
-  ```
-- **Env**: `GITHUB_TOKEN` with `repo` scope.
+      draft: false
+      prerelease: false
+      generate_release_notes: false
+      discussion_category: ""
+      assets:
+        - "dist/*.tar.gz"
+        - "dist/*.zip"
+        - "dist/checksums.txt"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install github
+relicta plugin enable github
+```
+  </TabItem>
+</Tabs>
 
-### npm Publish
-- **Purpose**: Publish your package to npm.
-- **Config**:
-  ```yaml
-  - name: npm
+**Environment:** `GITHUB_TOKEN` (auto-set in GitHub Actions)
+
+**Hooks:** `PostPublish`, `OnSuccess`, `OnError`
+
+---
+
+### GitLab
+
+Create GitLab releases with links to build artifacts.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: gitlab
     enabled: true
     config:
-      tag: latest            # dist-tag (e.g., next, beta)
-      access: public         # or restricted
-  ```
-- **Env**: `NPM_TOKEN` with publish rights.
+      project_id: "12345"
+      url: "https://gitlab.com"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install gitlab
+relicta plugin enable gitlab
+```
+  </TabItem>
+</Tabs>
 
-### Slack Notifications
-- **Purpose**: Post release summaries to a Slack channel.
-- **Config**:
-  ```yaml
+**Environment:** `GITLAB_TOKEN`, `CI_PROJECT_ID` (auto-set in GitLab CI)
+
+**Hooks:** `PostPublish`
+
+---
+
+## Notifications
+
+### Slack
+
+Send release notifications to Slack channels.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
   - name: slack
     enabled: true
     config:
-      webhook: ${SLACK_WEBHOOK_URL}
-      channel: ""            # optional if webhook enforces channel
-      template: default      # optionally point to a custom message template
-  ```
-- **Env**: `SLACK_WEBHOOK_URL`.
+      channel: "#releases"
+      username: "Relicta Bot"
+      notify_on_success: true
+      notify_on_error: true
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install slack
+relicta plugin enable slack
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `SLACK_WEBHOOK_URL`
+
+**Hooks:** `PostPublish`, `OnError`
+
+---
+
+### Discord
+
+Send release notifications to Discord channels.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: discord
+    enabled: true
+    config:
+      username: "Relicta Bot"
+      avatar_url: "https://example.com/avatar.png"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install discord
+relicta plugin enable discord
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `DISCORD_WEBHOOK_URL`
+
+**Hooks:** `PostPublish`, `OnError`
+
+---
+
+### Microsoft Teams
+
+Send release notifications to Microsoft Teams channels.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: teams
+    enabled: true
+    config:
+      theme_color: "0076D7"
+      notify_on_success: true
+      notify_on_error: true
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install teams
+relicta plugin enable teams
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `TEAMS_WEBHOOK_URL`
+
+**Hooks:** `PostPublish`
+
+---
+
+## Package Managers
+
+### npm
+
+Publish packages to npm registry.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: npm
+    enabled: true
+    config:
+      registry: "https://registry.npmjs.org"
+      access: "public"
+      tag: "latest"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install npm
+relicta plugin enable npm
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `NPM_TOKEN`, `NPM_OTP` (optional for 2FA)
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### Homebrew
+
+Update Homebrew formula with new release.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: homebrew
+    enabled: true
+    config:
+      tap: "your-org/homebrew-tap"
+      formula: "your-app"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install homebrew
+relicta plugin enable homebrew
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `HOMEBREW_GITHUB_TOKEN`
+
+**Hooks:** `PostPublish`
+
+---
+
+### PyPI
+
+Publish Python packages to PyPI.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: pypi
+    enabled: true
+    config:
+      repository: "https://upload.pypi.org/legacy/"
+      dist_dir: "dist"
+      skip_existing: false
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install pypi
+relicta plugin enable pypi
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `PYPI_USERNAME` (use `__token__`), `PYPI_PASSWORD`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### Chocolatey
+
+Publish packages to Chocolatey (Windows).
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: chocolatey
+    enabled: true
+    config:
+      package_id: "your-package"
+      source: "https://push.chocolatey.org/"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install chocolatey
+relicta plugin enable chocolatey
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `CHOCOLATEY_API_KEY`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### Linux Packages
+
+Build Linux packages (deb, rpm, apk).
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: linuxpkg
+    enabled: true
+    config:
+      formats: ["deb", "rpm", "apk"]
+      maintainer: "Your Name <email@example.com>"
+      description: "Package description"
+      binaries:
+        - "bin/myapp"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install linuxpkg
+relicta plugin enable linuxpkg
+```
+  </TabItem>
+</Tabs>
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### crates.io
+
+Publish Rust crates to crates.io.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: crates
+    enabled: true
+    config:
+      manifest_path: "Cargo.toml"
+      allow_dirty: false
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install crates
+relicta plugin enable crates
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `CARGO_REGISTRY_TOKEN`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### NuGet
+
+Publish .NET packages to NuGet.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: nuget
+    enabled: true
+    config:
+      source: "https://api.nuget.org/v3/index.json"
+      skip_duplicate: false
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install nuget
+relicta plugin enable nuget
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `NUGET_API_KEY`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### Maven Central
+
+Publish Java packages to Maven Central.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: maven
+    enabled: true
+    config:
+      group_id: "com.example"
+      artifact_id: "my-artifact"
+      pom_path: "pom.xml"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install maven
+relicta plugin enable maven
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `MAVEN_USERNAME`, `MAVEN_PASSWORD`, `GPG_KEY_ID` (optional)
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### RubyGems
+
+Publish Ruby gems to RubyGems.org.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: rubygems
+    enabled: true
+    config:
+      host: "https://rubygems.org"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install rubygems
+relicta plugin enable rubygems
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `GEM_HOST_API_KEY`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### Hex.pm
+
+Publish Elixir/Erlang packages to Hex.pm.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: hex
+    enabled: true
+    config:
+      organization: ""
+      replace: false
+      mix_path: "mix.exs"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install hex
+relicta plugin enable hex
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `HEX_API_KEY`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### Packagist
+
+Publish PHP packages to Packagist.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: packagist
+    enabled: true
+    config:
+      package_name: "vendor/package"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install packagist
+relicta plugin enable packagist
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `PACKAGIST_API_TOKEN`, `PACKAGIST_USERNAME`
+
+**Hooks:** `PostPublish`
+
+---
+
+### Go Modules
+
+Publish Go modules and notify the module proxy.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: gomod
+    enabled: true
+    config:
+      module_path: "github.com/user/repo"
+      private: false
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install gomod
+relicta plugin enable gomod
+```
+  </TabItem>
+</Tabs>
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+## Project Management
+
+### Jira
+
+Create and link Jira release versions. Automatically detects issue keys in commits.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: jira
+    enabled: true
+    config:
+      url: "https://yourcompany.atlassian.net"
+      project: "PROJ"
+      create_version: true
+      release_version: true
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install jira
+relicta plugin enable jira
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `JIRA_USERNAME`, `JIRA_TOKEN`
+
+**Hooks:** `PostPublish`
+
+---
 
 ### LaunchNotes
-- **Purpose**: Send release notes to LaunchNotes.
-- **Config**:
-  ```yaml
+
+Create releases in LaunchNotes for customer-facing announcements.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
   - name: launchnotes
     enabled: true
     config:
-      project_id: YOUR_PROJECT
-      category: releases
-      publish: true
-  ```
-- **Env**: `LAUNCHNOTES_API_TOKEN`.
+      project_id: "proj_123"
+      auto_publish: false
+      categories:
+        feat: "new-features"
+        fix: "bug-fixes"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install launchnotes
+relicta plugin enable launchnotes
+```
+  </TabItem>
+</Tabs>
 
-## Custom gRPC plugins
-- Implement the Relicta gRPC plugin interface (see CLI repo for protobuf definitions).
-- Build a binary and make it executable in your PATH.
-- Reference it in config:
-  ```yaml
-  - name: my-custom-plugin
+**Environment:** `LAUNCHNOTES_API_KEY`
+
+**Hooks:** `PostPublish`
+
+---
+
+## Containers
+
+### Docker
+
+Build and push Docker images to container registries.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: docker
     enabled: true
-    path: ./bin/my-plugin     # optional override if not on PATH
     config:
-      some_key: some_value
-  ```
-- Plugins receive the planned release payload and must return status, messages, and optional URLs.
+      registry: "docker.io"
+      image: "username/myapp"
+      tags:
+        - "{{version}}"
+        - "{{major}}.{{minor}}"
+        - "latest"
+      platforms:
+        - "linux/amd64"
+        - "linux/arm64"
+      dockerfile: "Dockerfile"
+      context: "."
+      push: true
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install docker
+relicta plugin enable docker
+```
+  </TabItem>
+</Tabs>
 
-## Operational tips
-- Use `relicta publish --dry-run` to validate plugin wiring without pushing tags or publishing.
-- Keep secrets out of config; use env var substitution (`${VAR}`) instead.
-- Combine with `--json` to capture plugin responses in CI logs or dashboards.
+**Environment:** `DOCKER_USERNAME`, `DOCKER_PASSWORD`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+**Tag variables:** `{{version}}`, `{{major}}`, `{{minor}}`, `{{patch}}`
+
+---
+
+## Plugin Lifecycle
+
+Plugins execute at specific hooks during the release process:
+
+```
+PreInit → PostInit → PrePlan → PostPlan → PreVersion → PostVersion
+  → PreNotes → PostNotes → PreApprove → PostApprove → PrePublish
+  → PostPublish → OnSuccess → OnError
+```
+
+Most plugins run at `PostPublish` after the release is tagged. Some run at `PrePublish` for validation or preparation.
+
+---
+
+## Creating Custom Plugins
+
+Build your own plugins using the [Plugin SDK](https://github.com/relicta-tech/relicta-plugin-sdk).
+
+```bash
+# Create a new plugin
+relicta plugin create my-plugin
+cd my-plugin
+
+# Build and test
+go build -o my-plugin
+relicta plugin test my-plugin
+```
+
+<Aside type="tip">
+See the [GitHub plugin source](https://github.com/relicta-tech/plugin-github) for a complete example.
+</Aside>
+
+### Plugin Interface
+
+```go
+package main
+
+import (
+    "context"
+    "github.com/relicta-tech/relicta-plugin-sdk/helpers"
+    "github.com/relicta-tech/relicta-plugin-sdk/plugin"
+)
+
+type MyPlugin struct{}
+
+func (p *MyPlugin) GetInfo() plugin.Info {
+    return plugin.Info{
+        Name:        "my-plugin",
+        Version:     "1.0.0",
+        Description: "My custom plugin",
+        Author:      "Your Name",
+        Hooks:       []plugin.Hook{plugin.HookPostPublish},
+    }
+}
+
+func (p *MyPlugin) Execute(ctx context.Context, req plugin.ExecuteRequest) (*plugin.ExecuteResponse, error) {
+    parser := helpers.NewConfigParser(req.Config)
+    // ... plugin logic
+    return &plugin.ExecuteResponse{Success: true}, nil
+}
+
+func (p *MyPlugin) Validate(ctx context.Context, config map[string]any) (*plugin.ValidateResponse, error) {
+    return &plugin.ValidateResponse{Valid: true}, nil
+}
+
+func main() {
+    plugin.Serve(&MyPlugin{})
+}
+```
+
+---
+
+## Best Practices
+
+<Aside type="caution" title="Never commit secrets">
+Always use environment variables for API tokens and credentials. Never put secrets in `release.config.yaml`.
+</Aside>
+
+1. **Test with dry run first**
+   ```bash
+   relicta publish --dry-run
+   ```
+
+2. **Validate configuration**
+   ```bash
+   relicta validate
+   ```
+
+3. **Enable error notifications**
+   ```yaml
+   plugins:
+     - name: slack
+       config:
+         notify_on_error: true
+   ```
+
+4. **Enable plugins incrementally** - Add one plugin at a time to identify issues.
+
+5. **Pin plugin versions** for reproducible releases:
+   ```bash
+   relicta plugin install github@v2.0.0
+   ```
