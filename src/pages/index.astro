@@ -29,6 +29,7 @@ const version = await getLatestVersion();
     </div>
     <nav class="nav">
       <a href="#features">Features</a>
+      <a href="#governance">Governance</a>
       <a href="https://docs.relicta.tech" target="_blank" rel="noopener">Docs</a>
       <a href="#install">Install</a>
       <a href="#workflow">Workflow</a>
@@ -61,11 +62,7 @@ const version = await getLatestVersion();
       </div>
       <div class="hero-card">
         <div class="terminal">
-          <video autoplay loop muted playsinline poster="/brand/relicta-preview.png">
-            <source src="/brand/relicta-preview.webm" type="video/webm" />
-            <source src="/brand/relicta-preview.mp4" type="video/mp4" />
-            <img src="/brand/relicta-preview.gif" alt="Relicta CLI run showing plan, notes, and publish steps" loading="lazy" />
-          </video>
+          <img src="/demos/marketing.gif" alt="Relicta CLI run showing plan, notes, and publish steps" loading="lazy" />
         </div>
         <div class="card-foot">Designed for modern teams that care about release quality.</div>
       </div>
@@ -122,6 +119,36 @@ const version = await getLatestVersion();
           <h3>Friendly CLI</h3>
           <p>Guided setup, JSON output for automation, and sensible defaults so you get value in minutes.</p>
         </article>
+      </div>
+    </section>
+
+    <section id="governance" class="section grid">
+      <div class="section-heading">
+        <p class="eyebrow">New in v2.2</p>
+        <h2>Change Governance Protocol (CGP)</h2>
+        <p class="lede">Built-in risk assessment and governance for AI-assisted and agentic workflows. Keep humans in control of high-impact changes.</p>
+      </div>
+      <div class="feature-cards">
+        <article class="card">
+          <h3>Risk assessment</h3>
+          <p>Automatic risk scoring based on blast radius, actor trust level, and security impact of changes.</p>
+        </article>
+        <article class="card">
+          <h3>Security detection</h3>
+          <p>Automatically detects security-related commits via scope patterns and keywords. Flags auth, crypto, and vulnerability fixes.</p>
+        </article>
+        <article class="card">
+          <h3>Policy engine</h3>
+          <p>Configurable policies with conditions and actions. Require human approval for breaking changes or high-risk releases.</p>
+        </article>
+        <article class="card">
+          <h3>Release memory</h3>
+          <p>Historical tracking of releases, incidents, and actor behavior for continuous improvement of risk assessment.</p>
+        </article>
+      </div>
+      <div class="demo-card" style="margin-top: 2rem;">
+        <div class="demo-label">CGP in action</div>
+        <img src="/demos/CGP.gif" alt="CGP governance preview showing risk score and approval requirements" loading="lazy" style="width: 100%; border-radius: 8px;" />
       </div>
     </section>
 

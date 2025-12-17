@@ -1,0 +1,141 @@
+---
+title: Change Governance Protocol (CGP)
+description: Risk assessment and governance for AI-assisted release management.
+draft: false
+---
+
+The Change Governance Protocol (CGP) provides built-in risk assessment and governance for release management, especially useful for AI-assisted and agentic workflows.
+
+## Overview
+
+CGP automatically evaluates releases based on:
+- **Blast radius**: Number of files and lines changed
+- **Actor trust**: Who is making the change (human, CI, AI agent)
+- **Security impact**: Detection of security-related commits
+
+## Enabling CGP
+
+CGP is disabled by default. Enable it in your `relicta.config.yaml`:
+
+```yaml
+governance:
+  enabled: true
+  strict_mode: false
+  auto_approve_threshold: 0.3
+  max_auto_approve_risk: 0.5
+  require_human_for_breaking: true
+  require_human_for_security: true
+  memory_enabled: true
+  memory_path: .relicta/governance-memory.json
+```
+
+## Configuration options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | bool | `false` | Enable CGP governance |
+| `strict_mode` | bool | `false` | Block rejected releases at publish time |
+| `auto_approve_threshold` | float | `0.3` | Risk score below which auto-approval is allowed |
+| `max_auto_approve_risk` | float | `0.5` | Maximum risk score for auto-approval |
+| `require_human_for_breaking` | bool | `true` | Require human approval for breaking changes |
+| `require_human_for_security` | bool | `true` | Require human approval for security changes |
+| `memory_enabled` | bool | `true` | Enable release memory for historical tracking |
+| `memory_path` | string | `.relicta/governance-memory.json` | Path to store release memory |
+
+## Risk assessment
+
+CGP calculates a risk score from 0.0 to 1.0 based on:
+
+### Blast radius (30% weight)
+- Number of files changed
+- Lines of code modified
+- Scope of changes across the codebase
+
+### Actor trust (10% weight)
+Trust levels from lowest to highest:
+- `untrusted`: Unknown or unverified actors
+- `limited`: CI systems, bots with limited scope
+- `trusted`: Human developers, verified CI
+- `full`: Maintainers with full repository access
+
+### Security impact (90% weight when detected)
+Automatically detects security-related commits via:
+- **Scope patterns**: `security`, `auth`, `crypto`, `oauth`, `jwt`, `password`, etc.
+- **Keywords**: `CVE`, `vulnerability`, `XSS`, `injection`, `sanitize`, etc.
+
+## CLI integration
+
+### Plan command
+Shows governance risk preview:
+```bash
+relicta plan --dry-run
+
+# Output includes:
+# Governance Risk Preview
+#   Risk Score:    38.0% (low)
+#   Decision:      requires approval
+#   Auto-Approve:  no (manual review required)
+#   Risk Factors:
+#     - [blast_radius] 18 files changed (30%)
+#     - [security_impact] 8 security-related changes (90%)
+```
+
+### Approve command
+Shows full governance evaluation:
+```bash
+relicta approve
+
+# Output includes:
+# Governance Evaluation
+#   Risk Score:     38.0% (LOW)
+#   Decision:       approval_required
+#   Required Actions:
+#     - [human_approval] Review security changes before release
+```
+
+### Publish command
+In strict mode, blocks rejected releases:
+```bash
+relicta publish
+# If governance.strict_mode=true and decision=rejected:
+# ✗ Release blocked by governance policy
+```
+
+## Governance decisions
+
+| Decision | Description |
+|----------|-------------|
+| `approved` | Release can proceed automatically |
+| `approval_required` | Human review required before release |
+| `rejected` | Release should not proceed |
+| `deferred` | Decision postponed for further review |
+
+## Release memory
+
+When `memory_enabled: true`, CGP tracks:
+- Past releases and their outcomes
+- Incidents and rollbacks
+- Actor behavior over time
+- Risk patterns for continuous improvement
+
+The memory file is stored at `memory_path` (default: `.relicta/governance-memory.json`).
+
+## Use cases
+
+### Agentic workflows
+When AI agents propose releases, CGP ensures human oversight:
+- Agent-initiated changes require approval above threshold
+- Security changes always require human review
+- High-risk changes are flagged for manual inspection
+
+### CI/CD pipelines
+CGP integrates with automated pipelines:
+- Low-risk, trusted CI releases can auto-approve
+- Breaking changes pause for human review
+- Audit trail maintained for compliance
+
+### Team governance
+Define policies for your team:
+- Require senior approval for major releases
+- Flag security changes for security team review
+- Track release patterns over time

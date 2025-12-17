@@ -41,6 +41,14 @@ workflow:
   require_approval: true
   allowed_branches:
     - main
+
+governance:
+  enabled: true
+  strict_mode: false
+  auto_approve_threshold: 0.3
+  require_human_for_breaking: true
+  require_human_for_security: true
+  memory_enabled: true
 ```
 
 ## Sections and options
@@ -49,6 +57,7 @@ workflow:
 - **ai**: `enabled`, `provider` (`openai`, `anthropic`, `gemini`, `azure`, `ollama`), `model`, `tone`, `audience`.
 - **plugins**: list of plugins with `name`, `enabled`, and `config` (see [Plugins](/plugins) for each).
 - **workflow**: `require_approval`, `allowed_branches`, optional `auto_publish` or other org policies.
+- **governance**: `enabled`, `strict_mode`, `auto_approve_threshold`, `require_human_for_breaking`, `require_human_for_security`, `memory_enabled` (see [Governance](/governance) for details).
 
 ## Flags to know
 - `--config`: path to the config file (defaults to `relicta.config.yaml` in repo root).
