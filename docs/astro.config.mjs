@@ -23,6 +23,7 @@ export default defineConfig({
             { label: 'CI/CD (GitHub Action)', link: '/ci-cd' },
             { label: 'Configuration', link: '/configuration' },
             { label: 'Plugins', link: '/plugins' },
+            { label: 'Video Tutorials', link: '/tutorials' },
           ],
         },
       ],
