@@ -216,23 +216,53 @@ const version = await getLatestVersion();
       <div class="section-heading">
         <p class="eyebrow">Demo the flow</p>
         <h2>Everything from planning to publishing in one CLI</h2>
-        <p class="lede">Try the core commands locally or wire them into your pipeline. The output stays predictable and copy-paste ready.</p>
+        <p class="lede">One command or step-by-step control. The output stays predictable and copy-paste ready.</p>
       </div>
-      <div class="demo-grid">
-        <div class="demo-card">
-          <div class="demo-label">Local CLI</div>
-<pre><code>$ relicta plan
-✓ Detects next version from commits
-✓ Shows diff, change types, and release type
+      <div class="demo-grid demo-grid-3">
+        <div class="demo-card demo-card-featured">
+          <div class="demo-label">One Command (Recommended)</div>
+<pre><code><span class="cmd-prompt">$</span> relicta release
 
-$ relicta notes --ai
-✓ Generates release notes and changelog
+<span class="cmd-step">→ Planning...</span>
+  ✓ Analyzed 12 commits since v2.5.0
+  ✓ Next version: 2.6.0 (minor)
+
+<span class="cmd-step">→ Bumping version...</span>
+  ✓ Created tag v2.6.0
+
+<span class="cmd-step">→ Generating notes...</span>
+  ✓ AI-powered release notes ready
+  ✓ CHANGELOG.md updated
+
+<span class="cmd-step">→ Approving...</span>
+  ✓ Risk score: 18% (low)
+  ✓ Release approved
+
+<span class="cmd-step">→ Publishing...</span>
+  ✓ Tag pushed to origin
+  ✓ GitHub release created
+  ✓ Slack notification sent
+
+<span class="cmd-success">✨ Released v2.6.0</span></code></pre>
+          <p class="demo-note">For CI/CD: <code>relicta release --yes</code></p>
+        </div>
+        <div class="demo-card">
+          <div class="demo-label">Step-by-Step</div>
+<pre><code><span class="cmd-prompt">$</span> relicta plan
+✓ Detects next version from commits
+✓ Shows diff, change types, release type
+
+<span class="cmd-prompt">$</span> relicta bump
+✓ Applies version, creates git tag
+
+<span class="cmd-prompt">$</span> relicta notes --ai
+✓ Generates release notes + changelog
 ✓ Uses your preferred AI provider
 
-$ relicta approve
+<span class="cmd-prompt">$</span> relicta approve
 ✓ Locks the plan with auditability
 
-$ relicta publish
+<span class="cmd-prompt">$</span> relicta publish
 ✓ Tags repo, runs plugins, posts release</code></pre>
         </div>
         <div class="demo-card">
@@ -249,10 +279,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: relicta-tech/relicta-action@v2
         with:
-          github-token: &#36;&#123;&#123; secrets.GITHUB_TOKEN &#125;&#125;
-          ai-provider: openai
-          publish: true</code></pre>
-          <p class="demo-note">Zero-install CI: the action downloads the right binary, verifies checksums, and runs the full workflow.</p>
+          github-token: &#36;&#123;&#123; secrets.GITHUB_TOKEN &#125;&#125;</code></pre>
+          <p class="demo-note">Zero-install CI: downloads binary, verifies checksums, runs the full workflow.</p>
         </div>
       </div>
     </section>
@@ -398,35 +426,61 @@ sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/</code></pre>
     <section id="workflow" class="section workflow">
       <div class="section-heading">
         <p class="eyebrow">Workflow</p>
-        <h2>Plan → Notes → Approve → Publish</h2>
+        <h2>Two ways to release</h2>
+        <p class="lede">Use one command for speed, or individual steps for control.</p>
       </div>
-      <div class="workflow-steps">
-        <div class="step">
-          <span class="step-number">1</span>
-          <div>
-            <h3>Plan</h3>
-            <p>Analyze commits, detect the right bump, and preview what will ship.</p>
+      <div class="workflow-options">
+        <div class="workflow-option workflow-option-featured">
+          <div class="workflow-option-header">
+            <span class="workflow-badge">Recommended</span>
+            <h3>One Command</h3>
           </div>
+          <pre><code>relicta release</code></pre>
+          <p>Runs the complete workflow: plan → bump → notes → approve → publish</p>
+          <ul class="workflow-flags">
+            <li><code>--yes</code> Auto-approve for CI/CD</li>
+            <li><code>--dry-run</code> Preview without changes</li>
+            <li><code>--force v2.0.0</code> Set specific version</li>
+          </ul>
         </div>
-        <div class="step">
-          <span class="step-number">2</span>
-          <div>
-            <h3>Generate notes</h3>
-            <p>Draft changelog entries and release notes with AI tone control.</p>
-          </div>
-        </div>
-        <div class="step">
-          <span class="step-number">3</span>
-          <div>
-            <h3>Approve</h3>
-            <p>Lock in the plan, capture approver context, and keep an audit trail.</p>
-          </div>
-        </div>
-        <div class="step">
-          <span class="step-number">4</span>
-          <div>
-            <h3>Publish</h3>
-            <p>Create tags, release artifacts, and trigger plugins for your channels.</p>
+        <div class="workflow-option">
+          <h3>Step-by-Step</h3>
+          <div class="workflow-steps">
+            <div class="step">
+              <span class="step-number">1</span>
+              <div>
+                <h4>Plan</h4>
+                <p>Analyze commits, detect the right bump.</p>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-number">2</span>
+              <div>
+                <h4>Bump</h4>
+                <p>Apply version, create git tag.</p>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-number">3</span>
+              <div>
+                <h4>Notes</h4>
+                <p>Generate AI-powered release notes.</p>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-number">4</span>
+              <div>
+                <h4>Approve</h4>
+                <p>Lock the plan with audit context.</p>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-number">5</span>
+              <div>
+                <h4>Publish</h4>
+                <p>Tag repo, run plugins, post release.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

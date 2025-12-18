@@ -901,3 +901,131 @@ pre {
     grid-template-columns: 1fr;
   }
 }
+
+/* Demo Grid 3-column layout */
+.demo-grid-3 {
+  grid-template-columns: 1.3fr 1fr 1fr;
+}
+
+.demo-card-featured {
+  background: linear-gradient(135deg, rgba(92, 240, 200, 0.08), rgba(255, 255, 255, 0.03));
+  border-color: var(--color-accent);
+}
+
+/* Terminal styling for demo cards */
+.cmd-prompt {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.cmd-step {
+  color: var(--color-accent-warm);
+  font-weight: 600;
+}
+
+.cmd-success {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* Workflow section with two options */
+.workflow-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.workflow-option {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+.workflow-option h3 {
+  margin: 0 0 12px;
+}
+
+.workflow-option h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.workflow-option p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.workflow-option pre {
+  margin: 12px 0;
+}
+
+.workflow-option-featured {
+  background: linear-gradient(135deg, rgba(92, 240, 200, 0.08), rgba(255, 255, 255, 0.03));
+  border-color: var(--color-accent);
+}
+
+.workflow-option-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.workflow-badge {
+  background: var(--color-accent);
+  color: #04140e;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.workflow-flags {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.workflow-flags li {
+  padding: 6px 0;
+  color: var(--color-muted);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.workflow-flags li:last-child {
+  border-bottom: none;
+}
+
+.workflow-flags code {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.workflow-option .workflow-steps {
+  margin-top: 16px;
+}
+
+.workflow-option .step {
+  padding: 10px 12px;
+}
+
+.workflow-option .step-number {
+  width: 26px;
+  height: 26px;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .demo-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-options {
+    grid-template-columns: 1fr;
+  }
+}
