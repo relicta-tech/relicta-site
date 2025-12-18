@@ -21,18 +21,28 @@ Relicta is an AI-powered release management CLI that automates semantic versioni
 - **CI-first**: GitHub Action fetches signed binaries with checksums; no toolchain required on runners.
 
 ## Quickstart (local)
+
 ```bash
 brew install relicta-tech/tap/relicta
 relicta init                        # write relicta.config.yaml
-relicta release                     # run complete workflow (plan → bump → notes → approve → publish)
 ```
 
-Or for CI/CD:
+### Option A: One-Command Release
 ```bash
-relicta release --yes               # auto-approve for automation
+relicta release                     # complete workflow (plan → bump → notes → approve → publish)
+relicta release --yes               # auto-approve for CI/CD
 ```
 
-For step-by-step control, see [Workflow](/workflow).
+### Option B: Step-by-Step
+```bash
+relicta plan                        # analyze commits, propose version
+relicta bump                        # apply version, create tag
+relicta notes --ai                  # generate AI-powered release notes
+relicta approve                     # review and lock the release
+relicta publish                     # tag + run plugins
+```
+
+See [Workflow](/workflow) for detailed command options.
 
 ## Next steps
 - Install: see [Install the CLI](/install)
