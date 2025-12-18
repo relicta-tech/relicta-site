@@ -6,6 +6,29 @@ draft: false
 
 Relicta wraps the full release flow in one CLI.
 
+## Quick Release (Recommended)
+
+Run the complete workflow with a single command:
+
+```bash
+# Interactive release
+relicta release
+
+# CI/CD (auto-approve)
+relicta release --yes
+
+# Preview without changes
+relicta release --dry-run
+```
+
+This runs: **plan → bump → notes → approve → publish**
+
+---
+
+## Step-by-Step Workflow
+
+For more control, run each step individually:
+
 ## 1) Plan
 ```bash
 relicta plan
@@ -46,6 +69,8 @@ Add `--dry-run` to preview without modifying the repo.
 Every command supports `--json` for structured output. Pair with `jq` to feed dashboards, chat notifications, or custom CI steps.
 
 ## Common patterns
-- **Local preview**: `relicta plan --json | jq` then `relicta notes --ai --dry-run`.
+- **Standard release**: `relicta release` for interactive, `relicta release --yes` for CI/CD.
+- **Local preview**: `relicta release --dry-run` to validate the entire workflow.
 - **Approval flow**: Have a second reviewer run `relicta approve --by "<name>" --note "<context>"` before publish.
+- **Force version**: `relicta release --force v2.0.0` to set a specific version.
 - **Hotfix**: Run `relicta plan --from <last-release> --to HEAD --json` to verify the bump and publish from a hotfix branch; ensure branch is in `allowed_branches`.

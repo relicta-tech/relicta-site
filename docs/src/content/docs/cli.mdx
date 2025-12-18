@@ -6,6 +6,43 @@ draft: false
 
 Relicta ships as a single binary with a handful of core commands. Every command supports `--help`, `--dry-run`, and `--json` for safe previews and machine-readable output.
 
+## `relicta release` (Recommended)
+Run the complete release workflow in a single command.
+
+```bash
+relicta release [--yes] [--skip-push] [--force <version>] [--dry-run]
+```
+
+This is equivalent to running: `plan → bump → notes → approve → publish`
+
+| Flag | Description |
+|------|-------------|
+| `--yes`, `-y` | Auto-approve the release (for CI/CD) |
+| `--skip-push` | Skip pushing tags to remote |
+| `--force <version>` | Force a specific version (e.g., `v2.0.0`) |
+| `--dry-run` | Preview the entire workflow without changes |
+
+**Examples:**
+```bash
+# Interactive release (prompts for approval)
+relicta release
+
+# CI/CD auto-approve
+relicta release --yes
+
+# Preview changes
+relicta release --dry-run
+
+# Force specific version
+relicta release --force v2.0.0
+```
+
+---
+
+## Step-by-Step Commands
+
+For more control, use individual commands:
+
 ## `relicta init`
 Scaffold a `relicta.config.yaml` in the current repo.
 
@@ -66,6 +103,7 @@ relicta publish [--force] [--dry-run] [--json]
 - Plugins: `SLACK_WEBHOOK_URL`, `NPM_TOKEN`, `LAUNCHNOTES_API_TOKEN` (see [Plugins](/plugins)).
 
 ## Tips
+- **Use `relicta release`** for most releases - it handles the entire workflow.
 - Pair `--json` with `jq` for CI annotations and dashboards.
-- Use `relicta publish --dry-run` to validate tags/plugins before a real release.
+- Use `relicta release --dry-run` to validate the entire workflow before a real release.
 - Keep `relicta.config.yaml` in git so local and CI runs behave identically.
