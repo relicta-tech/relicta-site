@@ -1,416 +1,262 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
 
-const title = "Relicta — AI-powered release management";
-const description = "Relicta is an AI-powered release management CLI that automates versioning, release notes, approvals, and publishing.";
-
-const getLatestVersion = async () => {
-  try {
-    const res = await fetch("https://api.github.com/repos/relicta-tech/relicta/releases/latest", {
-      headers: { "User-Agent": "relicta-site" },
-    });
-    if (!res.ok) throw new Error(`GitHub responded ${res.status}`);
-    const json = await res.json();
-    return json.tag_name || "v2.1.0";
-  } catch (err) {
-    return "v2.1.0";
-  }
-};
-
-const version = await getLatestVersion();
+const title = "Relicta — The governance layer for software change";
+const description = "Relicta governs change in an AI-driven world. From release automation to risk-aware decision making for humans and agents.";
 ---
-<BaseLayout {title} {description}>
-  <header class="top-bar">
-    <div class="brand">
-      <div class="brand-logos">
-        <img src="/brand/relicta-logo-light.svg" alt="Relicta" class="brand-mark logo-light" />
-        <img src="/brand/relicta-logo-dark.svg" alt="Relicta" class="brand-mark logo-dark" />
-      </div>
-    </div>
-    <button class="menu-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" data-menu-toggle>
-      <span class="menu-icon"></span>
-    </button>
-    <nav class="nav" id="main-nav">
-      <a href="#features">Features</a>
-      <a href="#plugins">Plugins</a>
-      <a href="#how-it-works">How It Works</a>
-      <a href="https://docs.relicta.tech" target="_blank" rel="noopener">Docs</a>
-      <a href="#install">Install</a>
-      <a href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">GitHub</a>
-    </nav>
-    <div class="cta">
-      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">Toggle theme</button>
-      <a class="btn ghost" href="https://github.com/relicta-tech/relicta/releases/latest">Download</a>
-      <a class="btn solid" href="https://github.com/relicta-tech/relicta-action" target="_blank" rel="noopener">Use in CI</a>
-    </div>
-  </header>
-  <script>
-    // Mobile menu toggle
-    document.addEventListener('DOMContentLoaded', () => {
-      const toggle = document.querySelector('[data-menu-toggle]');
-      const nav = document.getElementById('main-nav');
-      const cta = document.querySelector('.top-bar .cta');
-
-      if (!toggle || !nav) return;
-
-      toggle.addEventListener('click', () => {
-        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', !isOpen);
-        nav.classList.toggle('nav-open', !isOpen);
-        cta.classList.toggle('cta-open', !isOpen);
-        document.body.classList.toggle('menu-open', !isOpen);
-      });
-
-      // Close menu when clicking a nav link
-      nav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          toggle.setAttribute('aria-expanded', 'false');
-          nav.classList.remove('nav-open');
-          cta.classList.remove('cta-open');
-          document.body.classList.remove('menu-open');
-        });
-      });
-    });
-  </script>
-
-  <main id="main">
-    <section class="hero">
-      <div class="hero-text">
-        <p class="eyebrow">AI-powered release management</p>
-        <h1>Ship clean releases without the release-day scramble</h1>
-        <p class="lede">Relicta reads your commits, calculates the right semantic version, writes polished notes, and publishes across your channels. One CLI for the entire release workflow.</p>
-        <div class="hero-actions">
-          <a class="btn solid" href="#install">Get the CLI</a>
-          <a class="btn ghost" href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">View on GitHub</a>
-        </div>
-        <div class="hero-meta">
-          <span>Latest CLI: {version}</span>
-          <span class="divider">•</span>
-          <span>20 official plugins for GitHub, npm, Docker, PyPI, and more</span>
-          <span class="divider">•</span>
-          <span>Supports OpenAI, Anthropic, Gemini, Azure, Ollama</span>
-        </div>
-      </div>
-      <div class="hero-card">
-        <div class="terminal">
-          <img src="/demos/marketing.gif" alt="Relicta CLI run showing plan, notes, and publish steps" loading="lazy" />
-        </div>
-        <div class="card-foot">Designed for modern teams that care about release quality.</div>
-      </div>
-    </section>
-
-    <!-- Stakeholders: Moved up for business value early in journey -->
-    <section class="section stakeholders reveal">
-      <div class="section-heading">
-        <p class="eyebrow">For stakeholders</p>
-        <h2>Less release risk, more confidence</h2>
-        <p class="lede">Relicta shortens release prep, reduces hotfixes, and keeps an audit trail so leadership and compliance teams stay aligned.</p>
-      </div>
-      <div class="stakeholder-grid">
-        <div class="card">
-          <h3>Business outcomes</h3>
-          <ul>
-            <li>Predictable release cadence with fewer fire drills</li>
-            <li>Consistent changelogs for customers and internal teams</li>
-            <li>Lower engineer toil; more time for features</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Trust & safety</h3>
-          <ul>
-            <li>Audit-friendly approval step with recorded decisions</li>
-            <li>Uses your AI keys; nothing stored server-side</li>
-            <li>Open source (MIT); transparent build artifacts</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Need a demo?</h3>
-          <p>Security review or SLA? Talk to us.</p>
-          <div class="hero-actions" style="margin-top: 12px;">
-            <a class="btn solid" href="mailto:hello@relicta.tech">Book a demo</a>
-            <a class="btn ghost" href="https://docs.relicta.tech" target="_blank" rel="noopener">Read the docs</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="features" class="section grid reveal">
-      <div class="section-heading">
-        <p class="eyebrow">Why teams choose Relicta</p>
-        <h2>Automate the boring parts, keep humans in control</h2>
-        <p class="lede">Relicta combines conventional commits, AI summaries, and an approval flow so you can ship confidently every time.</p>
-        <div class="feature-list">
-          <div>
-            <h4>Core workflow</h4>
-            <ul>
-              <li>Semantic versioning from conventional commits</li>
-              <li>AI-generated notes with tone control</li>
-              <li>Approval gate before publishing</li>
-              <li>Dry runs to preview changes safely</li>
-            </ul>
-          </div>
-          <div>
-            <h4>Integrations</h4>
-            <ul>
-              <li>20 official plugins: GitHub, GitLab, npm, PyPI, Docker, Homebrew, and more</li>
-              <li>Supports OpenAI, Anthropic, Gemini, Azure, Ollama</li>
-              <li>GitHub Action for zero-install CI</li>
-              <li>Extensible via gRPC plugin SDK</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="feature-cards">
-        <article class="card">
-          <h3>Automatic versioning</h3>
-          <p>Relicta reads your history and calculates the correct semantic version, including prereleases and build metadata.</p>
-        </article>
-        <article class="card">
-          <h3>AI-grade release notes</h3>
-          <p>Generate polished notes with your preferred AI provider (OpenAI, Anthropic, Gemini, Azure, Ollama) and keep them consistent.</p>
-        </article>
-        <article class="card">
-          <h3>Pluggable publishing</h3>
-          <p>Ship to 20+ targets: GitHub, GitLab, npm, PyPI, Docker, Homebrew, Slack, Teams, and more. Build custom plugins with the gRPC SDK.</p>
-        </article>
-        <article class="card">
-          <h3>Approval workflow</h3>
-          <p>Plan, review, and approve before publishing. Dry runs let you see every change without touching your repo.</p>
-        </article>
-        <article class="card card-featured">
-          <span class="card-badge">New in v2.2</span>
-          <h3>Change Governance Protocol</h3>
-          <p>Built-in risk assessment for AI-assisted workflows. Automatic risk scoring based on blast radius, actor trust, and security impact.</p>
-        </article>
-        <article class="card">
-          <h3>CI-first</h3>
-          <p>Use the GitHub Action for zero-install pipelines or run the binary directly. Checksums included for every release.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="plugins" class="section plugins reveal">
-      <div class="section-heading">
-        <p class="eyebrow">Ecosystem</p>
-        <h2>Works with your stack</h2>
-        <p class="lede">20 official plugins for every major platform. Zero configuration, open source, installable via CLI.</p>
-      </div>
-
-      <!-- Featured plugins -->
-      <div class="plugin-featured">
-        <a href="https://docs.relicta.tech/plugins/github" class="plugin-card" target="_blank" rel="noopener">
-          <div class="plugin-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          </div>
-          <div class="plugin-info">
-            <strong>GitHub</strong>
-            <span>Releases & assets</span>
-          </div>
-        </a>
-        <a href="https://docs.relicta.tech/plugins/npm" class="plugin-card" target="_blank" rel="noopener">
-          <div class="plugin-icon plugin-icon-npm">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331zM10.665 10H12v2.667h-1.335V10z"/></svg>
-          </div>
-          <div class="plugin-info">
-            <strong>npm</strong>
-            <span>Publish packages</span>
-          </div>
-        </a>
-        <a href="https://docs.relicta.tech/plugins/docker" class="plugin-card" target="_blank" rel="noopener">
-          <div class="plugin-icon plugin-icon-docker">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.186m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/></svg>
-          </div>
-          <div class="plugin-info">
-            <strong>Docker</strong>
-            <span>Build & push images</span>
-          </div>
-        </a>
-        <a href="https://docs.relicta.tech/plugins/slack" class="plugin-card" target="_blank" rel="noopener">
-          <div class="plugin-icon plugin-icon-slack">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
-          </div>
-          <div class="plugin-info">
-            <strong>Slack</strong>
-            <span>Team notifications</span>
-          </div>
-        </a>
-      </div>
-
-      <!-- All other plugins -->
-      <div class="plugin-more">
-        <p class="plugin-more-label">+ 16 more plugins</p>
-        <div class="plugin-tags">
-          <span>GitLab</span>
-          <span>PyPI</span>
-          <span>Homebrew</span>
-          <span>Discord</span>
-          <span>Teams</span>
-          <span>Jira</span>
-          <span>Chocolatey</span>
-          <span>crates.io</span>
-          <span>NuGet</span>
-          <span>Maven</span>
-          <span>RubyGems</span>
-          <span>Hex</span>
-          <span>Packagist</span>
-          <span>Go modules</span>
-          <span>Linux packages</span>
-          <span>LaunchNotes</span>
-        </div>
-      </div>
-
-      <div class="plugin-cta">
-        <pre><code>relicta plugin install github npm docker slack</code></pre>
-        <a class="btn ghost" href="https://docs.relicta.tech/plugins" target="_blank" rel="noopener">View all plugins</a>
-      </div>
-    </section>
-
-    <section id="how-it-works" class="section demo reveal">
-      <div class="section-heading">
-        <p class="eyebrow">Demo the flow</p>
-        <h2>Everything from planning to publishing in one CLI</h2>
-        <p class="lede">One command or step-by-step control. The output stays predictable and copy-paste ready.</p>
-      </div>
-      <div class="demo-grid demo-grid-3">
-        <div class="demo-card demo-card-featured">
-          <div class="demo-label">One Command (Recommended)</div>
-<pre><code><span class="cmd-prompt">$</span> relicta release
-
-<span class="cmd-step">→ Planning...</span>
-  ✓ Analyzed 12 commits since v2.5.0
-  ✓ Next version: 2.6.0 (minor)
-
-<span class="cmd-step">→ Bumping version...</span>
-  ✓ Created tag v2.6.0
-
-<span class="cmd-step">→ Generating notes...</span>
-  ✓ AI-powered release notes ready
-  ✓ CHANGELOG.md updated
-
-<span class="cmd-step">→ Approving...</span>
-  ✓ Risk score: 18% (low)
-  ✓ Release approved
-
-<span class="cmd-step">→ Publishing...</span>
-  ✓ Tag pushed to origin
-  ✓ GitHub release created
-  ✓ Slack notification sent
-
-<span class="cmd-success">✨ Released v2.6.0</span></code></pre>
-          <p class="demo-note">For CI/CD: <code>relicta release --yes</code></p>
-        </div>
-        <div class="demo-card">
-          <div class="demo-label">Step-by-Step</div>
-<pre><code><span class="cmd-prompt">$</span> relicta plan
-✓ Detects next version from commits
-✓ Shows diff, change types, release type
-
-<span class="cmd-prompt">$</span> relicta bump
-✓ Applies version, creates git tag
-
-<span class="cmd-prompt">$</span> relicta notes --ai
-✓ Generates release notes + changelog
-✓ Uses your preferred AI provider
-
-<span class="cmd-prompt">$</span> relicta approve
-✓ Locks the plan with auditability
-
-<span class="cmd-prompt">$</span> relicta publish
-✓ Tags repo, runs plugins, posts release</code></pre>
-        </div>
-        <div class="demo-card">
-          <div class="demo-label">GitHub Action</div>
-<pre><code>name: Release
-on:
-  push:
-    branches: [main]
-
-jobs:
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: relicta-tech/relicta-action@v2
-        with:
-          github-token: &#36;&#123;&#123; secrets.GITHUB_TOKEN &#125;&#125;</code></pre>
-          <p class="demo-note">Zero-install CI: downloads binary, verifies checksums, runs the full workflow.</p>
-        </div>
-      </div>
-      <p class="demo-docs-link">See the full CI/CD tutorial in our <a href="https://docs.relicta.tech/ci-cd" target="_blank" rel="noopener">documentation</a>.</p>
-    </section>
-
-    <!-- See It In Action: Consolidated from Preview + Highlights -->
-    <section class="section see-it-in-action reveal">
-      <div class="section-heading">
-        <p class="eyebrow">Production-ready output</p>
-        <h2>Polished releases, every time</h2>
-        <p class="lede">From planning to publishing, Relicta keeps your releases consistent and auditable.</p>
-      </div>
-      <div class="screenshot-grid">
-        <figure class="screenshot-card">
-          <img src="/brand/relicta-highlight-01.png" alt="Relicta CLI ready for commands" loading="lazy" />
-          <figcaption>Minimal CLI ready for your release workflow.</figcaption>
-        </figure>
-        <figure class="screenshot-card">
-          <img src="/brand/relicta-highlight-02.png" alt="Version plan and AI-generated release notes" loading="lazy" />
-          <figcaption>Automatic version planning and AI-crafted notes.</figcaption>
-        </figure>
-        <figure class="screenshot-card">
-          <img src="/brand/relicta-highlight-03.png" alt="Publishing with checklist output" loading="lazy" />
-          <figcaption>Publish with checklists and audit-friendly output.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section id="install" class="section install reveal">
-      <div class="section-heading">
-        <p class="eyebrow">Get started fast</p>
-        <h2>Install the CLI</h2>
-        <p class="lede">Pick your path: Homebrew, direct download, or Go install. From install to first release in under 2 minutes.</p>
-      </div>
-      <div class="install-grid">
-        <div class="install-card">
-          <h3>Homebrew</h3>
-<pre><code>brew install relicta-tech/tap/relicta</code></pre>
-        </div>
-        <div class="install-card">
-          <h3>Direct download</h3>
-<pre><code>curl -L https://github.com/relicta-tech/\
-relicta/releases/latest/download/relicta_\
-Darwin_aarch64.tar.gz | tar xz
-sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/</code></pre>
-        </div>
-        <div class="install-card">
-          <h3>Go install</h3>
-<pre><code>go install github.com/relicta-tech/relicta/cmd/relicta@latest</code></pre>
-        </div>
-      </div>
-    </section>
-
-    <section class="section cta-band reveal-scale">
-      <div>
-        <h2>Ready to ship your next release?</h2>
-        <p class="lede">Install Relicta and keep your releases consistent, auditable, and stress-free.</p>
-      </div>
+<SiteLayout {title} {description}>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">The governance layer for software change</p>
+      <h1>Governing change in an AI-driven world</h1>
+      <p class="lede">As AI agents and CI systems generate more code, deciding what should ship becomes the hardest problem. Relicta governs change — before it reaches production.</p>
       <div class="hero-actions">
-        <a class="btn solid" href="#install">Install the CLI</a>
-        <a class="btn ghost" href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">Star on GitHub</a>
+        <a class="btn solid" href="https://docs.relicta.tech/install">Get started with the CLI</a>
+        <a class="btn ghost" href="/vision">Read the vision</a>
       </div>
-    </section>
-  </main>
+    </div>
+    <div class="hero-card">
+      <div class="terminal">
+        <!-- Abstract diagram placeholder: Agent / CI -> Relicta -> Production -->
+        <div class="abstract-diagram">
+          <div class="diagram-node">Agent / CI</div>
+          <div class="diagram-arrow">→</div>
+          <div class="diagram-node node-relicta">Relicta</div>
+          <div class="diagram-arrow">→</div>
+          <div class="diagram-node">Production</div>
+        </div>
+      </div>
+      <div class="card-foot">The decision layer for modern software delivery.</div>
+    </div>
+  </section>
 
-  <footer class="footer">
-    <div class="brand">
-      <div class="brand-logos">
-        <img src="/brand/relicta-icon-light.svg" alt="Relicta" class="brand-icon icon-light" />
-        <img src="/brand/relicta-icon-dark.svg" alt="Relicta" class="brand-icon icon-dark" />
+  <!-- The Problem -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">The Problem</p>
+      <h2>Software delivery scaled. Decision-making didn’t.</h2>
+      <p class="lede">Code is cheap. Changes are frequent. Risk is hidden. Trust erodes.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>Past</h3>
+        <p>Human-written code. Human reviews. Human pace.</p>
       </div>
-      <span>Relicta — Release management, automated.</span>
+      <div class="card">
+        <h3>Now</h3>
+        <p>Agent-generated change. CI automation. Overwhelmed humans.</p>
+      </div>
+      <div class="card card-featured">
+        <h3>The Gap</h3>
+        <p>Governance. How do we trust the machine to ship?</p>
+      </div>
     </div>
-    <div class="footer-links">
-      <a href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">CLI Source</a>
-      <a href="https://github.com/relicta-tech/relicta-action" target="_blank" rel="noopener">GitHub Action</a>
-      <a href="https://docs.relicta.tech" target="_blank" rel="noopener">Docs</a>
+  </section>
+
+  <!-- What Relicta Is -->
+  <section class="section reveal">
+    <div class="grid">
+      <div>
+        <div class="section-heading">
+          <p class="eyebrow">The Solution</p>
+          <h2>Relicta governs change — not just releases.</h2>
+        </div>
+        <p class="lede">Relicta sits between humans, agents, and CI systems. It decides what changes, how risky it is, who approves, and how it’s communicated.</p>
+      </div>
+      <div class="feature-list">
+        <div>
+          <h4>The Core Decisions</h4>
+          <ul>
+            <li>What changed? (Semantic Analysis)</li>
+            <li>Is it risky? (Risk Scoring)</li>
+            <li>Who approves? (Governance)</li>
+            <li>How to tell users? (Communication)</li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </footer>
-</BaseLayout>
+  </section>
+
+  <!-- What Relicta Does Today -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">Production Ready</p>
+      <h2>Relicta is already a production-ready release governance CLI.</h2>
+      <p class="lede">Thousands of releases governed. Zero data leaves your environment.</p>
+    </div>
+    <div class="grid">
+      <div class="feature-list">
+        <ul>
+          <li><strong>Semantic version planning</strong> based on conventional commits</li>
+          <li><strong>AI-assisted release notes</strong> using your own keys</li>
+          <li><strong>Approval & audit trail</strong> for compliance</li>
+          <li><strong>Plugin-based publishing</strong> (GitHub, npm, Docker...)</li>
+          <li><strong>Local & CI-safe execution</strong> (Zero-install Action)</li>
+        </ul>
+        <div class="hero-actions">
+           <a class="btn solid" href="https://docs.relicta.tech/install">Install Relicta</a>
+           <a class="btn ghost" href="https://github.com/relicta-tech/relicta">View GitHub</a>
+        </div>
+      </div>
+      <div class="terminal">
+        <img src="/demos/marketing.gif" alt="Relicta CLI usage" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- From Today -> Vision -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">The Evolution</p>
+      <h2>From release automation to change governance</h2>
+    </div>
+    <div class="comparison-table">
+      <div class="table-header">
+        <div>Today</div>
+        <div>Where It's Going</div>
+      </div>
+      <div class="table-row">
+        <div>Version bumps</div>
+        <div>Risk-aware decisions</div>
+      </div>
+      <div class="table-row">
+        <div>Changelogs</div>
+        <div>Outcome-based communication</div>
+      </div>
+      <div class="table-row">
+        <div>CI automation</div>
+        <div>Agent governance</div>
+      </div>
+      <div class="table-row">
+        <div>Plugins</div>
+        <div>Protocol ecosystem</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who Relicta Is For -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">Segments</p>
+      <h2>Built for teams shipping at scale</h2>
+    </div>
+    <div class="feature-cards">
+      <article class="card">
+        <h3>Platform Engineers</h3>
+        <p>Standardize release workflows across hundreds of services.</p>
+      </article>
+      <article class="card">
+        <h3>Release Managers</h3>
+        <p>Regain visibility and control without slowing down devs.</p>
+      </article>
+      <article class="card">
+        <h3>Security & Compliance</h3>
+        <p>Audit trails and approval gates built into the pipeline.</p>
+      </article>
+      <article class="card">
+        <h3>Teams Adopting Agents</h3>
+        <p>Safe guardrails for AI-generated code changes.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Open & Extensible -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">Open Source</p>
+      <h2>Open by design. Extensible by default.</h2>
+    </div>
+    <div class="grid">
+      <div>
+        <p class="lede">We believe the governance layer must be open. No vendor lock-in. Full transparency.</p>
+        <div class="feature-list">
+            <ul>
+                <li>Open CLI (MIT Licensed)</li>
+                <li>Plugin ecosystem (gRPC based)</li>
+                <li>Protocol-first mindset</li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section cta-band reveal-scale">
+    <div>
+      <h2>Start governing change today.</h2>
+      <p class="lede">Join the teams building the future of software delivery.</p>
+    </div>
+    <div class="hero-actions">
+      <a class="btn solid" href="https://docs.relicta.tech/install">Get started</a>
+      <a class="btn ghost" href="https://docs.relicta.tech">Read the docs</a>
+      <a class="btn ghost" href="/vision">Follow the vision</a>
+    </div>
+  </section>
+
+</SiteLayout>
+
+<style>
+  .abstract-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 40px;
+    color: var(--color-terminal-text);
+  }
+  .diagram-node {
+    border: 1px solid var(--color-border);
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.05);
+  }
+  .node-relicta {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(92, 240, 200, 0.2);
+  }
+  .diagram-arrow {
+    color: var(--color-muted);
+    font-size: 1.2rem;
+  }
+  
+  .comparison-table {
+    margin-top: 32px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+  .table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 16px 24px;
+    background: rgba(255,255,255,0.05);
+    font-weight: 700;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+  .table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-muted);
+  }
+  .table-row:last-child {
+    border-bottom: none;
+  }
+  .table-row div:last-child {
+    color: var(--color-accent-text, #eef3ff); 
+  }
+  @media (max-width: 640px) {
+    .abstract-diagram {
+      flex-direction: column;
+    }
+    .diagram-arrow {
+      transform: rotate(90deg);
+    }
+  }
+</style>

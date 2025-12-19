@@ -1,0 +1,83 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const title = "Relicta Product — Capabilities & Features";
+const description = "Explore the capabilities of the Relicta CLI. Governance, Plugins, AI Integration, and more.";
+---
+<SiteLayout {title} {description}>
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Product</p>
+      <h1>Capabilities</h1>
+      <p class="lede">From a developer's terminal to a compliance officer's dashboard. Relicta spans the full lifecycle of a release.</p>
+    </div>
+  </section>
+
+  <!-- CLI Overview -->
+  <section class="section reveal">
+    <div class="grid">
+      <div>
+        <h2>The CLI</h2>
+        <p>Built in Go. Single binary. Runs anywhere.</p>
+        <div class="feature-list">
+            <ul>
+                <li><strong>Plan</strong>: Analyze commits and determine the next version.</li>
+                <li><strong>Notes</strong>: Generate changelogs using LLMs.</li>
+                <li><strong>Approve</strong>: Interactive gate for human review.</li>
+                <li><strong>Publish</strong>: Execute release steps via plugins.</li>
+            </ul>
+        </div>
+      </div>
+      <div class="terminal">
+        <pre><code><span class="cmd-prompt">$</span> relicta release
+<span class="cmd-step">→ Planning...</span> v2.1.0
+<span class="cmd-step">→ Notes...</span> Generated 3 sections
+<span class="cmd-step">→ Approval...</span> Waiting for user...
+<span class="cmd-success">✓ Approved</span>
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Governance Flow -->
+  <section class="section reveal">
+    <div class="section-container">
+        <h2>Governance Flow</h2>
+        <p>Relicta isn't just a script runner. It's a state machine for releases. It ensures that planning happens before publishing, and approval happens before side-effects.</p>
+    </div>
+  </section>
+
+  <!-- Approval & Audit -->
+  <section class="section reveal">
+    <div class="grid">
+        <div class="card">
+            <h3>Approval & Audit</h3>
+            <p>Every decision is recorded. Who approved the release? When? What was the risk score? Relicta generates a signed manifest of the release event.</p>
+        </div>
+        <div class="card">
+            <h3>AI Integration</h3>
+            <p>Bring Your Own Key (BYOK). Support for OpenAI, Anthropic, Gemini, Azure, and Ollama (local). We don't train on your data.</p>
+        </div>
+    </div>
+  </section>
+
+  <!-- Plugins -->
+  <section class="section reveal">
+    <div class="section-heading">
+        <h2>Plugin Ecosystem</h2>
+        <p class="lede">Extensible via gRPC. Write plugins in any language.</p>
+    </div>
+    <div class="feature-cards">
+        <div class="card"><h3>GitHub</h3></div>
+        <div class="card"><h3>GitLab</h3></div>
+        <div class="card"><h3>npm</h3></div>
+        <div class="card"><h3>Docker</h3></div>
+        <div class="card"><h3>Slack</h3></div>
+        <div class="card"><h3>Discord</h3></div>
+    </div>
+    <div class="hero-actions" style="margin-top: 24px;">
+        <a class="btn solid" href="https://docs.relicta.tech/plugins">Browse Plugins</a>
+    </div>
+  </section>
+
+</SiteLayout>

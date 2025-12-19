@@ -1,0 +1,35 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+const title = "Relicta Blog";
+const description = "Thoughts on change governance, AI agents, and software delivery.";
+---
+<SiteLayout {title} {description}>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Blog</h1>
+      <p class="lede">Thinking about the future of software change.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="grid">
+        <!-- Placeholder content as requested -->
+        <article class="card">
+            <h3>Why AI agents need permission</h3>
+            <p>The case for a governance layer between agents and production.</p>
+            <span class="eyebrow" style="margin-top: 12px;">Coming Soon</span>
+        </article>
+        <article class="card">
+            <h3>Why release notes aren't governance</h3>
+            <p>Documentation is a side effect. Governance is a gate.</p>
+             <span class="eyebrow" style="margin-top: 12px;">Coming Soon</span>
+        </article>
+        <article class="card">
+            <h3>The future of change control</h3>
+            <p>Moving beyond the "Change Approval Board".</p>
+             <span class="eyebrow" style="margin-top: 12px;">Coming Soon</span>
+        </article>
+    </div>
+  </section>
+</SiteLayout>

@@ -1,0 +1,44 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const title = "Open Source — Relicta";
+const description = "Our commitment to open source and community.";
+---
+<SiteLayout {title} {description}>
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Community</p>
+      <h1>Open Source</h1>
+      <p class="lede">Trust is built on transparency. That's why the core of Relicta is open source.</p>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="grid">
+      <div>
+        <h2>Philosophy</h2>
+        <p>We believe that the tools governing software delivery must be transparent. You should be able to audit the code that decides if your code is safe.</p>
+      </div>
+      <div class="card">
+        <h3>What's Open?</h3>
+        <ul>
+            <li>The CLI Core</li>
+            <li>Standard Plugins</li>
+            <li>The Protocol Specs</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-container">
+      <h2>How to Contribute</h2>
+      <p>We welcome contributions! Whether it's a new plugin, a documentation fix, or a core feature.</p>
+      <div class="hero-actions">
+        <a class="btn solid" href="https://github.com/relicta-tech/relicta">Visit GitHub</a>
+        <a class="btn ghost" href="https://github.com/relicta-tech/relicta/blob/main/CONTRIBUTING.md">Contribution Guide</a>
+      </div>
+    </div>
+  </section>
+
+</SiteLayout>
