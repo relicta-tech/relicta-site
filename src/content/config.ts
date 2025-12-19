@@ -15,7 +15,7 @@ const blog = defineCollection({
 
 const tutorials = defineCollection({
   type: 'content',
-  schema: z.any(),
+  schema: z.object({}).catchall(z.any()),
 });
 
 export const collections = { blog, tutorials };
