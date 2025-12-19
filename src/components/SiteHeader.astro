@@ -32,12 +32,30 @@
 
     if (!toggle || !nav) return;
 
+    const closeMenu = () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      nav.classList.remove('nav-open');
+      if (cta) cta.classList.remove('cta-open');
+      document.body.classList.remove('menu-open');
+    };
+
     toggle.addEventListener('click', () => {
       const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', (!isOpen).toString());
-      nav.classList.toggle('nav-open', !isOpen);
-      if (cta) cta.classList.toggle('cta-open', !isOpen);
-      document.body.classList.toggle('menu-open', !isOpen);
+      if (isOpen) {
+        closeMenu();
+      } else {
+        toggle.setAttribute('aria-expanded', 'true');
+        nav.classList.add('nav-open');
+        if (cta) cta.classList.add('cta-open');
+        document.body.classList.add('menu-open');
+      }
+    });
+
+    const navLinks = nav.querySelectorAll('a');
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
     });
   });
 </script>
