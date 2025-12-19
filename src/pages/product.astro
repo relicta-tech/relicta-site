@@ -62,21 +62,78 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
   </section>
 
   <!-- Plugins -->
-  <section class="section reveal">
+  <section id="plugins" class="section plugins reveal">
     <div class="section-heading">
         <h2>Plugin Ecosystem</h2>
-        <p class="lede">Extensible via gRPC. Write plugins in any language.</p>
+        <p class="lede">Extensible via gRPC. Write plugins in any language. Zero configuration, open source, installable via CLI.</p>
     </div>
-    <div class="feature-cards">
-        <div class="card"><h3>GitHub</h3></div>
-        <div class="card"><h3>GitLab</h3></div>
-        <div class="card"><h3>npm</h3></div>
-        <div class="card"><h3>Docker</h3></div>
-        <div class="card"><h3>Slack</h3></div>
-        <div class="card"><h3>Discord</h3></div>
+
+    <!-- Featured plugins -->
+    <div class="plugin-featured">
+      <a href="https://docs.relicta.tech/plugins/github" class="plugin-card" target="_blank" rel="noopener">
+        <div class="plugin-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </div>
+        <div class="plugin-info">
+          <strong>GitHub</strong>
+          <span>Releases & assets</span>
+        </div>
+      </a>
+      <a href="https://docs.relicta.tech/plugins/npm" class="plugin-card" target="_blank" rel="noopener">
+        <div class="plugin-icon plugin-icon-npm">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331zM10.665 10H12v2.667h-1.335V10z"/></svg>
+        </div>
+        <div class="plugin-info">
+          <strong>npm</strong>
+          <span>Publish packages</span>
+        </div>
+      </a>
+      <a href="https://docs.relicta.tech/plugins/docker" class="plugin-card" target="_blank" rel="noopener">
+        <div class="plugin-icon plugin-icon-docker">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.186m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/></svg>
+        </div>
+        <div class="plugin-info">
+          <strong>Docker</strong>
+          <span>Build & push images</span>
+        </div>
+      </a>
+      <a href="https://docs.relicta.tech/plugins/slack" class="plugin-card" target="_blank" rel="noopener">
+        <div class="plugin-icon plugin-icon-slack">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
+        </div>
+        <div class="plugin-info">
+          <strong>Slack</strong>
+          <span>Team notifications</span>
+        </div>
+      </a>
     </div>
-    <div class="hero-actions" style="margin-top: 24px;">
-        <a class="btn solid" href="https://docs.relicta.tech/plugins">Browse Plugins</a>
+
+    <!-- All other plugins -->
+    <div class="plugin-more">
+      <p class="plugin-more-label">+ 16 more plugins</p>
+      <div class="plugin-tags">
+        <span>GitLab</span>
+        <span>PyPI</span>
+        <span>Homebrew</span>
+        <span>Discord</span>
+        <span>Teams</span>
+        <span>Jira</span>
+        <span>Chocolatey</span>
+        <span>crates.io</span>
+        <span>NuGet</span>
+        <span>Maven</span>
+        <span>RubyGems</span>
+        <span>Hex</span>
+        <span>Packagist</span>
+        <span>Go modules</span>
+        <span>Linux packages</span>
+        <span>LaunchNotes</span>
+      </div>
+    </div>
+
+    <div class="plugin-cta">
+      <pre><code>relicta plugin install github npm docker slack</code></pre>
+      <a class="btn ghost" href="https://docs.relicta.tech/plugins" target="_blank" rel="noopener">View all plugins</a>
     </div>
   </section>
 
