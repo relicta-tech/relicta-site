@@ -11,6 +11,23 @@ const {
   description = "Relicta automates semantic versioning, release notes, approvals, and publishing with a friendly CLI and GitHub Action."
 } = Astro.props as Props;
 
+const revealScript = `(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => {
+      observer.observe(el);
+    });
+  });
+})();`;
+
 const toggleScript = `(() => {
   const init = () => {
     const root = document.documentElement;
@@ -20,14 +37,21 @@ const toggleScript = `(() => {
     const initial = preferred || (systemPrefersLight ? 'light' : 'dark');
     root.dataset.theme = initial;
     if (!toggle) return;
-    toggle.textContent = initial === 'light' ? 'Dark mode' : 'Light mode';
-    toggle.setAttribute('aria-pressed', initial === 'light' ? 'false' : 'true');
+
+    const updateToggle = (theme) => {
+      const isDark = theme === 'dark';
+      toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      toggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      toggle.textContent = isDark ? 'Light mode' : 'Dark mode';
+    };
+
+    updateToggle(initial);
+
     toggle.addEventListener('click', () => {
       const next = root.dataset.theme === 'light' ? 'dark' : 'light';
       root.dataset.theme = next;
       localStorage.setItem('theme', next);
-      toggle.textContent = next === 'light' ? 'Dark mode' : 'Light mode';
-      toggle.setAttribute('aria-pressed', next === 'light' ? 'false' : 'true');
+      updateToggle(next);
     });
   };
   if (document.readyState === 'loading') {
@@ -47,10 +71,12 @@ const toggleScript = `(() => {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="preload" href="/demos/marketing.gif" as="image" />
     <script is:inline set:html={toggleScript}></script>
+    <script is:inline set:html={revealScript}></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>

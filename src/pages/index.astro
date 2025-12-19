@@ -27,7 +27,10 @@ const version = await getLatestVersion();
         <img src="/brand/relicta-logo-dark.svg" alt="Relicta" class="brand-mark logo-dark" />
       </div>
     </div>
-    <nav class="nav">
+    <button class="menu-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" data-menu-toggle>
+      <span class="menu-icon"></span>
+    </button>
+    <nav class="nav" id="main-nav">
       <a href="#features">Features</a>
       <a href="#plugins">Plugins</a>
       <a href="#governance">Governance</a>
@@ -41,6 +44,34 @@ const version = await getLatestVersion();
       <a class="btn solid" href="https://github.com/relicta-tech/relicta-action" target="_blank" rel="noopener">Use in CI</a>
     </div>
   </header>
+  <script>
+    // Mobile menu toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.querySelector('[data-menu-toggle]');
+      const nav = document.getElementById('main-nav');
+      const cta = document.querySelector('.top-bar .cta');
+
+      if (!toggle || !nav) return;
+
+      toggle.addEventListener('click', () => {
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', !isOpen);
+        nav.classList.toggle('nav-open', !isOpen);
+        cta.classList.toggle('cta-open', !isOpen);
+        document.body.classList.toggle('menu-open', !isOpen);
+      });
+
+      // Close menu when clicking a nav link
+      nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          toggle.setAttribute('aria-expanded', 'false');
+          nav.classList.remove('nav-open');
+          cta.classList.remove('cta-open');
+          document.body.classList.remove('menu-open');
+        });
+      });
+    });
+  </script>
 
   <main id="main">
     <section class="hero">
@@ -68,7 +99,7 @@ const version = await getLatestVersion();
       </div>
     </section>
 
-    <section id="features" class="section grid">
+    <section id="features" class="section grid reveal">
       <div class="section-heading">
         <p class="eyebrow">Why teams choose Relicta</p>
         <h2>Automate the boring parts, keep humans in control</h2>
@@ -122,7 +153,7 @@ const version = await getLatestVersion();
       </div>
     </section>
 
-    <section id="plugins" class="section plugins">
+    <section id="plugins" class="section plugins reveal">
       <div class="section-heading">
         <p class="eyebrow">Ecosystem</p>
         <h2>20 Official Plugins</h2>
@@ -182,7 +213,7 @@ const version = await getLatestVersion();
       </div>
     </section>
 
-    <section id="governance" class="section grid">
+    <section id="governance" class="section grid reveal">
       <div class="section-heading">
         <p class="eyebrow">New in v2.2</p>
         <h2>Change Governance Protocol (CGP)</h2>
@@ -212,7 +243,7 @@ const version = await getLatestVersion();
       </div>
     </section>
 
-    <section class="section demo">
+    <section class="section demo reveal">
       <div class="section-heading">
         <p class="eyebrow">Demo the flow</p>
         <h2>Everything from planning to publishing in one CLI</h2>
@@ -292,7 +323,7 @@ jobs:
       </div>
     </section>
 
-    <section class="section preview">
+    <section class="section preview reveal">
       <div class="section-heading">
         <p class="eyebrow">See it in action</p>
         <h2>Release checklist and approvals at a glance</h2>
@@ -324,7 +355,7 @@ jobs:
       </div>
     </section>
 
-    <section class="section highlights">
+    <section class="section highlights reveal">
       <div class="section-heading">
         <p class="eyebrow">Quick looks</p>
         <h2>What a Relicta run looks like</h2>
@@ -332,19 +363,19 @@ jobs:
       </div>
       <div class="highlight-grid">
         <figure class="highlight-card">
-          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-01.png" data-alt="Relicta prompt ready for commands in a dark terminal">
+          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-01.png" data-alt="Relicta prompt ready for commands in a dark terminal" aria-label="Zoom: Minimal CLI ready for your release workflow">
             <img src="/brand/relicta-highlight-01.png" alt="Relicta prompt ready for commands in a dark terminal" loading="lazy" />
           </button>
           <figcaption>Minimal CLI ready for your release workflow.</figcaption>
         </figure>
         <figure class="highlight-card">
-          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-02.png" data-alt="Relicta showing version plan and generated release notes">
+          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-02.png" data-alt="Relicta showing version plan and generated release notes" aria-label="Zoom: Automatic version planning and AI-crafted notes">
             <img src="/brand/relicta-highlight-02.png" alt="Relicta showing version plan and generated release notes" loading="lazy" />
           </button>
           <figcaption>Automatic version planning and AI-crafted notes.</figcaption>
         </figure>
         <figure class="highlight-card">
-          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-03.png" data-alt="Relicta publishing release artifacts with checklist">
+          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-03.png" data-alt="Relicta publishing release artifacts with checklist" aria-label="Zoom: Publish with checklists and audit-friendly output">
             <img src="/brand/relicta-highlight-03.png" alt="Relicta publishing release artifacts with checklist" loading="lazy" />
           </button>
           <figcaption>Publish with checklists and audit-friendly output.</figcaption>
@@ -362,7 +393,7 @@ jobs:
           wrapper.innerHTML = `
             <div class="lightbox-backdrop" data-lightbox-close></div>
             <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Expanded highlight image">
-              <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close">×</button>
+              <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close image">×</button>
               <img data-lightbox-image src="" alt="" />
             </div>
           `;
@@ -371,15 +402,49 @@ jobs:
         };
 
         const lightbox = createLightbox();
+        const dialog = lightbox.querySelector('.lightbox-dialog');
+        const closeBtn = lightbox.querySelector('.lightbox-close');
         const imgEl = lightbox.querySelector('[data-lightbox-image]');
         const closeTriggers = lightbox.querySelectorAll('[data-lightbox-close]');
+        let previouslyFocused = null;
 
-        const open = (src, alt) => {
+        // Focus trap: keep focus within lightbox when open
+        const trapFocus = (e) => {
+          if (e.key !== 'Tab') return;
+
+          const focusableElements = dialog.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          const firstFocusable = focusableElements[0];
+          const lastFocusable = focusableElements[focusableElements.length - 1];
+
+          if (e.shiftKey) {
+            if (document.activeElement === firstFocusable) {
+              e.preventDefault();
+              lastFocusable.focus();
+            }
+          } else {
+            if (document.activeElement === lastFocusable) {
+              e.preventDefault();
+              firstFocusable.focus();
+            }
+          }
+        };
+
+        const open = (src, alt, triggerElement) => {
+          previouslyFocused = triggerElement || document.activeElement;
           imgEl.src = src;
           imgEl.alt = alt || '';
           lightbox.hidden = false;
           lightbox.classList.add('open');
           lightbox.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+
+          // Move focus to close button
+          closeBtn.focus();
+
+          // Add focus trap
+          lightbox.addEventListener('keydown', trapFocus);
         };
 
         const close = () => {
@@ -388,11 +453,20 @@ jobs:
           imgEl.src = '';
           imgEl.alt = '';
           lightbox.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+
+          // Remove focus trap
+          lightbox.removeEventListener('keydown', trapFocus);
+
+          // Restore focus to triggering element
+          if (previouslyFocused && previouslyFocused.focus) {
+            previouslyFocused.focus();
+          }
         };
 
         document.querySelectorAll('.highlight-zoom').forEach((btn) => {
           btn.addEventListener('click', () => {
-            open(btn.dataset.src, btn.dataset.alt);
+            open(btn.dataset.src, btn.dataset.alt, btn);
           });
         });
 
@@ -405,7 +479,7 @@ jobs:
       });
     </script>
 
-    <section id="install" class="section install">
+    <section id="install" class="section install reveal">
       <div class="section-heading">
         <p class="eyebrow">Get started fast</p>
         <h2>Install the CLI</h2>
@@ -437,7 +511,7 @@ sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/</code></pre>
       </div>
     </section>
 
-    <section id="workflow" class="section workflow">
+    <section id="workflow" class="section workflow reveal">
       <div class="section-heading">
         <p class="eyebrow">Workflow</p>
         <h2>Two ways to release</h2>
@@ -500,7 +574,7 @@ sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/</code></pre>
       </div>
     </section>
 
-    <section class="section stakeholders">
+    <section class="section stakeholders reveal">
       <div class="section-heading">
         <p class="eyebrow">For stakeholders</p>
         <h2>Less release risk, more confidence</h2>
@@ -534,7 +608,7 @@ sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/</code></pre>
       </div>
     </section>
 
-    <section class="section cta-band">
+    <section class="section cta-band reveal-scale">
       <div>
         <h2>Ready to ship your next release?</h2>
         <p class="lede">Install Relicta and keep your releases consistent, auditable, and stress-free.</p>
