@@ -69,25 +69,29 @@
 
   // Event Handlers for Panning
   if (viewport) {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isPanning) return;
+      e.preventDefault();
+      pointX = e.clientX - startX;
+      pointY = e.clientY - startY;
+      updateTransform();
+    };
+
+    const handleMouseUp = () => {
+      isPanning = false;
+      if (viewport) viewport.style.cursor = 'grab';
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+
     viewport.addEventListener('mousedown', (e) => {
       e.preventDefault(); // Prevent text selection
       isPanning = true;
       startX = e.clientX - pointX;
       startY = e.clientY - pointY;
       viewport.style.cursor = 'grabbing';
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!isPanning) return;
-      e.preventDefault();
-      pointX = e.clientX - startX;
-      pointY = e.clientY - startY;
-      updateTransform();
-    });
-
-    window.addEventListener('mouseup', () => {
-      isPanning = false;
-      if (viewport) viewport.style.cursor = 'grab';
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
     });
 
     // Wheel Zoom
