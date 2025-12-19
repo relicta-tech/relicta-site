@@ -233,10 +233,13 @@ const description = "Relicta governs change in an AI-driven world. From release 
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 16px 24px;
-    background: rgba(255,255,255,0.05);
+    background: var(--color-card);
     font-weight: 700;
     border-bottom: 1px solid var(--color-border);
     color: var(--color-text);
+  }
+  .table-header div:last-child {
+    color: var(--color-accent-strong);
   }
   .table-row {
     display: grid;
@@ -249,7 +252,7 @@ const description = "Relicta governs change in an AI-driven world. From release 
     border-bottom: none;
   }
   .table-row div:last-child {
-    color: var(--color-accent-strong); 
+    color: var(--color-accent); 
   }
   @media (max-width: 640px) {
     .abstract-diagram {
