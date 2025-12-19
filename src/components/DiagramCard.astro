@@ -1,0 +1,74 @@
+---
+interface Props {
+  caption?: string;
+  takeaway?: string;
+}
+
+const { caption, takeaway } = Astro.props;
+---
+
+<figure class="diagram-card">
+  <div class="diagram-content">
+    <slot />
+  </div>
+  {(caption || takeaway) && (
+    <figcaption class="diagram-footer">
+      {caption && <div class="diagram-caption">{caption}</div>}
+      {takeaway && (
+        <div class="diagram-takeaway">
+          <strong>Key Takeaway:</strong> {takeaway}
+        </div>
+      )}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .diagram-card {
+    background: #080b16;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin: 40px 0;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .diagram-content {
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+    background: radial-gradient(circle at center, rgba(92, 240, 200, 0.03), transparent 70%);
+  }
+
+  /* Target the mermaid SVG specifically if it's inside */
+  .diagram-content :global(svg) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .diagram-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+    font-size: 0.95rem;
+  }
+
+  .diagram-caption {
+    color: var(--color-muted);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .diagram-takeaway {
+    color: var(--color-text);
+    background: rgba(92, 240, 200, 0.1);
+    border-left: 2px solid var(--color-accent);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-top: 12px;
+  }
+
+  .diagram-takeaway strong {
+    color: var(--color-accent);
+  }
+</style>

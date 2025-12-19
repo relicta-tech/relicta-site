@@ -7,6 +7,7 @@ author: "Relicta"
 tags: ["ai-agents", "governance", "platform-engineering", "devops", "compliance", "relicta"]
 draft: false
 ---
+import DiagramCard from '../../../components/DiagramCard.astro';
 
 AI agents are rapidly moving from experimentation to execution.
 
@@ -169,12 +170,16 @@ Without these dimensions, AI agents are operating outside the rules that govern 
 
 # Relicta diagrams
 
-Below are Relicta-specific diagrams you can render directly in Markdown using Mermaid (supported by many Astro setups via remark/rehype plugins or MDX).
+Below are Relicta-specific diagrams you can render using Mermaid (supported by many Astro setups via remark/rehype plugins or MDX).
 
 ---
 
 ## Diagram 1: Without governance vs. with Relicta
 
+<DiagramCard 
+  caption="Comparison of agent workflows" 
+  takeaway="Agents don’t 'own' production privileges. They submit intent through Relicta, which decides what’s allowed."
+>
 ```mermaid
 flowchart LR
   subgraph A[Without a governance layer]
@@ -196,15 +201,16 @@ flowchart LR
     Relicta --> Audit[Audit Log / Evidence]
   end
 ```
-
-```
-
-**What changes:** agents don’t “own” production privileges. They submit *intent* through Relicta, and Relicta decides what’s allowed, what needs approval, and what gets recorded.
+</DiagramCard>
 
 ---
 
 ## Diagram 2: Permissioned execution decision flow
 
+<DiagramCard 
+  caption="The decision flow for permissioned execution"
+  takeaway="The default posture becomes controlled: deny by default, require approvals for risk, and always audit."
+>
 ```mermaid
 flowchart TD
   Start([Agent proposes an action]) --> Ctx[Attach context\n(repo/service/env/tenant/risk)]
@@ -221,13 +227,16 @@ flowchart TD
   Run --> Evidence
   Evidence --> Done([Action completed + auditable])
 ```
-
-**Key idea:** the default posture becomes *controlled*: deny by default for sensitive actions, require approvals for higher risk, and always create an auditable trail.
+</DiagramCard>
 
 ---
 
 ## Diagram 3: Relicta policy model (org structure → permissions)
 
+<DiagramCard 
+  caption="How permissions map to organization structure"
+  takeaway="Permissions aren’t just 'tool access.' They’re scoped to product lines, services, environments, and tenants."
+>
 ```mermaid
 graph TB
   Org[Organization] --> PL[Product Line]
@@ -247,13 +256,16 @@ graph TB
   Agent -->|requests| ACT[Action Intent]
   ACT -->|evaluated by| PERM
 ```
-
-**Why it matters in Relicta:** permissions aren’t just “tool access.” They’re scoped to **product lines, services, environments, and tenants**, aligned to how real organizations operate.
+</DiagramCard>
 
 ---
 
 ## Diagram 4: Relicta as the control plane for agent/tool ecosystems
 
+<DiagramCard 
+  caption="Relicta acting as the governed highway"
+  takeaway="Relicta sits between agents and the systems that change production, ensuring every action is governed."
+>
 ```mermaid
 flowchart LR
   subgraph Agents
@@ -297,6 +309,7 @@ flowchart LR
   Ap --> Au
   Co --> Au
 ```
+</DiagramCard>
 
 **Translation:** Relicta is the “governed highway” between agents and the systems that can change production.
 
