@@ -34,25 +34,26 @@ h1, h2, h3 {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(1.75rem, 4vw + 0.5rem, 2.75rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
 }
 
 h2 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(1.35rem, 2.5vw + 0.5rem, 1.85rem);
 }
 
 h3 {
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-size: clamp(1rem, 1.5vw + 0.25rem, 1.15rem);
 }
 
 h4 {
   font-weight: 600;
+  font-size: 1rem;
   letter-spacing: 0.01em;
 }
 
@@ -322,10 +323,10 @@ main {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(560px, 1.2fr);
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 1.3fr);
   align-items: center;
-  gap: 40px;
-  padding: 48px 0 40px;
+  gap: 32px;
+  padding: 32px 0;
 }
 
 .hero-text {
@@ -1105,28 +1106,73 @@ code {
   }
   .hero {
     grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px 0;
+  }
+  .hero-card {
+    width: 100%;
   }
   .grid {
     grid-template-columns: 1fr;
   }
   main {
-    padding: 30px 24px 60px;
+    padding: 24px 20px 48px;
   }
   .top-bar {
-    padding: 14px 24px;
+    padding: 14px 20px;
   }
   .footer {
-    padding: 18px 24px 28px;
+    padding: 18px 20px 28px;
+    flex-direction: column;
+    text-align: center;
+  }
+  .section {
+    margin: 32px 0 8px;
+  }
+  .demo,
+  .preview,
+  .highlights,
+  .stakeholders,
+  .workflow {
+    padding: var(--space-4);
+  }
+  .cta-band {
+    padding: 20px;
   }
 }
 
 @media (max-width: 640px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  .hero-text .lede {
+    font-size: 1rem;
+  }
   .hero-actions {
     flex-direction: column;
   }
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .hero-meta {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+  .hero-meta .divider {
+    display: none;
+  }
   .cta-band {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    text-align: center;
+  }
+  .cta-band .hero-actions {
+    width: 100%;
   }
   .preview-grid,
   .highlight-grid {
@@ -1138,6 +1184,54 @@ code {
   .nav {
     justify-content: center;
     gap: 12px;
+  }
+  .install-grid {
+    grid-template-columns: 1fr;
+  }
+  .workflow-options {
+    grid-template-columns: 1fr;
+  }
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+  .stakeholder-grid {
+    grid-template-columns: 1fr;
+  }
+  pre {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+  .eyebrow {
+    font-size: 11px;
+  }
+  .eyebrow::before {
+    width: 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  main {
+    padding: 16px 16px 40px;
+  }
+  h1 {
+    font-size: 1.35rem;
+  }
+  h2 {
+    font-size: 1.15rem;
+  }
+  .demo,
+  .preview,
+  .highlights,
+  .stakeholders,
+  .workflow {
+    padding: var(--space-3);
+  }
+  .card {
+    padding: 14px;
+  }
+  .btn {
+    padding: 10px 14px;
+    font-size: 0.9rem;
   }
 }
 
