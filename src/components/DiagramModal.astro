@@ -16,7 +16,27 @@
   if (modal && target && closeBtn) {
     // Open handler (called by triggers)
     window.openDiagramModal = (contentHtml) => {
-      target.innerHTML = contentHtml;
+      // Create a temp container to manipulate the HTML
+      const temp = document.createElement('div');
+      temp.innerHTML = contentHtml;
+      
+      const svg = temp.querySelector('svg');
+      if (svg) {
+        // Remove restrictive attributes that might prevent scaling
+        svg.removeAttribute('style');
+        svg.removeAttribute('width');
+        svg.removeAttribute('height');
+        svg.removeAttribute('max-width');
+        
+        // Ensure it has a viewBox (Mermaid usually adds one, but good to be safe if we want scaling)
+        // If it doesn't have one, we can't easily add it without knowing dimensions, 
+        // but removing width/height usually forces it to rely on viewBox if present.
+        
+        // Add a class for modal styling if needed
+        svg.classList.add('modal-svg');
+      }
+
+      target.innerHTML = temp.innerHTML;
       modal.showModal();
       document.body.style.overflow = 'hidden';
     };
@@ -82,9 +102,10 @@
 
   /* Ensure SVG scales in modal */
   .modal-content :global(svg) {
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: auto !important;
     max-height: 80vh;
+    max-width: none !important;
   }
 
   .modal-close {

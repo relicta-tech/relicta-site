@@ -243,23 +243,33 @@ flowchart TD
   takeaway="Permissions aren’t just 'tool access.' They’re scoped to product lines, services, environments, and tenants."
 >
 ```mermaid
-graph TB
-  Org[Organization] --> PL[Product Line]
-  PL --> SVC[Service]
-  SVC --> ENV[Environment]
-  Org --> TEN[Tenant / Customer]
-  Org --> TEAM[Team]
-  TEAM --> ROLE[Role]
+flowchart LR
+    subgraph OrgStructure [Organization Structure]
+        direction TB
+        Org[Organization] --> PL[Product Line]
+        PL --> SVC[Service]
+        SVC --> ENV[Environment]
+        Org --> TEN[Tenant / Customer]
+        Org --> TEAM[Team]
+    end
 
-  ROLE -->|grants| PERM[Permissions]
-  PERM -->|scoped to| PL
-  PERM -->|scoped to| SVC
-  PERM -->|scoped to| ENV
-  PERM -->|scoped to| TEN
+    subgraph AccessModel [Access Model]
+        direction TB
+        TEAM --> ROLE[Role]
+        ROLE -->|grants| PERM[Permissions]
+        Agent[AI Agent Identity] -->|assumes| ROLE
+    end
 
-  Agent[AI Agent Identity] -->|assumes| ROLE
-  Agent -->|requests| ACT[Action Intent]
-  ACT -->|evaluated by| PERM
+    PERM -.->|scoped to| PL
+    PERM -.->|scoped to| SVC
+    PERM -.->|scoped to| ENV
+    PERM -.->|scoped to| TEN
+
+    Agent -->|requests| ACT[Action Intent]
+    ACT -->|evaluated by| PERM
+
+    style OrgStructure fill:transparent,stroke:#333,stroke-dasharray: 5 5
+    style AccessModel fill:transparent,stroke:#333,stroke-dasharray: 5 5
 ```
 </DiagramCard>
 
