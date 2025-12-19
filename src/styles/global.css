@@ -1458,6 +1458,62 @@ body.menu-open {
   border-color: var(--color-accent);
 }
 
+/* Prevent demo cards from overflowing */
+.demo-card pre {
+  max-width: 100%;
+  overflow-x: auto;
+  word-break: keep-all;
+  white-space: pre;
+}
+
+/* CGP/Governance featured media card */
+.demo-card-media {
+  background: linear-gradient(135deg, rgba(245, 165, 36, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(245, 165, 36, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2), 0 0 60px rgba(245, 165, 36, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.demo-card-media:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25), 0 0 80px rgba(245, 165, 36, 0.12);
+}
+
+.demo-card-media img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: #0a0e1c;
+  display: block;
+}
+
+.demo-card-media .demo-label {
+  margin-bottom: 12px;
+}
+
+/* Demo video section styling */
+.demo-video {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.demo-video .demo-label {
+  margin-bottom: 1rem;
+}
+
+.demo-video video {
+  border-radius: var(--radius-md);
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+  border: 1px solid var(--color-border);
+  background: #0a0e1c;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
 /* Terminal styling for demo cards */
 .cmd-prompt {
   color: var(--color-accent);
@@ -1566,9 +1622,23 @@ body.menu-open {
   font-size: 0.85rem;
 }
 
+@media (max-width: 1100px) {
+  .demo-grid-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .demo-card-featured {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 900px) {
   .demo-grid-3 {
     grid-template-columns: 1fr;
+  }
+
+  .demo-card-featured {
+    grid-column: auto;
   }
 
   .workflow-options {
