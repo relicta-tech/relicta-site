@@ -6,6 +6,56 @@ draft: false
 
 Learn Relicta through these hands-on video tutorials. Each tutorial focuses on a specific aspect of the release workflow.
 
+## Quick Start (Recommended)
+
+New to Relicta? This video shows you how to go from install to your first release in under 2 minutes.
+
+<video controls width="100%" style="border-radius: 8px; margin: 1rem 0;">
+  <source src="/videos/quickstart.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+**What you'll learn:**
+- Installing Relicta with Homebrew
+- Initializing your project with `relicta init`
+- Running your first release with `relicta release`
+
+---
+
+## 6. One-Command Release (v2.6.0+)
+
+The easiest way to release: one command that does everything.
+
+<video controls width="100%" style="border-radius: 8px; margin: 1rem 0;">
+  <source src="/videos/tutorial6.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+**What you'll learn:**
+- Using `relicta release` for the complete workflow
+- Understanding the 5 automated steps (plan → bump → notes → approve → publish)
+- Key flags: `--yes`, `--dry-run`, `--force`, `--skip-push`
+- When to use one-command vs step-by-step
+
+---
+
+## CI/CD Integration
+
+Set up automated releases with GitHub Actions.
+
+<video controls width="100%" style="border-radius: 8px; margin: 1rem 0;">
+  <source src="/videos/cicd.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+**What you'll learn:**
+- Creating a GitHub Actions workflow
+- Using `relicta-action` for automated releases
+- Triggering releases on push to main
+- Monitoring release workflows
+
+---
+
 ## 1. Basic Release Workflow
 
 Get started with the core release commands: `plan`, `bump`, `notes`, `approve`, and `publish`.
@@ -96,6 +146,9 @@ Build your own plugin to extend Relicta's functionality.
 
 | Tutorial | Duration | Topics |
 |----------|----------|--------|
+| **Quick Start** | ~1 min | install, init, first release |
+| **One-Command Release** | ~2 min | `relicta release`, flags, workflow |
+| **CI/CD Integration** | ~1 min | GitHub Actions, automation |
 | Basic Workflow | ~2 min | plan, bump, notes, approve, publish |
 | GitHub Plugin | ~2 min | plugin install, configuration |
 | Multi-Platform | ~2 min | multiple plugins, notifications |
