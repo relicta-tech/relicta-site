@@ -73,6 +73,10 @@ const { caption, takeaway, id = `diagram-${Math.random().toString(36).substr(2, 
     opacity: 1;
   }
 
+  /* Make the header (and its zoom button) visible when it or its children have focus */
+  .diagram-header:focus-within {
+    opacity: 1;
+  }
   .btn-icon {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid var(--color-border);
