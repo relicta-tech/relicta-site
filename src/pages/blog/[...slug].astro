@@ -11,84 +11,351 @@ export async function getStaticPaths() {
 }
 
 const post = Astro.props;
-const { Content } = await post.render();
+const { Content, headings } = await post.render();
+
+// Filter for h2 and h3 for the TOC
+const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
 ---
 
 <SiteLayout title={post.data.title} description={post.data.description}>
-	<article class="blog-post">
-		<header class="post-header">
-			<p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-			<h1>{post.data.title}</h1>
-			<p class="lede">{post.data.description}</p>
-		</header>
-		<hr class="divider" />
-		<div class="content">
-			<Content />
-		</div>
-	</article>
+    <div class="blog-container">
+        <!-- Hero Header -->
+        <header class="post-header">
+            <div class="post-meta">
+                <span class="publish-date">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                <span class="separator">•</span>
+                <span class="reading-time">5 min read</span>
+            </div>
+            <h1>{post.data.title}</h1>
+            <p class="lede">{post.data.description}</p>
+            <div class="tags">
+                {post.data.tags.map((tag) => (
+                    <span class="tag">#{tag}</span>
+                ))}
+            </div>
+        </header>
+
+        <div class="post-layout">
+            <!-- Sidebar (Desktop) -->
+            <aside class="sidebar">
+                <div class="sticky-content">
+                    <div class="toc-card">
+                        <span class="toc-title">On this page</span>
+                        <nav class="toc">
+                            <ul>
+                                {toc.map((heading) => (
+                                    <li class={`toc-item depth-${heading.depth}`}>
+                                        <a href={`#${heading.slug}`}>{heading.text}</a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="author-card">
+                        <div class="author-avatar">R</div>
+                        <div class="author-info">
+                            <strong>{post.data.author}</strong>
+                            <span>Relicta Team</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <article class="content">
+                <Content />
+                
+                <div class="share-card">
+                    <h3>Share this perspective</h3>
+                    <div class="share-links">
+                        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=https://relicta.tech/blog/${post.slug}`} target="_blank" rel="noopener" class="btn ghost">
+                            Share on X
+                        </a>
+                        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=https://relicta.tech/blog/${post.slug}`} target="_blank" rel="noopener" class="btn ghost">
+                            Share on LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
 </SiteLayout>
 
 <style is:global>
-	.blog-post {
-		max-width: 800px;
-		margin: 0 auto;
-		padding: 40px 0;
-	}
-	.post-header {
-		margin-bottom: 32px;
-	}
-	.post-header h1 {
-		margin: 16px 0;
-		font-size: 3rem;
-	}
-	.divider {
-		border: 0;
-		border-top: 1px solid var(--color-border);
-		margin: 32px 0;
-	}
-	.content {
-		line-height: 1.8;
-		font-size: 1.1rem;
-		color: var(--color-muted);
-	}
-	.content h2 {
-		color: var(--color-text);
-		margin-top: 48px;
-		margin-bottom: 16px;
-	}
-	.content p {
-		margin-bottom: 24px;
-	}
-	.content blockquote {
-		border-left: 4px solid var(--color-accent);
-		margin: 32px 0;
-		padding: 16px 24px;
-		background: rgba(92, 240, 200, 0.05);
-		font-style: italic;
-		color: var(--color-text);
-	}
-    .content blockquote p {
-        margin-bottom: 0;
+    /* Layout & Containers */
+    .blog-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 24px 80px;
     }
-	.content ul {
-		margin-bottom: 24px;
-		padding-left: 24px;
-	}
-	.content li {
-		margin-bottom: 8px;
-	}
-	.content pre {
-		margin: 32px 0;
-	}
-    /* Mermaid support would usually need a plugin, for now we just style the code block */
-    .content code {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 0.9em;
+
+    .post-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 64px;
+        margin-top: 64px;
+        align-items: start;
     }
-    .content pre code {
-        background: transparent;
+
+    /* Header Styling */
+    .post-header {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 40px 0;
+        position: relative;
+    }
+
+    .post-header::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120%;
+        height: 120%;
+        background: radial-gradient(circle, rgba(92, 240, 200, 0.05) 0%, transparent 60%);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .post-meta {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        color: var(--color-accent);
+        font-family: var(--font-mono);
+        font-size: 0.9rem;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .post-header h1 {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        line-height: 1.1;
+        margin-bottom: 24px;
+        background: linear-gradient(135deg, var(--color-text) 0%, #a0aec0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .post-header .lede {
+        font-size: 1.25rem;
+        color: var(--color-muted);
+        max-width: 600px;
+        margin: 0 auto 32px;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .tag {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--color-border);
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        color: var(--color-muted);
+        font-family: var(--font-mono);
+    }
+
+    /* Sidebar Styling */
+    .sticky-content {
+        position: sticky;
+        top: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .toc-card, .author-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        padding: 20px;
+    }
+
+    .toc-title {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+        color: var(--color-text);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .toc ul {
+        list-style: none;
         padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .toc a {
+        color: var(--color-muted);
+        font-size: 0.9rem;
+        line-height: 1.4;
+        transition: color 0.2s ease;
+        display: block;
+    }
+
+    .toc a:hover {
+        color: var(--color-accent);
+    }
+
+    .toc-item.depth-3 {
+        padding-left: 16px;
+        font-size: 0.85rem;
+    }
+
+    .author-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .author-avatar {
+        width: 40px;
+        height: 40px;
+        background: var(--gradient-accent);
+        border-radius: 50%;
+        color: #04140e;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+    }
+
+    .author-info {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.9rem;
+    }
+
+    .author-info span {
+        color: var(--color-muted);
+        font-size: 0.8rem;
+    }
+
+    /* Content Styling */
+    .content {
+        max-width: 100%; /* Occupy full grid column */
+        font-size: 1.125rem;
+        line-height: 1.75;
+        color: var(--color-muted);
+    }
+
+    .content h2 {
+        color: var(--color-text);
+        font-size: 1.75rem;
+        margin: 48px 0 24px;
+        scroll-margin-top: 100px; /* For sticky header anchor offset */
+    }
+
+    .content h3 {
+        color: var(--color-text);
+        font-size: 1.4rem;
+        margin: 32px 0 16px;
+        scroll-margin-top: 100px;
+    }
+
+    /* Card-like Blockquotes */
+    .content blockquote {
+        margin: 40px 0;
+        padding: 32px;
+        background: linear-gradient(135deg, rgba(92, 240, 200, 0.05), transparent);
+        border: 1px solid rgba(92, 240, 200, 0.2);
+        border-radius: var(--radius-md);
+        position: relative;
+    }
+
+    .content blockquote p {
+        font-size: 1.25rem;
+        font-style: italic;
+        color: var(--color-text);
+        margin: 0;
+        line-height: 1.6;
+    }
+    
+    .content blockquote::before {
+        content: '"';
+        position: absolute;
+        top: -20px;
+        left: 20px;
+        font-size: 80px;
+        color: var(--color-accent);
+        opacity: 0.2;
+        font-family: serif;
+    }
+
+    /* Lists */
+    .content ul {
+        margin-bottom: 24px;
+    }
+    
+    .content li {
+        margin-bottom: 12px;
+    }
+
+    /* Mermaid / Code Blocks as Cards */
+    .content pre, .mermaid {
+        background: #0a0e1c !important;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        padding: 24px;
+        margin: 40px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        overflow-x: auto;
+    }
+    
+    .mermaid {
+        display: flex;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.02) !important;
+    }
+
+    /* Share Card at Bottom */
+    .share-card {
+        margin-top: 80px;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: 32px;
+        text-align: center;
+    }
+
+    .share-card h3 {
+        margin-bottom: 24px;
+        color: var(--color-text);
+    }
+
+    .share-links {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    @media (max-width: 1024px) {
+        .post-layout {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .sidebar {
+            display: none; /* Alternatively, move to bottom or make collapsible */
+        }
+        
+        .blog-container {
+            padding: 24px 20px;
+        }
     }
 </style>
