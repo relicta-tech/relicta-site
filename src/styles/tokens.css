@@ -41,6 +41,22 @@
   --space-8: 48px;
 }
 
+/* Explicit dark theme tokens for manual toggle (overrides prefers-color-scheme) */
+:root[data-theme="dark"] {
+  --color-bg: #0c1020;
+  --color-surface: rgba(16, 22, 42, 0.75);
+  --color-card: rgba(255, 255, 255, 0.04);
+  --color-accent: #5cf0c8;
+  --color-accent-strong: #47d8b1;
+  --color-accent-warm: #f5a524;
+  --color-text: #eef3ff;
+  --color-muted: #dce6f5;
+  --color-border: rgba(255, 255, 255, 0.14);
+  --gradient-bg: radial-gradient(circle at 20% 20%, rgba(92, 240, 200, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(245, 165, 36, 0.08), transparent 30%);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
 /* Explicit light theme tokens for manual toggle */
 :root[data-theme="light"] {
   --color-bg: #f3f7fb;
@@ -57,8 +73,9 @@
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 
+/* System preference fallback (only when no manual theme is set) */
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme]) {
     --color-bg: #f9fbff;
     --color-surface: rgba(255, 255, 255, 0.9);
     --color-card: rgba(10, 20, 40, 0.06);
