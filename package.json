@@ -16,6 +16,7 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
+    "@astrojs/mdx": "4.3.13",
     "astro-mermaid": "1.2.0"
   }
 }

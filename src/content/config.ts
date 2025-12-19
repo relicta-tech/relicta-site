@@ -13,4 +13,9 @@ const blog = defineCollection({
 	}),
 });
 
-export const collections = { blog };
+const tutorials = defineCollection({
+  type: 'content',
+  schema: z.any(),
+});
+
+export const collections = { blog, tutorials };
