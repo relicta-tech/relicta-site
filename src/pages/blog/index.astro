@@ -1,5 +1,12 @@
 ---
+import { getCollection } from 'astro:content';
 import SiteLayout from "../../layouts/SiteLayout.astro";
+
+const posts = (await getCollection('blog', ({ data }) => {
+	return data.draft !== true;
+})).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 
 const title = "Relicta Blog";
 const description = "Thoughts on change governance, AI agents, and software delivery.";
@@ -14,22 +21,30 @@ const description = "Thoughts on change governance, AI agents, and software deli
 
   <section class="section">
     <div class="grid">
-        <!-- Placeholder content as requested -->
-        <article class="card">
-            <h3>Why AI agents need permission</h3>
-            <p>The case for a governance layer between agents and production.</p>
-            <span class="eyebrow" style="margin-top: 12px;">Coming Soon</span>
-        </article>
-        <article class="card">
-            <h3>Why release notes aren't governance</h3>
-            <p>Documentation is a side effect. Governance is a gate.</p>
-             <span class="eyebrow" style="margin-top: 12px;">Coming Soon</span>
-        </article>
-        <article class="card">
-            <h3>The future of change control</h3>
-            <p>Moving beyond the "Change Approval Board".</p>
-             <span class="eyebrow" style="margin-top: 12px;">Coming Soon</span>
-        </article>
+        {posts.map((post) => (
+            <a href={`/blog/${post.slug}`} class="card-link">
+                <article class="card">
+                    <p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <h3>{post.data.title}</h3>
+                    <p>{post.data.description}</p>
+                </article>
+            </a>
+        ))}
+        {posts.length === 0 && (
+            <p>No blog posts yet. Stay tuned!</p>
+        )}
     </div>
   </section>
 </SiteLayout>
+
+<style>
+    .card-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+    .card-link:hover .card {
+        border-color: var(--color-accent);
+        transform: translateY(-4px);
+    }
+</style>
