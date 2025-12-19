@@ -184,19 +184,22 @@ Below are Relicta-specific diagrams you can render using Mermaid (supported by m
   <div slot="before">
     ```mermaid
     flowchart TD
-      AgentA[AI Agent] -->|Direct API| GitHub[GitHub]
-      AgentA -->|Direct API| Cloud[Cloud]
-      AgentA -->|Direct API| Prod[(Production)]
+      AgentA["AI Agent"] -->|Direct API| GitHub["GitHub"]
+      AgentA -->|Direct API| Cloud["Cloud"]
+      AgentA -->|Direct API| Prod[("Production")]
     ```
   </div>
   <div slot="after">
     ```mermaid
     flowchart TD
-      AgentB[AI Agent] -->|Intent| Relicta[Relicta]
-      Relicta -->|Policy| Gate{Gate}
-      Gate -->|Approved| GitHub[GitHub]
-      Gate -->|Approved| Cloud[Cloud]
-      Relicta --> Audit[Audit]
+      AgentB["AI Agent"] -->|Intent| Relicta["Relicta"]
+      Relicta -->|Policy| Gate{"Gate"}
+      Gate -->|Approved| GitHub["GitHub"]
+      Gate -->|Approved| Cloud["Cloud"]
+      Relicta --> Audit["Audit"]
+
+      classDef accent fill:#5cf0c8,stroke:#333,stroke-width:2px,color:#000;
+      class Relicta accent;
     ```
   </div>
 </DiagramCompare>
@@ -238,21 +241,21 @@ flowchart TD
   takeaway="Permissions aren’t just 'tool access.' They’re scoped to product lines, services, environments, and tenants."
 >
 ```mermaid
-flowchart LR
-    subgraph OrgStructure [Organization Structure]
+flowchart TB
+    subgraph OrgStructure ["Organization Structure"]
         direction TB
-        Org[Organization] --> PL[Product Line]
-        PL --> SVC[Service]
-        SVC --> ENV[Environment]
-        Org --> TEN[Tenant / Customer]
-        Org --> TEAM[Team]
+        Org["Organization"] --> PL["Product Line"]
+        PL --> SVC["Service"]
+        SVC --> ENV["Environment"]
+        Org --> TEN["Tenant / Customer"]
+        Org --> TEAM["Team"]
     end
 
-    subgraph AccessModel [Access Model]
+    subgraph AccessModel ["Access Model"]
         direction TB
-        TEAM --> ROLE[Role]
-        ROLE -->|grants| PERM[Permissions]
-        Agent[AI Agent Identity] -->|assumes| ROLE
+        TEAM --> ROLE["Role"]
+        ROLE -->|grants| PERM["Permissions"]
+        Agent["AI Agent Identity"] -->|assumes| ROLE
     end
 
     PERM -.->|scoped to| PL
@@ -260,8 +263,11 @@ flowchart LR
     PERM -.->|scoped to| ENV
     PERM -.->|scoped to| TEN
 
-    Agent -->|requests| ACT[Action Intent]
+    Agent -->|requests| ACT["Action Intent"]
     ACT -->|evaluated by| PERM
+
+    classDef accent fill:#5cf0c8,stroke:#333,stroke-width:2px,color:#000;
+    class PERM accent;
 
     style OrgStructure fill:transparent,stroke:#333,stroke-dasharray: 5 5
     style AccessModel fill:transparent,stroke:#333,stroke-dasharray: 5 5
@@ -277,47 +283,40 @@ flowchart LR
   takeaway="Relicta sits between agents and the systems that change production, ensuring every action is governed."
 >
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph Agents
-    A1[Release Agent]
-    A2[Incident Agent]
-    A3[Migration Agent]
-    A4[Changelog Agent]
+    direction LR
+    A1["Release Agent"]
+    A2["Incident Agent"]
+    A3["Migration Agent"]
+    A4["Changelog Agent"]
   end
 
-  subgraph RelictaCP[Relicta Control Plane]
-    I[Intent API]
-    P[Policy Engine]
-    Ap[Approvals]
-    Co[Connectors]
-    Au[Audit + Evidence]
+  subgraph RelictaCP ["Relicta Control Plane"]
+    direction TB
+    I["Intent API"] --> P["Policy Engine"]
+    P --> Ap["Approvals"]
+    Ap --> Co["Connectors"]
+    P --> Au["Audit + Evidence"]
+    Ap --> Au
+    Co --> Au
   end
 
   subgraph Systems
-    GH[GitHub / GitLab]
-    CI[CI/CD]
-    J[Jira / Linear]
-    K[Kubernetes / Cloud]
-    F[Feature Flags]
-    D[Datastores]
+    direction LR
+    GH["GitHub / GitLab"]
+    CI["CI/CD"]
+    J["Jira / Linear"]
+    K["Kubernetes / Cloud"]
+    F["Feature Flags"]
+    D["Datastores"]
   end
 
-  A1 --> I
-  A2 --> I
-  A3 --> I
-  A4 --> I
+  Agents --> I
+  Co --> Systems
 
-  I --> P --> Ap --> Co
-  Co --> GH
-  Co --> CI
-  Co --> J
-  Co --> K
-  Co --> F
-  Co --> D
-
-  P --> Au
-  Ap --> Au
-  Co --> Au
+  classDef accent fill:#5cf0c8,stroke:#333,stroke-width:2px,color:#000;
+  class RelictaCP accent;
 ```
 </DiagramCard>
 
