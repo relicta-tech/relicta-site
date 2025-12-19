@@ -18,137 +18,123 @@ const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
 ---
 
 <SiteLayout title={post.data.title} description={post.data.description}>
-    <div class="blog-container">
+    <article class="blog-post-container">
         <!-- Hero Header -->
-        <header class="post-header">
-            <div class="post-meta">
-                <span class="publish-date">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                <span class="separator">•</span>
-                <span class="reading-time">5 min read</span>
-            </div>
-            <h1>{post.data.title}</h1>
-            <p class="lede">{post.data.description}</p>
-            <div class="tags">
-                {post.data.tags.map((tag) => (
-                    <span class="tag">#{tag}</span>
-                ))}
+        <header class="post-hero">
+            <div class="hero-content">
+                <div class="post-meta">
+                    <span class="publish-date">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    <span class="separator">/</span>
+                    <span class="author-name">By {post.data.author}</span>
+                </div>
+                <h1 class="post-title">{post.data.title}</h1>
+                <p class="post-lede">{post.data.description}</p>
+                <div class="post-tags">
+                    {post.data.tags.map((tag) => (
+                        <span class="tag">#{tag}</span>
+                    ))}
+                </div>
             </div>
         </header>
 
-        <div class="post-layout">
-            <!-- Sidebar (Desktop) -->
-            <aside class="sidebar">
-                <div class="sticky-content">
-                    <div class="toc-card">
-                        <span class="toc-title">On this page</span>
-                        <nav class="toc">
-                            <ul>
-                                {toc.map((heading) => (
-                                    <li class={`toc-item depth-${heading.depth}`}>
-                                        <a href={`#${heading.slug}`}>{heading.text}</a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
-                    </div>
-                    <div class="author-card">
-                        <div class="author-avatar">R</div>
-                        <div class="author-info">
-                            <strong>{post.data.author}</strong>
-                            <span>Relicta Team</span>
-                        </div>
+        <div class="post-body-wrapper">
+            <!-- Sidebar / TOC -->
+            <aside class="post-sidebar">
+                <div class="sticky-toc">
+                    <div class="toc-header">Table of Contents</div>
+                    <nav class="toc-nav">
+                        <ul>
+                            {toc.map((heading) => (
+                                <li class={`toc-item depth-${heading.depth}`}>
+                                    <a href={`#${heading.slug}`}>{heading.text}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                    <div class="sidebar-divider"></div>
+                    <div class="sidebar-share">
+                        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=https://relicta.tech/blog/${post.slug}`} target="_blank" rel="noopener" class="share-link">
+                            Share on X
+                        </a>
                     </div>
                 </div>
             </aside>
 
             <!-- Main Content -->
-            <article class="content">
+            <div class="post-content">
                 <Content />
-                
-                <div class="share-card">
-                    <h3>Share this perspective</h3>
-                    <div class="share-links">
-                        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=https://relicta.tech/blog/${post.slug}`} target="_blank" rel="noopener" class="btn ghost">
-                            Share on X
-                        </a>
-                        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=https://relicta.tech/blog/${post.slug}`} target="_blank" rel="noopener" class="btn ghost">
-                            Share on LinkedIn
-                        </a>
-                    </div>
-                </div>
-            </article>
+            </div>
         </div>
-    </div>
+    </article>
 </SiteLayout>
 
 <style is:global>
-    /* Layout & Containers */
-    .blog-container {
-        max-width: 1200px;
+    .blog-post-container {
+        max-width: 1400px;
         margin: 0 auto;
-        padding: 40px 24px 80px;
+        padding: 0 24px 120px;
     }
 
-    .post-layout {
-        display: grid;
-        grid-template-columns: 280px 1fr;
-        gap: 64px;
-        margin-top: 64px;
-        align-items: start;
-    }
-
-    /* Header Styling */
-    .post-header {
-        max-width: 800px;
-        margin: 0 auto;
+    /* Hero Styling */
+    .post-hero {
+        padding: 80px 0 60px;
         text-align: center;
-        padding: 40px 0;
+        max-width: 900px;
+        margin: 0 auto;
         position: relative;
     }
 
-    .post-header::before {
+    /* Subtle background glow for hero */
+    .post-hero::before {
         content: '';
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 120%;
-        height: 120%;
-        background: radial-gradient(circle, rgba(92, 240, 200, 0.05) 0%, transparent 60%);
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(closest-side, rgba(92, 240, 200, 0.08), transparent);
         pointer-events: none;
         z-index: -1;
     }
 
     .post-meta {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        color: var(--color-accent);
         font-family: var(--font-mono);
-        font-size: 0.9rem;
-        margin-bottom: 24px;
+        font-size: 0.85rem;
+        color: var(--color-accent);
         text-transform: uppercase;
         letter-spacing: 0.05em;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
     }
 
-    .post-header h1 {
-        font-size: clamp(2.5rem, 5vw, 3.5rem);
+    .post-meta .separator {
+        color: var(--color-border);
+    }
+
+    .post-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
         line-height: 1.1;
-        margin-bottom: 24px;
-        background: linear-gradient(135deg, var(--color-text) 0%, #a0aec0 100%);
+        letter-spacing: -0.03em;
+        margin: 0 0 24px;
+        background: linear-gradient(180deg, var(--color-text) 0%, #a0aec0 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
 
-    .post-header .lede {
-        font-size: 1.25rem;
+    .post-lede {
+        font-size: 1.35rem;
+        line-height: 1.6;
         color: var(--color-muted);
-        max-width: 600px;
         margin: 0 auto 32px;
+        max-width: 720px;
     }
 
-    .tags {
+    .post-tags {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -156,206 +142,220 @@ const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
     }
 
     .tag {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--color-border);
-        padding: 4px 12px;
-        border-radius: 999px;
-        font-size: 0.85rem;
-        color: var(--color-muted);
         font-family: var(--font-mono);
-    }
-
-    /* Sidebar Styling */
-    .sticky-content {
-        position: sticky;
-        top: 100px;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-    }
-
-    .toc-card, .author-card {
-        background: var(--color-surface);
+        font-size: 0.8rem;
+        color: var(--color-muted);
+        background: rgba(255, 255, 255, 0.03);
         border: 1px solid var(--color-border);
-        border-radius: var(--radius-md);
-        padding: 20px;
+        padding: 4px 10px;
+        border-radius: 4px;
     }
 
-    .toc-title {
-        display: block;
-        font-weight: 700;
-        margin-bottom: 12px;
-        font-size: 0.9rem;
-        color: var(--color-text);
+    /* Layout: Sidebar + Content */
+    .post-body-wrapper {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 80px;
+        margin-top: 40px;
+        align-items: start;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Sidebar / TOC */
+    .sticky-toc {
+        position: sticky;
+        top: 120px;
+        padding-right: 20px;
+    }
+
+    .toc-header {
+        font-size: 0.75rem;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.1em;
+        font-weight: 700;
+        color: var(--color-text);
+        margin-bottom: 16px;
+        opacity: 0.7;
     }
 
-    .toc ul {
+    .toc-nav ul {
         list-style: none;
         padding: 0;
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
     }
 
-    .toc a {
-        color: var(--color-muted);
+    .toc-nav a {
         font-size: 0.9rem;
+        color: var(--color-muted);
         line-height: 1.4;
         transition: color 0.2s ease;
         display: block;
+        text-decoration: none;
     }
 
-    .toc a:hover {
+    .toc-nav a:hover {
         color: var(--color-accent);
     }
 
     .toc-item.depth-3 {
-        padding-left: 16px;
-        font-size: 0.85rem;
+        padding-left: 12px;
+        border-left: 1px solid var(--color-border);
     }
 
-    .author-card {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .author-avatar {
+    .sidebar-divider {
+        height: 1px;
+        background: var(--color-border);
+        margin: 24px 0;
         width: 40px;
-        height: 40px;
-        background: var(--gradient-accent);
-        border-radius: 50%;
-        color: #04140e;
-        display: grid;
-        place-items: center;
-        font-weight: 800;
     }
 
-    .author-info {
-        display: flex;
-        flex-direction: column;
-        font-size: 0.9rem;
-    }
-
-    .author-info span {
+    .share-link {
+        font-size: 0.85rem;
         color: var(--color-muted);
-        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
     }
 
-    /* Content Styling */
-    .content {
-        max-width: 100%; /* Occupy full grid column */
+    .share-link:hover {
+        color: var(--color-text);
+        text-decoration: underline;
+    }
+
+    /* Main Content Typography */
+    .post-content {
         font-size: 1.125rem;
         line-height: 1.75;
         color: var(--color-muted);
+        max-width: 720px; /* Optimal reading width */
+        min-width: 0; /* Prevent overflow */
     }
 
-    .content h2 {
-        color: var(--color-text);
+    .post-content h2 {
         font-size: 1.75rem;
-        margin: 48px 0 24px;
-        scroll-margin-top: 100px; /* For sticky header anchor offset */
-    }
-
-    .content h3 {
         color: var(--color-text);
-        font-size: 1.4rem;
-        margin: 32px 0 16px;
+        margin: 56px 0 24px;
+        letter-spacing: -0.02em;
         scroll-margin-top: 100px;
     }
 
-    /* Card-like Blockquotes */
-    .content blockquote {
-        margin: 40px 0;
-        padding: 32px;
-        background: linear-gradient(135deg, rgba(92, 240, 200, 0.05), transparent);
-        border: 1px solid rgba(92, 240, 200, 0.2);
-        border-radius: var(--radius-md);
-        position: relative;
+    .post-content h3 {
+        font-size: 1.35rem;
+        color: var(--color-text);
+        margin: 40px 0 16px;
+        scroll-margin-top: 100px;
     }
 
-    .content blockquote p {
-        font-size: 1.25rem;
+    .post-content p {
+        margin-bottom: 28px;
+    }
+
+    .post-content ul, .post-content ol {
+        margin-bottom: 28px;
+        padding-left: 20px;
+    }
+
+    .post-content li {
+        margin-bottom: 10px;
+        padding-left: 8px;
+    }
+
+    .post-content li::marker {
+        color: var(--color-accent);
+    }
+
+    /* Distinctive Blockquotes */
+    .post-content blockquote {
+        margin: 40px 0;
+        padding: 0 0 0 24px;
+        border-left: 3px solid var(--color-accent);
         font-style: italic;
         color: var(--color-text);
-        margin: 0;
+        font-size: 1.25rem;
         line-height: 1.6;
     }
     
-    .content blockquote::before {
-        content: '"';
-        position: absolute;
-        top: -20px;
-        left: 20px;
-        font-size: 80px;
-        color: var(--color-accent);
-        opacity: 0.2;
-        font-family: serif;
+    .post-content blockquote p {
+        margin-bottom: 0;
     }
 
-    /* Lists */
-    .content ul {
-        margin-bottom: 24px;
-    }
-    
-    .content li {
-        margin-bottom: 12px;
-    }
-
-    /* Mermaid / Code Blocks as Cards */
-    .content pre, .mermaid {
-        background: #0a0e1c !important;
+    /* Code Blocks & Mermaid */
+    .post-content pre, .mermaid {
+        background: #080b16 !important; /* Darker than bg */
         border: 1px solid var(--color-border);
         border-radius: var(--radius-md);
         padding: 24px;
         margin: 40px 0;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         overflow-x: auto;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
     }
-    
+
     .mermaid {
         display: flex;
         justify-content: center;
         background: rgba(255, 255, 255, 0.02) !important;
     }
 
-    /* Share Card at Bottom */
-    .share-card {
-        margin-top: 80px;
-        background: var(--color-surface);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        padding: 32px;
-        text-align: center;
+    /* Inline Code */
+    .post-content code {
+        font-family: var(--font-mono);
+        font-size: 0.9em;
+        color: var(--color-accent-text); /* Ensure contrast */
+        background: rgba(255, 255, 255, 0.06);
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+    
+    .post-content pre code {
+        background: transparent;
+        padding: 0;
+        color: inherit;
     }
 
-    .share-card h3 {
-        margin-bottom: 24px;
-        color: var(--color-text);
+    /* Horizontal Rule */
+    .post-content hr {
+        border: 0;
+        height: 1px;
+        background: var(--color-border);
+        margin: 60px 0;
     }
 
-    .share-links {
-        display: flex;
-        justify-content: center;
-        gap: 16px;
-        flex-wrap: wrap;
-    }
-
+    /* Responsive */
     @media (max-width: 1024px) {
-        .post-layout {
+        .post-body-wrapper {
             grid-template-columns: 1fr;
-            gap: 40px;
+            gap: 0;
         }
 
-        .sidebar {
-            display: none; /* Alternatively, move to bottom or make collapsible */
+        .post-sidebar {
+            display: none; /* Hide sidebar on mobile/tablet for focus */
         }
         
-        .blog-container {
-            padding: 24px 20px;
+        .post-content {
+            max-width: 100%;
+        }
+    }
+    
+    @media (max-width: 640px) {
+        .post-hero {
+            padding: 40px 0;
+        }
+        
+        .post-title {
+            font-size: 2rem;
+        }
+        
+        .post-lede {
+            font-size: 1.1rem;
+        }
+        
+        .blog-post-container {
+            padding: 0 20px 60px;
         }
     }
 </style>
