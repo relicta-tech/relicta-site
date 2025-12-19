@@ -37,8 +37,11 @@
   const btnOut = document.getElementById('zoom-out');
   const btnReset = document.getElementById('zoom-reset');
 
+  // Constants
+  const DEFAULT_SCALE = 1.2;
+
   // State
-  let scale = 1;
+  let scale = DEFAULT_SCALE;
   let pointX = 0;
   let pointY = 0;
   let isPanning = false;
@@ -52,7 +55,7 @@
   }
 
   function resetZoom() {
-    scale = 1;
+    scale = DEFAULT_SCALE;
     pointX = 0;
     pointY = 0;
     updateTransform();
