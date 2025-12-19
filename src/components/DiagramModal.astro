@@ -1,0 +1,113 @@
+---
+---
+<dialog id="diagram-modal" class="diagram-modal">
+  <div class="modal-wrapper">
+    <button class="modal-close" aria-label="Close modal">×</button>
+    <div class="modal-content" id="modal-content-target"></div>
+  </div>
+</dialog>
+
+<script>
+  // Simple singleton modal logic
+  const modal = document.getElementById('diagram-modal') as HTMLDialogElement;
+  const target = document.getElementById('modal-content-target');
+  const closeBtn = document.querySelector('.modal-close');
+
+  if (modal && target && closeBtn) {
+    // Open handler (called by triggers)
+    window.openDiagramModal = (contentHtml) => {
+      target.innerHTML = contentHtml;
+      modal.showModal();
+      document.body.style.overflow = 'hidden';
+    };
+
+    const close = () => {
+      modal.close();
+      document.body.style.overflow = '';
+      target.innerHTML = '';
+    };
+
+    closeBtn.addEventListener('click', close);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) close();
+    });
+    modal.addEventListener('cancel', () => {
+      document.body.style.overflow = '';
+    });
+  }
+
+  declare global {
+    interface Window {
+      openDiagramModal: (html: string) => void; 
+    }
+  }
+</script>
+
+<style>
+  .diagram-modal {
+    padding: 0;
+    border: none;
+    background: transparent;
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(8px);
+  }
+
+  .diagram-modal::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+  }
+
+  .modal-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 40px;
+  }
+
+  .modal-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 40px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Ensure SVG scales in modal */
+  .modal-content :global(svg) {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+  }
+</style>

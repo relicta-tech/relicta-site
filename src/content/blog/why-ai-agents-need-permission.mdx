@@ -8,6 +8,7 @@ tags: ["ai-agents", "governance", "platform-engineering", "devops", "compliance"
 draft: false
 ---
 import DiagramCard from '../../../components/DiagramCard.astro';
+import DiagramCompare from '../../../components/DiagramCompare.astro';
 
 AI agents are rapidly moving from experimentation to execution.
 
@@ -176,32 +177,36 @@ Below are Relicta-specific diagrams you can render using Mermaid (supported by m
 
 ## Diagram 1: Without governance vs. with Relicta
 
-<DiagramCard 
-  caption="Comparison of agent workflows" 
-  takeaway="Agents don’t 'own' production privileges. They submit intent through Relicta, which decides what’s allowed."
+<DiagramCompare 
+  labels={["Ungoverned", "Governed"]}
+  caption="Relicta introduces a control plane that validates intent before execution."
 >
-```mermaid
-flowchart LR
-  subgraph A[Without a governance layer]
-    AgentA[AI Agent] -->|Direct API calls| GitHubA[GitHub]
-    AgentA -->|Direct API calls| CICDA[CI/CD]
-    AgentA -->|Direct API calls| CloudA[Cloud / K8s]
-    AgentA -->|Direct API calls| JiraA[Jira]
-    AgentA -->|Direct API calls| ProdA[(Production)]
-  end
+  <div slot="before">
+    ```mermaid
+    flowchart TD
+      AgentA[AI Agent] -->|Direct API| GitHub[GitHub]
+      AgentA -->|Direct API| Cloud[Cloud]
+      AgentA -->|Direct API| Prod[(Production)]
+      
+      style AgentA fill:#ff4444,stroke:#333,stroke-width:2px,color:#fff
+    ```
+  </div>
+  <div slot="after">
+    ```mermaid
+    flowchart TD
+      AgentB[AI Agent] -->|Intent| Relicta[Relicta]
+      Relicta -->|Policy| Gate{Gate}
+      Gate -->|Approved| GitHub[GitHub]
+      Gate -->|Approved| Cloud[Cloud]
+      Relicta --> Audit[Audit]
 
-  subgraph B[With Relicta as a governance layer]
-    AgentB[AI Agent] -->|Intent + Context| Relicta[Relicta Control Plane]
-    Relicta -->|Policy checks + Approvals| Gate[Governance Gates]
-    Gate --> GitHubB[GitHub]
-    Gate --> CICDB[CI/CD]
-    Gate --> CloudB[Cloud / K8s]
-    Gate --> JiraB[Jira]
-    Gate --> ProdB[(Production)]
-    Relicta --> Audit[Audit Log / Evidence]
-  end
-```
-</DiagramCard>
+      style AgentB fill:#4444ff,stroke:#333,stroke-width:2px,color:#fff
+      style Relicta fill:#5cf0c8,stroke:#333,stroke-width:2px,color:#000
+    ```
+  </div>
+</DiagramCompare>
+
+**What changes:** agents don’t “own” production privileges. They submit *intent* through Relicta, and Relicta decides what’s allowed, what needs approval, and what gets recorded.
 
 ---
 
