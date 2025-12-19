@@ -3,8 +3,8 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 
-// Define type for teaser posts (can be real posts or placeholder posts)
-type TeaserPost = CollectionEntry<'blog'> | {
+// Define types for teaser posts
+interface PlaceholderPost {
     isPlaceholder: true;
     slug: string;
     data: {
@@ -12,10 +12,13 @@ type TeaserPost = CollectionEntry<'blog'> | {
         description: string;
         pubDate: null;
     };
-};
+}
+
+// Teaser posts can be real posts or placeholder posts
+type TeaserPost = CollectionEntry<'blog'> | PlaceholderPost;
 
 // Type guard to check if a post is a placeholder
-function isPlaceholder(post: TeaserPost): post is { isPlaceholder: true; slug: string; data: { title: string; description: string; pubDate: null } } {
+function isPlaceholder(post: TeaserPost): post is PlaceholderPost {
     return 'isPlaceholder' in post && post.isPlaceholder === true;
 }
 
@@ -35,7 +38,7 @@ const realPosts = (await getCollection('blog', ({ data }) => data.draft !== true
     .filter(p => p.slug !== post.slug)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const comingSoonPosts: TeaserPost[] = [
+const comingSoonPosts: PlaceholderPost[] = [
     {
         isPlaceholder: true,
         slug: '#',
