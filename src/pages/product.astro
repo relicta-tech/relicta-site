@@ -89,6 +89,36 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
     </div>
   </section>
 
+  <!-- The Evolution -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">The Evolution</p>
+      <h2>From release automation to change governance</h2>
+    </div>
+    <div class="comparison-table">
+      <div class="table-header">
+        <div>Today</div>
+        <div>Where It's Going</div>
+      </div>
+      <div class="table-row">
+        <div>Version bumps</div>
+        <div>Risk-aware decisions</div>
+      </div>
+      <div class="table-row">
+        <div>Changelogs</div>
+        <div>Outcome-based communication</div>
+      </div>
+      <div class="table-row">
+        <div>CI automation</div>
+        <div>Agent governance</div>
+      </div>
+      <div class="table-row">
+        <div>Plugins</div>
+        <div>Protocol ecosystem</div>
+      </div>
+    </div>
+  </section>
+
   <!-- Approval & Audit -->
   <section class="section reveal">
     <div class="grid">
@@ -103,6 +133,32 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
         <div class="terminal">
             <img src="/brand/relicta-approval.gif" alt="Relicta Approval Flow" loading="lazy" style="width: 100%; display: block;" />
         </div>
+    </div>
+  </section>
+
+  <!-- Who Relicta Is For -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">Built for Scale</p>
+      <h2>Enterprise-grade governance for modern teams</h2>
+    </div>
+    <div class="feature-cards">
+      <article class="card">
+        <h3>Platform Engineers</h3>
+        <p>Standardize release workflows across hundreds of services.</p>
+      </article>
+      <article class="card">
+        <h3>Release Managers</h3>
+        <p>Regain visibility and control without slowing down devs.</p>
+      </article>
+      <article class="card">
+        <h3>Security & Compliance</h3>
+        <p>Audit trails and approval gates built into the pipeline.</p>
+      </article>
+      <article class="card">
+        <h3>Teams Adopting Agents</h3>
+        <p>Safe guardrails for AI-generated code changes.</p>
+      </article>
     </div>
   </section>
 
@@ -182,4 +238,53 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
     </div>
   </section>
 
-</SiteLayout>
+<style>
+  .section-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .comparison-table {
+    margin-top: 32px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    overflow: hidden;
+    text-align: left;
+  }
+  .table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 16px 24px;
+    background: var(--color-card);
+    font-weight: 700;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+  .table-header div:last-child {
+    color: var(--color-accent-strong);
+  }
+  .table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-muted);
+  }
+  .table-row:last-child {
+    border-bottom: none;
+  }
+  .table-row div:last-child {
+    color: var(--color-accent); 
+  }
+
+  .feature-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .plugin-featured {
+
