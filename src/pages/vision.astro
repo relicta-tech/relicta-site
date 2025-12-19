@@ -1,0 +1,101 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const title = "Relicta Vision — The Future of Change Governance";
+const description = "Why we are building the governance layer for the agentic era.";
+---
+<SiteLayout {title} {description}>
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Vision</p>
+      <h1>The Agentic Shift</h1>
+      <p class="lede">We are entering an era where most code will be written by agents, not humans. The bottleneck is no longer creation—it’s decision.</p>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-container">
+      <h2>Why release automation isn't enough</h2>
+      <p>Traditional CI/CD pipelines assume a human wrote the code. They automate the <em>process</em> of delivery (build, test, deploy) but they do not automate the <em>governance</em> of change.</p>
+      <p>When an AI agent submits a pull request, who checks for semantic correctness? Who evaluates the blast radius? Who decides if this specific change is safe to ship at 4 PM on a Friday?</p>
+      <p><strong>Automation makes things fast. Governance makes them safe.</strong></p>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="grid">
+      <div>
+        <h2>Change Governance Protocol (CGP)</h2>
+        <p>We are defining a standard for how changes are proposed, analyzed, and approved. CGP is a protocol that allows:</p>
+        <ul class="vision-list">
+          <li><strong>Agents to propose changes</strong> with structured intent.</li>
+          <li><strong>Systems to score risk</strong> based on history and blast radius.</li>
+          <li><strong>Humans to hold the keys</strong> for high-risk decisions.</li>
+        </ul>
+      </div>
+      <div class="card card-featured">
+        <h3>The Protocol Stack</h3>
+        <div class="stack-diagram">
+            <div class="stack-layer layer-3">Authority Layer (Human/Policy)</div>
+            <div class="stack-layer layer-2">Risk Layer (Scoring/Analysis)</div>
+            <div class="stack-layer layer-1">Transport Layer (CI/CD)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-container">
+      <h2>Humans, Agents, and Authority</h2>
+      <p>We don't believe in "human-out-of-the-loop" for critical infrastructure yet. We believe in <strong>human-on-the-loop</strong>.</p>
+      <p>Relicta acts as the interface where agents prove their work to humans. It provides the "Trust Anchor" — a verifiable record that a specific change passed specific policy checks before being signed.</p>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">Long-term Direction</p>
+      <h2>Where we are going</h2>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>Theme 1: Risk-Awareness</h3>
+        <p>Moving from "pass/fail" tests to probabilistic risk scoring.</p>
+      </div>
+      <div class="card">
+        <h3>Theme 2: Agent Identity</h3>
+        <p>Cryptographically signing changes with agent identities.</p>
+      </div>
+      <div class="card">
+        <h3>Theme 3: Universal Ledger</h3>
+        <p>A decentralized audit log of every change decision.</p>
+      </div>
+    </div>
+  </section>
+
+</SiteLayout>
+
+<style>
+  .vision-list {
+    margin-top: 16px;
+    padding-left: 20px;
+    color: var(--color-muted);
+    line-height: 1.6;
+  }
+  .stack-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .stack-layer {
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-align: center;
+    font-weight: 600;
+  }
+  .layer-3 { background: rgba(92, 240, 200, 0.1); border-color: var(--color-accent); color: var(--color-accent); }
+  .layer-2 { background: rgba(255, 255, 255, 0.05); }
+  .layer-1 { background: rgba(255, 255, 255, 0.02); color: var(--color-muted); }
+</style>

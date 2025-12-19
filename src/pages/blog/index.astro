@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content';
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+const posts = (await getCollection('blog', ({ data }) => {
+	return data.draft !== true;
+})).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const comingSoonPosts = [
+    {
+        title: "From Prompts to Policies",
+        description: "Why instructions fail as governance—and what replaces them",
+    },
+    {
+        title: "Why AI Needs a Control Plane",
+        description: "How permissioned execution becomes the backbone of safe autonomy",
+    }
+];
+
+const title = "Relicta Blog";
+const description = "Thoughts on change governance, AI agents, and software delivery.";
+---
+<SiteLayout {title} {description}>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Blog</h1>
+      <p class="lede">Thinking about the future of software change.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="grid">
+        {posts.map((post) => (
+            <a href={`/blog/${post.slug}`} class="card-link">
+                <article class="card">
+                    <p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <h3>{post.data.title}</h3>
+                    <p>{post.data.description}</p>
+                </article>
+            </a>
+        ))}
+        
+        {comingSoonPosts.map((post) => (
+            <div class="card card-placeholder">
+                <p class="eyebrow">Coming Soon</p>
+                <h3>{post.title}</h3>
+                <p>{post.description}</p>
+            </div>
+        ))}
+
+        {posts.length === 0 && comingSoonPosts.length === 0 && (
+            <p>No blog posts yet. Stay tuned!</p>
+        )}
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+    .card-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+    .card-link:hover .card {
+        border-color: var(--color-accent);
+        transform: translateY(-4px);
+    }
+    .card-placeholder {
+        border-style: dashed;
+        opacity: 0.7;
+        background: rgba(255, 255, 255, 0.01);
+        cursor: default;
+    }
+    .card-placeholder .eyebrow {
+        color: var(--color-muted);
+        font-weight: 600;
+    }
+</style>

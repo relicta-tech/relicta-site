@@ -1,0 +1,85 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col brand-col">
+       <div class="brand-logos">
+        <img src="/brand/relicta-icon-light.svg" alt="Relicta" class="brand-icon icon-light" />
+        <img src="/brand/relicta-icon-dark.svg" alt="Relicta" class="brand-icon icon-dark" />
+      </div>
+      <p class="copyright">© {year} Relicta Tech.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="/product">Overview</a>
+      <a href="/vision">Vision</a>
+      <a href="https://docs.relicta.tech" target="_blank" rel="noopener">Docs</a>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <a href="/open-source">Open Source</a>
+      <a href="/blog">Blog</a>
+      <a href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <!-- <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="mailto:hello@relicta.tech">Contact</a>
+      <a href="#">Security</a>
+      <a href="#">Privacy</a>
+    </div> -->
+  </div>
+</footer>
+
+<style>
+  .footer {
+    display: block; /* Override flex from global if needed */
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    width: 100%;
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-col h4 {
+    color: var(--color-text);
+    margin-bottom: 4px;
+    font-size: 1rem;
+  }
+  .footer-col a {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+  }
+  .footer-col a:hover {
+    color: var(--color-accent);
+  }
+  .brand-col .copyright {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    margin-top: 12px;
+  }
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .brand-col {
+      grid-column: 1 / -1;
+      margin-bottom: 16px;
+    }
+  }
+  @media (max-width: 480px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
