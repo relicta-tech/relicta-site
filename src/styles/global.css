@@ -29,9 +29,9 @@ a {
   text-decoration: none;
 }
 
-/* Typography - Display headings with distinctive Syne font */
+/* Typography - Clean Manrope headings */
 h1, h2, h3 {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
@@ -651,7 +651,7 @@ code {
   display: grid;
   place-items: center;
   box-shadow: 0 4px 15px rgba(92, 240, 200, 0.35);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
 }
 
 .cta-band {

@@ -20,7 +20,6 @@
   --gradient-accent: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
 
   /* Type */
-  --font-display: 'Syne', system-ui, sans-serif;
   --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
 
