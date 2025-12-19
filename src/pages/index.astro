@@ -33,7 +33,7 @@ const version = await getLatestVersion();
     <nav class="nav" id="main-nav">
       <a href="#features">Features</a>
       <a href="#plugins">Plugins</a>
-      <a href="#governance">Governance</a>
+      <a href="#how-it-works">How It Works</a>
       <a href="https://docs.relicta.tech" target="_blank" rel="noopener">Docs</a>
       <a href="#install">Install</a>
       <a href="https://github.com/relicta-tech/relicta" target="_blank" rel="noopener">GitHub</a>
@@ -99,6 +99,41 @@ const version = await getLatestVersion();
       </div>
     </section>
 
+    <!-- Stakeholders: Moved up for business value early in journey -->
+    <section class="section stakeholders reveal">
+      <div class="section-heading">
+        <p class="eyebrow">For stakeholders</p>
+        <h2>Less release risk, more confidence</h2>
+        <p class="lede">Relicta shortens release prep, reduces hotfixes, and keeps an audit trail so leadership and compliance teams stay aligned.</p>
+      </div>
+      <div class="stakeholder-grid">
+        <div class="card">
+          <h3>Business outcomes</h3>
+          <ul>
+            <li>Predictable release cadence with fewer fire drills</li>
+            <li>Consistent changelogs for customers and internal teams</li>
+            <li>Lower engineer toil; more time for features</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Trust & safety</h3>
+          <ul>
+            <li>Audit-friendly approval step with recorded decisions</li>
+            <li>Uses your AI keys; nothing stored server-side</li>
+            <li>Open source (MIT); transparent build artifacts</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Need a demo?</h3>
+          <p>Security review or SLA? Talk to us.</p>
+          <div class="hero-actions" style="margin-top: 12px;">
+            <a class="btn solid" href="mailto:hello@relicta.tech">Book a demo</a>
+            <a class="btn ghost" href="https://docs.relicta.tech" target="_blank" rel="noopener">Read the docs</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="features" class="section grid reveal">
       <div class="section-heading">
         <p class="eyebrow">Why teams choose Relicta</p>
@@ -142,13 +177,14 @@ const version = await getLatestVersion();
           <h3>Approval workflow</h3>
           <p>Plan, review, and approve before publishing. Dry runs let you see every change without touching your repo.</p>
         </article>
+        <article class="card card-featured">
+          <span class="card-badge">New in v2.2</span>
+          <h3>Change Governance Protocol</h3>
+          <p>Built-in risk assessment for AI-assisted workflows. Automatic risk scoring based on blast radius, actor trust, and security impact.</p>
+        </article>
         <article class="card">
           <h3>CI-first</h3>
           <p>Use the GitHub Action for zero-install pipelines or run the binary directly. Checksums included for every release.</p>
-        </article>
-        <article class="card">
-          <h3>Friendly CLI</h3>
-          <p>Guided setup, JSON output for automation, and sensible defaults so you get value in minutes.</p>
         </article>
       </div>
     </section>
@@ -213,37 +249,7 @@ const version = await getLatestVersion();
       </div>
     </section>
 
-    <section id="governance" class="section grid reveal">
-      <div class="section-heading">
-        <p class="eyebrow">New in v2.2</p>
-        <h2>Change Governance Protocol (CGP)</h2>
-        <p class="lede">Built-in risk assessment and governance for AI-assisted and agentic workflows. Keep humans in control of high-impact changes.</p>
-      </div>
-      <div class="feature-cards">
-        <article class="card">
-          <h3>Risk assessment</h3>
-          <p>Automatic risk scoring based on blast radius, actor trust level, and security impact of changes.</p>
-        </article>
-        <article class="card">
-          <h3>Security detection</h3>
-          <p>Automatically detects security-related commits via scope patterns and keywords. Flags auth, crypto, and vulnerability fixes.</p>
-        </article>
-        <article class="card">
-          <h3>Policy engine</h3>
-          <p>Configurable policies with conditions and actions. Require human approval for breaking changes or high-risk releases.</p>
-        </article>
-        <article class="card">
-          <h3>Release memory</h3>
-          <p>Historical tracking of releases, incidents, and actor behavior for continuous improvement of risk assessment.</p>
-        </article>
-      </div>
-      <div class="demo-card-media" style="margin-top: 2rem;">
-        <div class="demo-label">CGP in action</div>
-        <img src="/demos/CGP.gif" alt="CGP governance preview showing risk score and approval requirements" loading="lazy" />
-      </div>
-    </section>
-
-    <section class="section demo reveal">
+    <section id="how-it-works" class="section demo reveal">
       <div class="section-heading">
         <p class="eyebrow">Demo the flow</p>
         <h2>Everything from planning to publishing in one CLI</h2>
@@ -314,183 +320,37 @@ jobs:
           <p class="demo-note">Zero-install CI: downloads binary, verifies checksums, runs the full workflow.</p>
         </div>
       </div>
-      <div class="demo-video">
-        <p class="demo-label">See CI/CD in action</p>
-        <video controls>
-          <source src="/videos/cicd.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
+      <p class="demo-docs-link">See the full CI/CD tutorial in our <a href="https://docs.relicta.tech/ci-cd" target="_blank" rel="noopener">documentation</a>.</p>
     </section>
 
-    <section class="section preview reveal">
+    <!-- See It In Action: Consolidated from Preview + Highlights -->
+    <section class="section see-it-in-action reveal">
       <div class="section-heading">
-        <p class="eyebrow">See it in action</p>
-        <h2>Release checklist and approvals at a glance</h2>
-        <p class="lede">A quick peek at how Relicta keeps releases auditable and predictable.</p>
+        <p class="eyebrow">Production-ready output</p>
+        <h2>Polished releases, every time</h2>
+        <p class="lede">From planning to publishing, Relicta keeps your releases consistent and auditable.</p>
       </div>
-      <div class="preview-grid">
-        <div class="preview-card preview-media">
-          <video autoplay loop muted playsinline poster="/brand/relicta-approval.png">
-            <source src="/brand/relicta-approval.webm" type="video/webm" />
-            <source src="/brand/relicta-approval.mp4" type="video/mp4" />
-            <img src="/brand/relicta-approval.gif" alt="Relicta approval flow showing locks and publish gate" loading="lazy" />
-          </video>
-        </div>
-        <div class="preview-card">
-          <div class="preview-title">Release checklist</div>
-          <div class="preview-rows">
-            <div class="preview-row pulse"><span class="dot done"></span>Plan ready (version + diff)</div>
-            <div class="preview-row pulse delay-1"><span class="dot done"></span>Notes drafted + changelog updated</div>
-            <div class="preview-row pulse delay-2"><span class="dot pending"></span>Approval recorded</div>
-            <div class="preview-row pulse delay-3"><span class="dot pending"></span>Publish: tags + plugins</div>
-          </div>
-          <div class="preview-title">Approvals</div>
-          <div class="preview-rows">
-            <div class="preview-row"><span class="dot done"></span> Approval recorded</div>
-            <div class="preview-row"><span class="dot pending"></span> Waiting for final publish</div>
-            <div class="preview-note">Approvals are tracked with timestamps and audit context.</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section highlights reveal">
-      <div class="section-heading">
-        <p class="eyebrow">Quick looks</p>
-        <h2>What a Relicta run looks like</h2>
-        <p class="lede">A few stills from the new walkthrough so visitors can skim the flow without playing the video.</p>
-      </div>
-      <div class="highlight-grid">
-        <figure class="highlight-card">
-          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-01.png" data-alt="Relicta prompt ready for commands in a dark terminal" aria-label="Zoom: Minimal CLI ready for your release workflow">
-            <img src="/brand/relicta-highlight-01.png" alt="Relicta prompt ready for commands in a dark terminal" loading="lazy" />
-          </button>
+      <div class="screenshot-grid">
+        <figure class="screenshot-card">
+          <img src="/brand/relicta-highlight-01.png" alt="Relicta CLI ready for commands" loading="lazy" />
           <figcaption>Minimal CLI ready for your release workflow.</figcaption>
         </figure>
-        <figure class="highlight-card">
-          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-02.png" data-alt="Relicta showing version plan and generated release notes" aria-label="Zoom: Automatic version planning and AI-crafted notes">
-            <img src="/brand/relicta-highlight-02.png" alt="Relicta showing version plan and generated release notes" loading="lazy" />
-          </button>
+        <figure class="screenshot-card">
+          <img src="/brand/relicta-highlight-02.png" alt="Version plan and AI-generated release notes" loading="lazy" />
           <figcaption>Automatic version planning and AI-crafted notes.</figcaption>
         </figure>
-        <figure class="highlight-card">
-          <button class="highlight-zoom" type="button" data-src="/brand/relicta-highlight-03.png" data-alt="Relicta publishing release artifacts with checklist" aria-label="Zoom: Publish with checklists and audit-friendly output">
-            <img src="/brand/relicta-highlight-03.png" alt="Relicta publishing release artifacts with checklist" loading="lazy" />
-          </button>
+        <figure class="screenshot-card">
+          <img src="/brand/relicta-highlight-03.png" alt="Publishing with checklist output" loading="lazy" />
           <figcaption>Publish with checklists and audit-friendly output.</figcaption>
         </figure>
       </div>
     </section>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const createLightbox = () => {
-          const wrapper = document.createElement('div');
-          wrapper.className = 'lightbox';
-          wrapper.hidden = true;
-          wrapper.setAttribute('aria-hidden', 'true');
-          wrapper.innerHTML = `
-            <div class="lightbox-backdrop" data-lightbox-close></div>
-            <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Expanded highlight image">
-              <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close image">×</button>
-              <img data-lightbox-image src="" alt="" />
-            </div>
-          `;
-          document.body.appendChild(wrapper);
-          return wrapper;
-        };
-
-        const lightbox = createLightbox();
-        const dialog = lightbox.querySelector('.lightbox-dialog');
-        const closeBtn = lightbox.querySelector('.lightbox-close');
-        const imgEl = lightbox.querySelector('[data-lightbox-image]');
-        const closeTriggers = lightbox.querySelectorAll('[data-lightbox-close]');
-        let previouslyFocused = null;
-
-        // Focus trap: keep focus within lightbox when open
-        const trapFocus = (e) => {
-          if (e.key !== 'Tab') return;
-
-          const focusableElements = dialog.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-          );
-          const firstFocusable = focusableElements[0];
-          const lastFocusable = focusableElements[focusableElements.length - 1];
-
-          if (e.shiftKey) {
-            if (document.activeElement === firstFocusable) {
-              e.preventDefault();
-              lastFocusable.focus();
-            }
-          } else {
-            if (document.activeElement === lastFocusable) {
-              e.preventDefault();
-              firstFocusable.focus();
-            }
-          }
-        };
-
-        const open = (src, alt, triggerElement) => {
-          previouslyFocused = triggerElement || document.activeElement;
-          imgEl.src = src;
-          imgEl.alt = alt || '';
-          lightbox.hidden = false;
-          lightbox.classList.add('open');
-          lightbox.setAttribute('aria-hidden', 'false');
-          document.body.style.overflow = 'hidden';
-
-          // Move focus to close button
-          closeBtn.focus();
-
-          // Add focus trap
-          lightbox.addEventListener('keydown', trapFocus);
-        };
-
-        const close = () => {
-          lightbox.classList.remove('open');
-          lightbox.hidden = true;
-          imgEl.src = '';
-          imgEl.alt = '';
-          lightbox.setAttribute('aria-hidden', 'true');
-          document.body.style.overflow = '';
-
-          // Remove focus trap
-          lightbox.removeEventListener('keydown', trapFocus);
-
-          // Restore focus to triggering element
-          if (previouslyFocused && previouslyFocused.focus) {
-            previouslyFocused.focus();
-          }
-        };
-
-        document.querySelectorAll('.highlight-zoom').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            open(btn.dataset.src, btn.dataset.alt, btn);
-          });
-        });
-
-        closeTriggers.forEach((el) => el.addEventListener('click', close));
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && !lightbox.hidden) {
-            close();
-          }
-        });
-      });
-    </script>
-
     <section id="install" class="section install reveal">
       <div class="section-heading">
         <p class="eyebrow">Get started fast</p>
         <h2>Install the CLI</h2>
-        <p class="lede">Pick your path: Homebrew, direct download, or Go install.</p>
-      </div>
-      <div class="install-video">
-        <video controls width="100%" style="border-radius: 8px; max-width: 720px; margin: 0 auto 2rem; display: block;">
-          <source src="/videos/quickstart.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <p class="demo-note" style="text-align: center; margin-bottom: 2rem;">From install to first release in under 2 minutes</p>
+        <p class="lede">Pick your path: Homebrew, direct download, or Go install. From install to first release in under 2 minutes.</p>
       </div>
       <div class="install-grid">
         <div class="install-card">
@@ -507,103 +367,6 @@ sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/</code></pre>
         <div class="install-card">
           <h3>Go install</h3>
 <pre><code>go install github.com/relicta-tech/relicta/cmd/relicta@latest</code></pre>
-        </div>
-      </div>
-    </section>
-
-    <section id="workflow" class="section workflow reveal">
-      <div class="section-heading">
-        <p class="eyebrow">Workflow</p>
-        <h2>Two ways to release</h2>
-        <p class="lede">Use one command for speed, or individual steps for control.</p>
-      </div>
-      <div class="workflow-options">
-        <div class="workflow-option workflow-option-featured">
-          <div class="workflow-option-header">
-            <span class="workflow-badge">Recommended</span>
-            <h3>One Command</h3>
-          </div>
-          <pre><code>relicta release</code></pre>
-          <p>Runs the complete workflow: plan → bump → notes → approve → publish</p>
-          <ul class="workflow-flags">
-            <li><code>--yes</code> Auto-approve for CI/CD</li>
-            <li><code>--dry-run</code> Preview without changes</li>
-            <li><code>--force v2.0.0</code> Set specific version</li>
-          </ul>
-        </div>
-        <div class="workflow-option">
-          <h3>Step-by-Step</h3>
-          <div class="workflow-steps">
-            <div class="step">
-              <span class="step-number">1</span>
-              <div>
-                <h4>Plan</h4>
-                <p>Analyze commits, detect the right bump.</p>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">2</span>
-              <div>
-                <h4>Bump</h4>
-                <p>Apply version, create git tag.</p>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">3</span>
-              <div>
-                <h4>Notes</h4>
-                <p>Generate AI-powered release notes.</p>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">4</span>
-              <div>
-                <h4>Approve</h4>
-                <p>Lock the plan with audit context.</p>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">5</span>
-              <div>
-                <h4>Publish</h4>
-                <p>Tag repo, run plugins, post release.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section stakeholders reveal">
-      <div class="section-heading">
-        <p class="eyebrow">For stakeholders</p>
-        <h2>Less release risk, more confidence</h2>
-        <p class="lede">Relicta shortens release prep, reduces hotfixes, and keeps an audit trail so leadership and compliance teams stay aligned.</p>
-      </div>
-      <div class="stakeholder-grid">
-        <div class="card">
-          <h3>Business outcomes</h3>
-          <ul>
-            <li>Predictable release cadence with fewer fire drills</li>
-            <li>Consistent changelogs for customers and internal teams</li>
-            <li>Lower engineer toil; more time for features</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Trust & safety</h3>
-          <ul>
-            <li>Audit-friendly approval step with recorded decisions</li>
-            <li>Uses your AI keys; nothing stored server-side</li>
-            <li>Open source (MIT); transparent build artifacts</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Need a demo?</h3>
-          <p>Security review or SLA? Talk to us.</p>
-          <div class="hero-actions">
-            <a class="btn solid" href="mailto:hello@relicta.tech">Book a demo</a>
-            <a class="btn ghost" href="https://docs.relicta.tech" target="_blank" rel="noopener">Read the docs</a>
-          </div>
         </div>
       </div>
     </section>

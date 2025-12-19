@@ -452,7 +452,7 @@ main {
 }
 
 .section {
-  margin: 48px 0 8px;
+  margin: 64px 0;
 }
 
 /* Shared container styles for boxed sections */
@@ -569,6 +569,31 @@ main {
 .card:hover::before,
 .card:focus-within::before {
   opacity: 1;
+}
+
+/* Featured card variant */
+.card.card-featured {
+  background: linear-gradient(135deg, rgba(245, 165, 36, 0.08), rgba(255, 255, 255, 0.04));
+  border-color: rgba(245, 165, 36, 0.3);
+  position: relative;
+}
+
+.card.card-featured:hover {
+  border-color: rgba(245, 165, 36, 0.5);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25), 0 0 30px rgba(245, 165, 36, 0.1);
+}
+
+.card-badge {
+  display: inline-block;
+  background: var(--color-accent-warm);
+  color: #04140e;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 6px;
 }
 
 .install {
@@ -1127,7 +1152,7 @@ code {
     text-align: center;
   }
   .section {
-    margin: 32px 0 8px;
+    margin: 48px 0;
   }
   .demo,
   .preview,
@@ -1450,7 +1475,7 @@ body.menu-open {
 
 /* Demo Grid 3-column layout */
 .demo-grid-3 {
-  grid-template-columns: 1.3fr 1fr 1fr;
+  grid-template-columns: 1.2fr 0.9fr 1.1fr;
 }
 
 .demo-card-featured {
@@ -1459,14 +1484,117 @@ body.menu-open {
 }
 
 /* Prevent demo cards from overflowing */
+.demo-card {
+  min-width: 0; /* Allow flex/grid children to shrink below content size */
+  overflow: hidden;
+}
+
 .demo-card pre {
   max-width: 100%;
   overflow-x: auto;
   word-break: keep-all;
   white-space: pre;
+  font-size: 12px;
 }
 
-/* CGP/Governance featured media card */
+/* CGP/Governance Section */
+.governance {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.governance::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 165, 36, 0.4), transparent);
+}
+
+.governance-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.governance-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.governance-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.governance-features .card {
+  min-height: auto;
+  padding: 14px;
+}
+
+.governance-media {
+  background: linear-gradient(135deg, rgba(245, 165, 36, 0.08), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(245, 165, 36, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25), 0 0 80px rgba(245, 165, 36, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: sticky;
+  top: 100px;
+}
+
+.governance-media:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), 0 0 100px rgba(245, 165, 36, 0.15);
+  border-color: rgba(245, 165, 36, 0.5);
+}
+
+.governance-media img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: #0a0e1c;
+  display: block;
+}
+
+.governance-media .demo-label {
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1024px) {
+  .governance-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .governance-media {
+    position: static;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .governance-features {
+    grid-template-columns: 1fr;
+  }
+
+  .governance {
+    padding: var(--space-4);
+  }
+}
+
+/* Legacy demo-card-media (kept for backwards compatibility) */
 .demo-card-media {
   background: linear-gradient(135deg, rgba(245, 165, 36, 0.06), rgba(255, 255, 255, 0.02));
   border: 1px solid rgba(245, 165, 36, 0.25);
@@ -1643,5 +1771,124 @@ body.menu-open {
 
   .workflow-options {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Demo docs link */
+.demo-docs-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--color-muted);
+}
+
+.demo-docs-link a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.demo-docs-link a:hover {
+  color: var(--color-accent-strong);
+}
+
+/* See It In Action section - Screenshot grid */
+.see-it-in-action {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.see-it-in-action::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(92, 240, 200, 0.3), transparent);
+}
+
+.screenshot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.screenshot-card {
+  margin: 0;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+.screenshot-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(92, 240, 200, 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 25px rgba(92, 240, 200, 0.08);
+}
+
+.screenshot-card img {
+  width: 100%;
+  display: block;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: #0a0e1c;
+}
+
+.screenshot-card figcaption {
+  margin-top: 10px;
+  color: var(--color-muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .screenshot-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .screenshot-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .see-it-in-action {
+    padding: var(--space-4);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal,
+  .reveal-left,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+  }
+
+  .page-bg .orb {
+    animation: none;
+  }
+
+  .pulse::after {
+    animation: none;
   }
 }
