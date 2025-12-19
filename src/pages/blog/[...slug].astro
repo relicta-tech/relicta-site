@@ -14,10 +14,33 @@ const post = Astro.props;
 const { Content, headings } = await post.render();
 
 // Get other posts for teaser
-const allPosts = (await getCollection('blog', ({ data }) => data.draft !== true))
+const realPosts = (await getCollection('blog', ({ data }) => data.draft !== true))
     .filter(p => p.slug !== post.slug)
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-    .slice(0, 2);
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const comingSoonPosts = [
+    {
+        isPlaceholder: true,
+        slug: '#',
+        data: {
+            title: "From Prompts to Policies",
+            description: "Why instructions fail as governance—and what replaces them",
+            pubDate: null // Special flag for coming soon
+        }
+    },
+    {
+        isPlaceholder: true,
+        slug: '#',
+        data: {
+            title: "Why AI Needs a Control Plane",
+            description: "How permissioned execution becomes the backbone of safe autonomy",
+            pubDate: null
+        }
+    }
+];
+
+// Fill with real posts first, then backfill with coming soon
+const teaserPosts = [...realPosts, ...comingSoonPosts].slice(0, 2);
 
 // Filter for h2 and h3 for the TOC
 const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
@@ -81,17 +104,22 @@ const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
             </div>
         </div>
 
-        {allPosts.length > 0 && (
+        {teaserPosts.length > 0 && (
             <footer class="post-footer-teasers">
                 <div class="teasers-header">
                     <h2>More from the blog</h2>
                     <a href="/blog" class="view-all">View all posts →</a>
                 </div>
                 <div class="teasers-grid">
-                    {allPosts.map((p) => (
-                        <a href={`/blog/${p.slug}`} class="teaser-card-link">
+                    {teaserPosts.map((p: any) => (
+                        <a href={p.isPlaceholder ? undefined : `/blog/${p.slug}`} class={`teaser-card-link ${p.isPlaceholder ? 'is-placeholder' : ''}`}>
                             <article class="teaser-card">
-                                <span class="teaser-date">{p.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                                <span class="teaser-date">
+                                    {p.isPlaceholder 
+                                        ? "Coming Soon" 
+                                        : p.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+                                    }
+                                </span>
                                 <h3>{p.data.title}</h3>
                                 <p>{p.data.description}</p>
                             </article>
@@ -104,6 +132,24 @@ const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
 </SiteLayout>
 
 <style is:global>
+    /* ... existing styles ... */
+    
+    .teaser-card-link.is-placeholder {
+        cursor: default;
+        pointer-events: none;
+    }
+
+    .teaser-card-link.is-placeholder .teaser-card {
+        border-style: dashed;
+        opacity: 0.7;
+        background: rgba(255, 255, 255, 0.01);
+    }
+
+    .teaser-card-link.is-placeholder .teaser-date {
+        color: var(--color-muted);
+        font-weight: 600;
+    }
+
     .blog-top-nav {
         padding: 40px 0 0;
     }
