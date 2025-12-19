@@ -1,6 +1,26 @@
 ---
 import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
+
+// Define types for teaser posts
+interface PlaceholderPost {
+    isPlaceholder: true;
+    slug: string;
+    data: {
+        title: string;
+        description: string;
+        pubDate: null;
+    };
+}
+
+// Teaser posts can be real posts or placeholder posts
+type TeaserPost = CollectionEntry<'blog'> | PlaceholderPost;
+
+// Type guard to check if a post is a placeholder
+function isPlaceholder(post: TeaserPost): post is PlaceholderPost {
+    return 'isPlaceholder' in post && post.isPlaceholder === true;
+}
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -18,7 +38,7 @@ const realPosts = (await getCollection('blog', ({ data }) => data.draft !== true
     .filter(p => p.slug !== post.slug)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const comingSoonPosts = [
+const comingSoonPosts: PlaceholderPost[] = [
     {
         isPlaceholder: true,
         slug: '#',
@@ -40,7 +60,7 @@ const comingSoonPosts = [
 ];
 
 // Fill with real posts first, then backfill with coming soon
-const teaserPosts = [...realPosts, ...comingSoonPosts].slice(0, 2);
+const teaserPosts: TeaserPost[] = [...realPosts, ...comingSoonPosts].slice(0, 2);
 
 // Filter for h2 and h3 for the TOC
 const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
@@ -111,8 +131,9 @@ const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
                     <a href="/blog" class="view-all">View all posts →</a>
                 </div>
                 <div class="teasers-grid">
-                    {teaserPosts.map((p: any) => (
-                        p.isPlaceholder ? (
+                    {teaserPosts.map((p: TeaserPost) => {
+                        const isPlaceholderPost = isPlaceholder(p);
+                        return isPlaceholderPost ? (
                             <div class="teaser-card-link is-placeholder">
                                 <article class="teaser-card">
                                     <span class="teaser-date">Coming Soon</span>
@@ -130,8 +151,8 @@ const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
                                     <p>{p.data.description}</p>
                                 </article>
                             </a>
-                        )
-                    ))}
+                        );
+                    })}
                 </div>
             </footer>
         )}

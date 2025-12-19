@@ -30,6 +30,7 @@
   const modal = document.getElementById('diagram-modal') as HTMLDialogElement;
   const target = document.getElementById('modal-content-target') as HTMLElement;
   const viewport = document.getElementById('diagram-viewport') as HTMLElement;
+  const wrapper = document.querySelector('.modal-wrapper') as HTMLElement;
   const closeBtn = document.querySelector('.modal-close');
   
   // Controls
@@ -113,6 +114,14 @@
   btnReset?.addEventListener('click', resetZoom);
 
   if (modal && target && closeBtn) {
+    // Keyboard shortcuts handler
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.key === '+' || e.key === '=') zoom(0.1);
+      if (e.key === '-' || e.key === '_') zoom(-0.1);
+      if (e.key === 'r' || e.key === 'R') resetZoom();
+      if (e.key === '0') resetZoom();
+    };
+
     window.openDiagramModal = (contentHtml) => {
       // Clean up SVG
       const temp = document.createElement('div');
@@ -130,6 +139,8 @@
       resetZoom(); // Reset state on open
       modal.showModal();
       document.body.style.overflow = 'hidden';
+      // Attach keyboard listener when modal opens
+      document.addEventListener('keydown', handleKeydown);
     };
 
     const close = () => {
@@ -137,24 +148,19 @@
       document.body.style.overflow = '';
       target.innerHTML = '';
       resetZoom();
+      // Remove keyboard listener when modal closes
+      document.removeEventListener('keydown', handleKeydown);
     };
 
     closeBtn.addEventListener('click', close);
     modal.addEventListener('click', (e) => {
       // Close if clicked on backdrop (wrapper), but not on the card itself
-      if (e.target === document.querySelector('.modal-wrapper')) close();
+      if (e.target === wrapper) close();
     });
     modal.addEventListener('cancel', () => {
       document.body.style.overflow = '';
-    });
-    
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      if (!modal.open) return;
-      if (e.key === '+' || e.key === '=') zoom(0.1);
-      if (e.key === '-' || e.key === '_') zoom(-0.1);
-      if (e.key === 'r' || e.key === 'R') resetZoom();
-      if (e.key === '0') resetZoom();
+      // Remove keyboard listener when modal is cancelled (ESC key)
+      document.removeEventListener('keydown', handleKeydown);
     });
   }
 
