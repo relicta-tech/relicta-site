@@ -30,6 +30,7 @@
   const modal = document.getElementById('diagram-modal') as HTMLDialogElement;
   const target = document.getElementById('modal-content-target') as HTMLElement;
   const viewport = document.getElementById('diagram-viewport') as HTMLElement;
+  const wrapper = document.querySelector('.modal-wrapper') as HTMLElement;
   const closeBtn = document.querySelector('.modal-close');
   
   // Controls
@@ -142,7 +143,7 @@
     closeBtn.addEventListener('click', close);
     modal.addEventListener('click', (e) => {
       // Close if clicked on backdrop (wrapper), but not on the card itself
-      if (e.target === document.querySelector('.modal-wrapper')) close();
+      if (e.target === wrapper) close();
     });
     modal.addEventListener('cancel', () => {
       document.body.style.overflow = '';
