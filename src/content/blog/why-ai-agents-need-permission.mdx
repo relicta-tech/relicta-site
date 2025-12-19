@@ -7,8 +7,8 @@ author: "Relicta"
 tags: ["ai-agents", "governance", "platform-engineering", "devops", "compliance", "relicta"]
 draft: false
 ---
-import DiagramCard from '../../../components/DiagramCard.astro';
-import DiagramCompare from '../../../components/DiagramCompare.astro';
+import DiagramCard from '../../components/DiagramCard.astro';
+import DiagramCompare from '../../components/DiagramCompare.astro';
 
 AI agents are rapidly moving from experimentation to execution.
 
@@ -218,19 +218,19 @@ Below are Relicta-specific diagrams you can render using Mermaid (supported by m
 >
 ```mermaid
 flowchart TD
-  Start([Agent proposes an action]) --> Ctx[Attach context\n(repo/service/env/tenant/risk)]
-  Ctx --> Classify[Classify action\n(read/write/deploy/config/etc.)]
-  Classify --> Policy[Evaluate policy\n(RBAC + rules + constraints)]
-  Policy -->|Denied| Deny[Reject + Explain reason\n+ suggested safe alternative]
-  Policy -->|Allowed| ExecType{Execution mode}
-  ExecType -->|Propose only| PR[Create proposal artifact\n(PR/plan/change request)]
-  ExecType -->|Auto-execute| Run[Execute via connectors]
-  ExecType -->|Needs approval| Approvals[Collect approvals\n(HITL / multi-party / time window)]
+  Start(["Agent proposes an action"]) --> Ctx["Attach context\n(repo/service/env/tenant/risk)"]
+  Ctx --> Classify["Classify action\n(read/write/deploy/config/etc.)"]
+  Classify --> Policy["Evaluate policy\n(RBAC + rules + constraints)"]
+  Policy -->|Denied| Deny["Reject + Explain reason\n+ suggested safe alternative"]
+  Policy -->|Allowed| ExecType{"Execution mode"}
+  ExecType -->|Propose only| PR["Create proposal artifact\n(PR/plan/change request)"]
+  ExecType -->|Auto-execute| Run["Execute via connectors"]
+  ExecType -->|Needs approval| Approvals["Collect approvals\n(HITL / multi-party / time window)"]
   Approvals -->|Rejected| Deny
   Approvals -->|Approved| Run
-  PR --> Evidence[Record evidence\n(policy decision, diffs, approvers)]
+  PR --> Evidence["Record evidence\n(policy decision, diffs, approvers)"]
   Run --> Evidence
-  Evidence --> Done([Action completed + auditable])
+  Evidence --> Done(["Action completed + auditable"])
 ```
 </DiagramCard>
 
