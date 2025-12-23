@@ -26,7 +26,7 @@ relicta plugin info github
 
 ## Available Plugins
 
-Relicta provides **20 official plugins** across 5 categories:
+Relicta provides **30 official plugins** across 6 categories:
 
 <CardGrid>
   <Card title="Version Control" icon="github">
@@ -37,12 +37,14 @@ Relicta provides **20 official plugins** across 5 categories:
     - **slack** - Slack notifications
     - **discord** - Discord notifications
     - **teams** - Microsoft Teams
+    - **telegram** - Telegram notifications
   </Card>
   <Card title="Package Managers" icon="seti:npm">
     - **npm** - npm registry
     - **homebrew** - Homebrew formulas
     - **pypi** - Python packages
     - **chocolatey** - Windows packages
+    - **winget** - Windows Package Manager
     - **linuxpkg** - deb/rpm/apk
     - **crates** - Rust crates
     - **nuget** - .NET packages
@@ -51,14 +53,25 @@ Relicta provides **20 official plugins** across 5 categories:
     - **hex** - Elixir/Erlang
     - **packagist** - PHP/Composer
     - **gomod** - Go modules
+    - **swift-pm** - Swift packages
+    - **pub** - Dart/Flutter packages
+  </Card>
+  <Card title="Containers & Registries" icon="seti:docker">
+    - **docker** - Build & push images
+    - **ecr** - AWS ECR
+    - **gcr** - Google Artifact Registry
+    - **acr** - Azure Container Registry
+    - **helm** - Helm charts
   </Card>
   <Card title="Project Management" icon="list-format">
     - **jira** - Jira versions
     - **launchnotes** - LaunchNotes
+    - **linear** - Linear issues
+  </Card>
+  <Card title="DevOps" icon="setting">
+    - **sentry** - Sentry releases
   </Card>
 </CardGrid>
-
-Plus **docker** for container image builds.
 
 ---
 
@@ -217,6 +230,36 @@ relicta plugin enable teams
 **Environment:** `TEAMS_WEBHOOK_URL`
 
 **Hooks:** `PostPublish`
+
+---
+
+### Telegram
+
+Send release notifications to Telegram channels or groups.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: telegram
+    enabled: true
+    config:
+      chat_id: "-1001234567890"
+      parse_mode: "Markdown"
+      disable_notification: false
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install telegram
+relicta plugin enable telegram
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `TELEGRAM_BOT_TOKEN`
+
+**Hooks:** `PostPublish`, `OnError`
 
 ---
 
@@ -571,6 +614,91 @@ relicta plugin enable gomod
 
 ---
 
+### Winget
+
+Publish packages to Windows Package Manager (winget).
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: winget
+    enabled: true
+    config:
+      package_id: "Publisher.AppName"
+      manifest_path: "manifests/"
+      installer_url: "https://github.com/org/repo/releases/download/{{version}}/app.exe"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install winget
+relicta plugin enable winget
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `GITHUB_TOKEN` (for PR creation)
+
+**Hooks:** `PostPublish`
+
+---
+
+### Swift Package Manager
+
+Publish Swift packages.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: swift-pm
+    enabled: true
+    config:
+      package_path: "Package.swift"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install swift-pm
+relicta plugin enable swift-pm
+```
+  </TabItem>
+</Tabs>
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### Pub (Dart/Flutter)
+
+Publish Dart and Flutter packages to pub.dev.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: pub
+    enabled: true
+    config:
+      dry_run: false
+      force: false
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install pub
+relicta plugin enable pub
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `PUB_CREDENTIALS` (from `dart pub login`)
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
 ## Project Management
 
 ### Jira
@@ -636,7 +764,37 @@ relicta plugin enable launchnotes
 
 ---
 
-## Containers
+### Linear
+
+Create and link Linear issues to releases. Automatically detects issue IDs in commits.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: linear
+    enabled: true
+    config:
+      team_id: "TEAM-123"
+      project_id: "PROJECT-456"
+      create_release: true
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install linear
+relicta plugin enable linear
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `LINEAR_API_KEY`
+
+**Hooks:** `PostPublish`
+
+---
+
+## Containers & Registries
 
 ### Docker
 
@@ -676,6 +834,166 @@ relicta plugin enable docker
 **Hooks:** `PrePublish`, `PostPublish`
 
 **Tag variables:** `{{version}}`, `{{major}}`, `{{minor}}`, `{{patch}}`
+
+---
+
+### AWS ECR
+
+Push container images to Amazon Elastic Container Registry.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: ecr
+    enabled: true
+    config:
+      registry: "123456789.dkr.ecr.us-east-1.amazonaws.com"
+      repository: "myapp"
+      tags:
+        - "{{version}}"
+        - "latest"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install ecr
+relicta plugin enable ecr
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### Google Artifact Registry
+
+Push container images to Google Artifact Registry (GAR/GCR).
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: gcr
+    enabled: true
+    config:
+      project: "my-gcp-project"
+      location: "us-central1"
+      repository: "myapp"
+      tags:
+        - "{{version}}"
+        - "latest"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install gcr
+relicta plugin enable gcr
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `GOOGLE_APPLICATION_CREDENTIALS` or `GCLOUD_SERVICE_KEY`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### Azure Container Registry
+
+Push container images to Azure Container Registry.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: acr
+    enabled: true
+    config:
+      registry: "myregistry.azurecr.io"
+      repository: "myapp"
+      tags:
+        - "{{version}}"
+        - "latest"
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install acr
+relicta plugin enable acr
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_TENANT_ID`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+### Helm
+
+Package and publish Helm charts to OCI registries or chart repositories.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: helm
+    enabled: true
+    config:
+      chart_path: "charts/myapp"
+      registry: "oci://ghcr.io/myorg/charts"
+      push: true
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install helm
+relicta plugin enable helm
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `HELM_REGISTRY_USERNAME`, `HELM_REGISTRY_PASSWORD`
+
+**Hooks:** `PrePublish`, `PostPublish`
+
+---
+
+## DevOps
+
+### Sentry
+
+Track releases and deployments in Sentry for error monitoring.
+
+<Tabs>
+  <TabItem label="Config">
+```yaml
+plugins:
+  - name: sentry
+    enabled: true
+    config:
+      organization: "my-org"
+      project: "my-project"
+      environment: "production"
+      set_commits: true
+```
+  </TabItem>
+  <TabItem label="Install">
+```bash
+relicta plugin install sentry
+relicta plugin enable sentry
+```
+  </TabItem>
+</Tabs>
+
+**Environment:** `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`
+
+**Hooks:** `PostPublish`
 
 ---
 
