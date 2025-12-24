@@ -1,24 +1,32 @@
 ---
 title: Relicta overview
-description: What Relicta is, when to use it, and the core workflow.
+description: The governance layer for software change. Risk-aware release decisions for humans and agents.
 draft: false
 ---
 
-Relicta is an AI-powered release management CLI that automates semantic versioning, release notes, approvals, and publishing. It works locally or in CI and plugs into GitHub releases, npm, Slack, LaunchNotes, and more via plugins.
+Relicta is the governance layer for software change. As AI agents and CI systems generate more code, deciding what should ship becomes the hardest problem. Relicta governs change — before it reaches production.
+
+**Today**, Relicta is a production-ready CLI that automates semantic versioning, release notes, approvals, and publishing. **Tomorrow**, it's the decision layer for risk-aware releases in an AI-driven world.
 
 ## When to use Relicta
-- You want **predictable semantic versions** from conventional commits without manual bumping.
-- You need **polished release notes** and changelog updates that stay on-message.
-- You require an **approval step** before publishing for auditability or compliance.
-- You want one CLI that can **tag, publish, and notify** across your release channels.
+- You need to **govern what changes** reach production — not just automate delivery.
+- You want **risk-aware decisions** about releases, especially with AI-generated code.
+- You require **approval gates and audit trails** for compliance.
+- You want one CLI that can **plan, approve, and publish** across your release channels.
+
+## Core decisions Relicta makes
+- **What changed?** — Semantic analysis of commits to determine version impact.
+- **Is it risky?** — Risk scoring based on blast radius, actor trust, and security impact.
+- **Who approves?** — Governance gates with approval workflows and audit trails.
+- **How to communicate?** — AI-powered release notes and multi-channel notifications.
 
 ## What Relicta does
-- **Plan**: Reads git history to propose the correct semantic version (supports prerelease + build metadata).
-- **Notes**: Drafts release notes and changelog entries with AI tone, audience, and provider selection (OpenAI, Anthropic, Gemini, Azure, Ollama).
-- **Approve**: Locks the plan, capturing approver context for audit.
-- **Publish**: Creates tags and drives plugins for GitHub releases, npm, Slack, LaunchNotes, and custom gRPC plugins.
-- **Dry runs & JSON**: Preview everything without touching your repo; consume structured output in automation.
-- **CI-first**: GitHub Action fetches signed binaries with checksums; no toolchain required on runners.
+- **Plan**: Analyze commits and assess risk to propose the correct semantic version.
+- **Notes**: Draft release notes with AI (OpenAI, Anthropic, Gemini, Ollama).
+- **Approve**: Lock the plan with governance checks and audit context.
+- **Publish**: Create tags and drive plugins (GitHub, npm, Slack, Docker, and more).
+- **Govern**: Risk-aware decisions for breaking changes, security updates, and agent-generated code.
+- **CI-first**: GitHub Action with signed binaries; no toolchain required on runners.
 
 ## Quickstart (local)
 

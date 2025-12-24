@@ -26,6 +26,13 @@ export default defineConfig({
             { label: 'Video Tutorials', link: '/tutorials' },
           ],
         },
+        {
+          label: 'Governance',
+          items: [
+            { label: 'Change Governance Protocol', link: '/governance' },
+            { label: 'MCP Integration', link: '/mcp' },
+          ],
+        },
       ],
     }),
   ],

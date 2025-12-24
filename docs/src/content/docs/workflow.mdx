@@ -1,10 +1,10 @@
 ---
 title: Workflow
-description: Plan, generate notes, approve, and publish a release.
+description: Govern changes from plan to publish with risk-aware decisions.
 draft: false
 ---
 
-Relicta wraps the full release flow in one CLI.
+Relicta governs the full release flow — from analyzing changes to publishing with audit trails.
 
 ## Quick Release (Recommended)
 
@@ -74,3 +74,9 @@ Every command supports `--json` for structured output. Pair with `jq` to feed da
 - **Approval flow**: Have a second reviewer run `relicta approve --by "<name>" --note "<context>"` before publish.
 - **Force version**: `relicta release --force v2.0.0` to set a specific version.
 - **Hotfix**: Run `relicta plan --from <last-release> --to HEAD --json` to verify the bump and publish from a hotfix branch; ensure branch is in `allowed_branches`.
+
+## Governance integration
+Enable risk-aware decisions with the [Change Governance Protocol (CGP)](/governance):
+- **Risk scoring**: Automatic assessment of blast radius, actor trust, and security impact.
+- **Approval gates**: Require human review for high-risk or breaking changes.
+- **Audit trails**: Every decision is captured for compliance.
