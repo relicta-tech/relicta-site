@@ -15,7 +15,7 @@ Run the complete workflow with a single command:
 relicta release
 
 # CI/CD (auto-approve)
-relicta release --yes
+relicta release -y
 
 # Preview without changes
 relicta release --dry-run
@@ -32,35 +32,39 @@ For more control, run each step individually:
 ## 1) Plan
 ```bash
 relicta plan
+relicta plan -a  # Include detailed analysis
 ```
 - Analyzes commits since the last tag.
 - Calculates the required semantic bump.
 - Shows a preview of the release plan.
-- Flags: `--from <ref>`, `--to <ref>`, `--json`, `--dry-run`.
+- Flags: `-f/--from`, `-t/--to`, `-a/--analyze`, `--json`, `--dry-run`.
 
 ## 2) Generate notes (optional AI)
 ```bash
-relicta notes --ai
+relicta notes -a   # Enable AI-powered notes
+relicta notes --ai # Same as above
 ```
 - Drafts release notes and changelog entries.
 - Uses your configured AI provider and tone.
-- Flags: `--ai-provider`, `--tone`, `--audience`, `--json`, `--dry-run`.
+- Flags: `-a/--ai`, `-s/--save`, `--tone`, `--audience`, `--json`, `--dry-run`.
 
 ## 3) Approve
 ```bash
 relicta approve
+relicta approve -y  # Auto-approve without prompting
 ```
 - Locks the plan and captures approval context.
 - Keeps an audit trail before publishing.
-- Flags: `--by <name>` to record approver, `--note <text>` for context.
+- Flags: `-y/--yes`, `-e/--edit`, `-i/--interactive`, `--by <name>`, `--note <text>`.
 
 ## 4) Publish
 ```bash
 relicta publish
+relicta publish -P  # Skip pushing to remote
 ```
 - Creates the tag and runs plugins (GitHub release, npm, Slack, etc.).
 - Uses your config for tag prefix, push behavior, and targets.
-- Flags: `--force` (skip approval if policy allows), `--dry-run`, `--json`.
+- Flags: `-A/--skip-approval`, `-T/--skip-tag`, `-P/--skip-push`, `-G/--skip-plugins`.
 
 ## Dry runs
 Add `--dry-run` to preview without modifying the repo.
@@ -69,11 +73,12 @@ Add `--dry-run` to preview without modifying the repo.
 Every command supports `--json` for structured output. Pair with `jq` to feed dashboards, chat notifications, or custom CI steps.
 
 ## Common patterns
-- **Standard release**: `relicta release` for interactive, `relicta release --yes` for CI/CD.
+- **Standard release**: `relicta release` for interactive, `relicta release -y` for CI/CD.
 - **Local preview**: `relicta release --dry-run` to validate the entire workflow.
 - **Approval flow**: Have a second reviewer run `relicta approve --by "<name>" --note "<context>"` before publish.
-- **Force version**: `relicta release --force v2.0.0` to set a specific version.
-- **Hotfix**: Run `relicta plan --from <last-release> --to HEAD --json` to verify the bump and publish from a hotfix branch; ensure branch is in `allowed_branches`.
+- **Force version**: `relicta release -F v2.0.0` to set a specific version.
+- **Hotfix**: Run `relicta plan -f <last-release> -t HEAD --json` to verify the bump and publish from a hotfix branch; ensure branch is in `allowed_branches`.
+- **Skip push**: `relicta publish -P` when CI handles git operations.
 
 ## Governance integration
 Enable risk-aware decisions with the [Change Governance Protocol (CGP)](/governance):

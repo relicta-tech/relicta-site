@@ -10,17 +10,18 @@ Relicta ships as a single binary with a handful of core commands. Every command 
 Run the complete release workflow in a single command.
 
 ```bash
-relicta release [--yes] [--skip-push] [--force <version>] [--dry-run]
+relicta release [--yes|-y] [--skip-push|-P] [--force|-F <version>] [--dry-run]
 ```
 
 This is equivalent to running: `plan → bump → notes → approve → publish`
 
-| Flag | Description |
-|------|-------------|
-| `--yes`, `-y` | Auto-approve the release (for CI/CD) |
-| `--skip-push` | Skip pushing tags to remote |
-| `--force <version>` | Force a specific version (e.g., `v2.0.0`) |
-| `--dry-run` | Preview the entire workflow without changes |
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--yes` | `-y` | Auto-approve the release (for CI/CD) |
+| `--skip-push` | `-P` | Skip pushing tags to remote |
+| `--force <version>` | `-F` | Force a specific version (e.g., `v2.0.0`) |
+| `--ai` | `-a` | Enable AI-powered notes generation |
+| `--dry-run` | | Preview the entire workflow without changes |
 
 **Examples:**
 ```bash
@@ -28,13 +29,13 @@ This is equivalent to running: `plan → bump → notes → approve → publish`
 relicta release
 
 # CI/CD auto-approve
-relicta release --yes
+relicta release -y
 
 # Preview changes
 relicta release --dry-run
 
 # Force specific version
-relicta release --force v2.0.0
+relicta release -F v2.0.0
 ```
 
 ---
@@ -56,46 +57,85 @@ relicta init
 Analyze commits since the last tag and propose the next semantic version.
 
 ```bash
-relicta plan [--from <ref>] [--to <ref>] [--json] [--dry-run]
+relicta plan [--from|-f <ref>] [--to|-t <ref>] [--analyze|-a] [--json] [--dry-run]
 ```
-- Detects major/minor/patch (supports prerelease/build metadata via config).
-- `--from/--to` let you override the commit range.
-- `--json` emits structured output for CI dashboards.
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--from <ref>` | `-f` | Starting reference (default: latest tag) |
+| `--to <ref>` | `-t` | Ending reference (default: HEAD) |
+| `--analyze` | `-a` | Include detailed commit analysis |
+| `--json` | | Machine-readable output |
+| `--dry-run` | | Preview without changes |
+
+Detects major/minor/patch (supports prerelease/build metadata via config).
 
 ## `relicta notes`
 Generate release notes and changelog entries (optionally with AI).
 
 ```bash
-relicta notes [--ai] [--ai-provider <provider>] [--tone <tone>] [--audience <audience>] [--json] [--dry-run]
+relicta notes [--ai|-a] [--save|-s] [--json] [--dry-run]
 ```
-- Uses your configured AI provider (OpenAI, Anthropic, Gemini, Azure, Ollama).
-- Writes to the changelog file defined in config; `--dry-run` skips file writes.
-- `--json` returns the generated content without modifying files.
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--ai` | `-a` | Enable AI-powered notes generation |
+| `--save` | `-s` | Save notes to changelog file |
+| `--tone <tone>` | | Set AI tone (professional, casual, technical) |
+| `--audience <audience>` | | Target audience (developers, users, stakeholders) |
+| `--json` | | Machine-readable output |
+| `--dry-run` | | Preview without changes |
+
+Uses your configured AI provider (OpenAI, Anthropic, Gemini, Azure, Ollama).
 
 ## `relicta approve`
 Lock the planned release and capture approval context.
 
 ```bash
-relicta approve [--by "<name>"] [--note "<context>"] [--json]
+relicta approve [--yes|-y] [--edit|-e] [--editor|-E <editor>] [--interactive|-i]
 ```
-- Records approver info for auditability before publish.
-- `--by` and `--note` annotate the approval record.
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--yes` | `-y` | Auto-approve without prompting |
+| `--edit` | `-e` | Edit release notes before approving |
+| `--editor` | `-E` | Editor to use (default: $EDITOR or vim) |
+| `--interactive` | `-i` | Use interactive TUI for approval |
+| `--by <name>` | | Record approver name |
+| `--note <text>` | | Add approval context note |
+
+Records approver info for auditability before publish.
 
 ## `relicta publish`
 Tag the repo and run plugins (GitHub releases, npm, Slack, LaunchNotes, custom gRPC).
 
 ```bash
-relicta publish [--force] [--dry-run] [--json]
+relicta publish [--skip-approval|-A] [--skip-tag|-T] [--skip-push|-P] [--skip-plugins|-G]
 ```
-- Creates the tag and executes configured plugins.
-- `--force` skips approval if your policy allows.
-- `--dry-run` validates plugin wiring without writing tags or publishing.
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--skip-approval` | `-A` | Skip approval check |
+| `--skip-tag` | `-T` | Skip git tag creation |
+| `--skip-push` | `-P` | Skip pushing to remote |
+| `--skip-plugins` | `-G` | Skip running plugins |
+| `--force` | | Skip approval if policy allows |
+| `--dry-run` | | Validate without making changes |
+
+Creates the tag and executes configured plugins.
 
 ## Global flags
-- `--config <path>`: point to a specific config file.
-- `--chdir <dir>`: run as if started in another directory.
-- `--json`: emit machine-readable output for automation.
-- `--dry-run`: preview without changing the repo.
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--config <path>` | `-c` | Point to a specific config file |
+| `--verbose` | `-v` | Enable verbose output |
+| `--dry-run` | | Preview without changing the repo |
+| `--json` | | Emit machine-readable output for automation |
+| `--ci` | | CI/CD mode: auto-approve, JSON output, non-interactive |
+| `--model` | | AI model to use (format: `provider/model`) |
+| `--redact` | | Redact secrets and API keys from output |
+| `--no-color` | | Disable colored output |
 
 ## Environment variables
 - AI: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT`, `OLLAMA_HOST`
