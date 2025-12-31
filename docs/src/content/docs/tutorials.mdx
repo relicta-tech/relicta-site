@@ -125,6 +125,72 @@ Use AI to automatically generate professional release notes from your commits.
 
 ---
 
+## AI vs Template Notes Comparison
+
+See the quality difference between template-based and AI-powered release notes.
+
+**📝 Template Notes** (technical, developer-focused):
+
+```markdown
+## Features
+- **api:** redesign API
+- **auth:** add login functions
+
+## Bug Fixes
+- **app:** add farewell function
+```
+
+**✨ AI-Powered Notes** (user-friendly, contextual):
+
+```markdown
+## Breaking Changes
+Complete API redesign for better performance.
+See migration guide for upgrade instructions.
+
+## What's New
+Authentication system with login, logout,
+and session management.
+```
+
+**Key differences:**
+- **Template notes**: Lists commit messages verbatim, technical and developer-focused
+- **AI notes**: Summarizes meaningfully, explains user impact, adds migration guidance
+
+Enable AI notes with: `relicta notes --ai` or `relicta release -y --ai`
+
+---
+
+## Working with Messy Commits
+
+Relicta works great even without perfect conventional commits!
+
+**Conventional commits (ideal):**
+```
+feat(auth): add login and logout functions
+fix(api): resolve token expiration bug
+docs: update API documentation
+```
+
+**Messy commits (real world):**
+```
+wip
+fixed the thing
+Update auth.js
+actually fixed it this time lol
+BREAKING: new api!!!
+```
+
+Relicta uses intelligent heuristics to:
+- Detect keywords like "BREAKING", "fix", "add"
+- Identify fix-like patterns in any commit message
+- Group related changes automatically
+- Fall back to `patch` for unclear commits
+- Use AI to summarize chaotic history into professional notes
+
+**Pro tip:** Use `relicta notes --ai` on messy repositories for best results!
+
+---
+
 ## 5. Custom Plugin Development
 
 Build your own plugin to extend Relicta's functionality.
@@ -142,6 +208,48 @@ Build your own plugin to extend Relicta's functionality.
 
 ---
 
+## MCP: AI-Managed Releases
+
+Use Relicta with AI agents like Claude for natural language release management.
+
+**🤖 Claude Desktop + Relicta:**
+
+```
+You: "What's the release status?"
+Claude: "4 commits pending, suggests v2.0.0 (major)"
+
+You: "Generate notes and publish"
+Claude: "✓ v2.0.0 published. GitHub release created."
+```
+
+**Setup (Claude Desktop):**
+```json
+{
+  "mcpServers": {
+    "relicta": {
+      "command": "relicta",
+      "args": ["mcp", "serve"],
+      "cwd": "/path/to/your/project"
+    }
+  }
+}
+```
+
+**Available MCP tools:**
+| Tool | Description |
+|------|-------------|
+| `relicta.status` | Get current release state |
+| `relicta.plan` | Analyze commits and suggest version |
+| `relicta.bump` | Calculate and set version |
+| `relicta.notes` | Generate release notes |
+| `relicta.evaluate` | CGP risk assessment |
+| `relicta.approve` | Approve release |
+| `relicta.publish` | Execute release |
+
+See the full [MCP Integration Guide](/mcp) for detailed configuration.
+
+---
+
 ## Quick Reference
 
 | Tutorial | Duration | Topics |
@@ -149,11 +257,14 @@ Build your own plugin to extend Relicta's functionality.
 | **Quick Start** | ~1 min | install, init, first release |
 | **One-Command Release** | ~2 min | `relicta release`, flags, workflow |
 | **CI/CD Integration** | ~1 min | GitHub Actions, automation |
+| **MCP Integration** | - | Claude Desktop, AI agents |
 | Basic Workflow | ~2 min | plan, bump, notes, approve, publish |
 | GitHub Plugin | ~2 min | plugin install, configuration |
 | Multi-Platform | ~2 min | multiple plugins, notifications |
 | AI Notes | ~1 min | AI configuration, note generation |
 | Custom Plugin | ~2 min | plugin development, local install |
+| AI vs Template | - | Quality comparison |
+| Messy Commits | - | Heuristic handling |
 
 ## Next Steps
 
