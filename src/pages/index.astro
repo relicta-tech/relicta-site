@@ -18,12 +18,11 @@ const description = "Relicta governs change in an AI-driven world. From release 
     </div>
     <div class="hero-card">
       <div class="terminal">
-        <!-- Abstract diagram placeholder: Agent / CI -> Relicta -> Production -->
         <div class="abstract-diagram">
           <div class="diagram-node">Agent / CI</div>
-          <div class="diagram-arrow">→</div>
+          <div class="diagram-arrow">&rarr;</div>
           <div class="diagram-node node-relicta">Relicta</div>
-          <div class="diagram-arrow">→</div>
+          <div class="diagram-arrow">&rarr;</div>
           <div class="diagram-node">Production</div>
         </div>
       </div>
@@ -31,11 +30,31 @@ const description = "Relicta governs change in an AI-driven world. From release 
     </div>
   </section>
 
+  <!-- Numbers Bar -->
+  <section class="numbers-bar reveal">
+    <div class="number-item">
+      <span class="number-value">7</span>
+      <span class="number-label">Risk factors with historical learning</span>
+    </div>
+    <div class="number-item">
+      <span class="number-value">5</span>
+      <span class="number-label">AI providers supported</span>
+    </div>
+    <div class="number-item">
+      <span class="number-value">4</span>
+      <span class="number-label">Audience-specific narratives</span>
+    </div>
+    <div class="number-item">
+      <span class="number-value">1</span>
+      <span class="number-label">Binary. Zero dependencies.</span>
+    </div>
+  </section>
+
   <!-- The Problem -->
   <section class="section reveal">
     <div class="section-heading">
       <p class="eyebrow">The Problem</p>
-      <h2>Software delivery scaled. Decision-making didn’t.</h2>
+      <h2>Software delivery scaled. Decision-making didn't.</h2>
       <p class="lede">Code is cheap. Changes are frequent. Risk is hidden. Trust erodes.</p>
     </div>
     <div class="grid">
@@ -62,7 +81,7 @@ const description = "Relicta governs change in an AI-driven world. From release 
           <p class="eyebrow">The Solution</p>
           <h2>Relicta governs change — not just releases.</h2>
         </div>
-        <p class="lede">Relicta sits between humans, agents, and CI systems. It decides what changes, how risky it is, who approves, and how it’s communicated.</p>
+        <p class="lede">Relicta sits between humans, agents, and CI systems. It decides what changes, how risky it is, who approves, and how it's communicated.</p>
       </div>
       <div class="feature-list">
         <div>
@@ -78,22 +97,274 @@ const description = "Relicta governs change in an AI-driven world. From release 
     </div>
   </section>
 
-  <!-- What Relicta Does Today -->
+  <!-- How It Works -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">How It Works</p>
+      <h2>From commit to production, governed.</h2>
+      <p class="lede">One command. Five stages. Full audit trail.</p>
+    </div>
+    <div class="pipeline">
+      <div class="pipeline-step">
+        <div class="pipeline-icon">1</div>
+        <h4>Plan</h4>
+        <p>Analyze commits, detect breaking changes, calculate risk score, suggest version.</p>
+      </div>
+      <div class="pipeline-connector"></div>
+      <div class="pipeline-step">
+        <div class="pipeline-icon">2</div>
+        <h4>Bump</h4>
+        <p>Apply semantic version. Create git tag.</p>
+      </div>
+      <div class="pipeline-connector"></div>
+      <div class="pipeline-step">
+        <div class="pipeline-icon">3</div>
+        <h4>Notes</h4>
+        <p>Generate AI-powered release notes. Engineering, product, executive, and customer variants.</p>
+      </div>
+      <div class="pipeline-connector"></div>
+      <div class="pipeline-step">
+        <div class="pipeline-icon">4</div>
+        <h4>Approve</h4>
+        <p>Policy check. Auto-approve low-risk, require humans for high-risk. Audit hash chain entry.</p>
+      </div>
+      <div class="pipeline-connector"></div>
+      <div class="pipeline-step step-accent">
+        <div class="pipeline-icon">5</div>
+        <h4>Publish</h4>
+        <p>Tag, changelog, plugins, Sigstore attestation. Done.</p>
+      </div>
+    </div>
+    <div class="terminal pipeline-terminal">
+      <pre><code><span class="t-muted">$</span> relicta release
+
+<span class="t-step">plan</span>    47 commits since v1.3.0 &middot; 2 breaking, 8 features, 12 fixes
+        Risk: <span class="t-warn">0.58</span> (medium) &middot; Blast radius: 3/7 packages
+        Suggesting: <span class="t-accent">v2.0.0</span> (major)
+
+<span class="t-step">bump</span>    Version set to v2.0.0
+
+<span class="t-step">notes</span>   Release notes generated via Claude
+        4 audience variants: engineering, product, executive, external
+
+<span class="t-step">approve</span> Policy: risk > 0.5 requires approval
+        Auto-approved: actor trust score 0.94
+        Audit: SHA-256 hash chain entry recorded
+
+<span class="t-step">publish</span> <span class="t-accent">&check;</span> GitHub release created
+        <span class="t-accent">&check;</span> npm package published
+        <span class="t-accent">&check;</span> Slack #releases notified
+        <span class="t-accent">&check;</span> in-toto attestation signed via Sigstore
+
+<span class="t-accent">Done.</span> v2.0.0 released with full governance trail.</code></pre>
+    </div>
+  </section>
+
+  <!-- What Only Relicta Does -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">Differentiators</p>
+      <h2>What no other tool offers</h2>
+      <p class="lede">Other tools automate releases. Relicta governs them.</p>
+    </div>
+    <div class="diff-grid">
+      <article class="diff-card">
+        <div class="diff-number">01</div>
+        <h3>Change Governance Protocol</h3>
+        <p>The first standardized, vendor-neutral protocol for governing software change. Actor-agnostic, transport-independent, audit-first.</p>
+      </article>
+      <article class="diff-card">
+        <div class="diff-number">02</div>
+        <h3>MCP-Native AI Agents</h3>
+        <p>The only release tool that's an MCP server. AI agents can plan, assess risk, approve, and publish releases natively.</p>
+      </article>
+      <article class="diff-card">
+        <div class="diff-number">03</div>
+        <h3>Risk Scoring with Memory</h3>
+        <p>7-factor weighted risk calculation that learns from past releases and incidents. Gets smarter every time you ship.</p>
+      </article>
+      <article class="diff-card">
+        <div class="diff-number">04</div>
+        <h3>Blast Radius Analysis</h3>
+        <p>Maps changed files to impacted packages, builds dependency graphs, and quantifies change scope before you release.</p>
+      </article>
+      <article class="diff-card">
+        <div class="diff-number">05</div>
+        <h3>Audience-Specific Narratives</h3>
+        <p>One release, four stories. Engineering gets the diff. Product gets highlights. Executives get impact. Customers get the upgrade guide.</p>
+      </article>
+      <article class="diff-card">
+        <div class="diff-number">06</div>
+        <h3>Policy DSL</h3>
+        <p>Composable governance rules with full logic support. Define approval gates, team routing, and auto-approval criteria as code.</p>
+      </article>
+      <article class="diff-card">
+        <div class="diff-number">07</div>
+        <h3>Release Memory</h3>
+        <p>Tracks actor reliability, incident correlation, and risk patterns over time. Your release intelligence compounds.</p>
+      </article>
+      <article class="diff-card">
+        <div class="diff-number">08</div>
+        <h3>SLSA Governance Attestation</h3>
+        <p>in-toto v1 attestation signed via Sigstore. Proves not just what was built, but why it was approved and by whom.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">Comparison</p>
+      <h2>Why Relicta?</h2>
+    </div>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>semantic-release</th>
+            <th>release-please</th>
+            <th>goreleaser</th>
+            <th>LaunchDarkly</th>
+            <th class="col-relicta">Relicta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Semver automation</td>
+            <td class="check">&check;</td>
+            <td class="check">&check;</td>
+            <td class="check">&check;</td>
+            <td class="dash">&mdash;</td>
+            <td class="check accent">&check;</td>
+          </tr>
+          <tr>
+            <td>AI release notes</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="accent">5 providers</td>
+          </tr>
+          <tr>
+            <td>Risk scoring</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td>Basic</td>
+            <td class="accent">7-factor + learning</td>
+          </tr>
+          <tr>
+            <td>Approval workflows</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="accent">Policy DSL</td>
+          </tr>
+          <tr>
+            <td>Audit trail</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td>Flags</td>
+            <td class="accent">Cryptographic</td>
+          </tr>
+          <tr>
+            <td>MCP server</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="accent">Native</td>
+          </tr>
+          <tr>
+            <td>Blast radius</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="accent">&check;</td>
+          </tr>
+          <tr>
+            <td>Supply chain attestation</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td>Partial</td>
+            <td class="dash">&mdash;</td>
+            <td class="accent">in-toto + Sigstore</td>
+          </tr>
+          <tr>
+            <td>Single binary</td>
+            <td class="dash">&mdash;</td>
+            <td class="dash">&mdash;</td>
+            <td class="check">&check;</td>
+            <td class="dash">&mdash;</td>
+            <td class="check accent">&check;</td>
+          </tr>
+          <tr>
+            <td>Open source</td>
+            <td class="check">MIT</td>
+            <td class="check">Apache</td>
+            <td class="check">MIT</td>
+            <td class="dash">&mdash;</td>
+            <td class="accent">MIT</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Trust & Security -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">Trust & Security</p>
+      <h2>Enterprise-grade security. Developer-grade UX.</h2>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-item">
+        <h4>Zero data leaves your environment</h4>
+        <p>Runs locally or in your CI. No SaaS. No cloud dependency. Your code, your keys, your infrastructure.</p>
+      </div>
+      <div class="trust-item">
+        <h4>Cryptographic audit trails</h4>
+        <p>Every governance decision is recorded in an immutable SHA-256 hash chain. Tamper-evident by design.</p>
+      </div>
+      <div class="trust-item">
+        <h4>SLSA attestation</h4>
+        <p>in-toto v1 statements signed via Sigstore prove what was released, why it was approved, and by whom.</p>
+      </div>
+      <div class="trust-item">
+        <h4>Plugin sandboxing</h4>
+        <p>Plugins run in isolated processes with capability-based restrictions on filesystem, network, and environment access.</p>
+      </div>
+      <div class="trust-item">
+        <h4>SBOM generation</h4>
+        <p>Full software bill of materials for supply chain transparency and compliance.</p>
+      </div>
+      <div class="trust-item">
+        <h4>Secret masking</h4>
+        <p>API keys and tokens are automatically redacted from all output and logs. Enabled by default.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Production Ready -->
   <section class="section reveal">
     <div class="section-heading">
       <p class="eyebrow">Production Ready</p>
-      <h2>Relicta is already a production-ready release governance CLI.</h2>
-      <p class="lede">Thousands of releases governed. Zero data leaves your environment.</p>
+      <h2>Ship today. Govern tomorrow.</h2>
+      <p class="lede">Start with release automation. Grow into full change governance.</p>
     </div>
     <div class="grid">
       <div class="feature-list">
         <ul>
-          <li><strong>Semantic version planning</strong> based on conventional commits</li>
-          <li><strong>AI-assisted release notes</strong> using your own keys</li>
-          <li><strong>Approval & audit trail</strong> for compliance</li>
-          <li><strong>Plugin-based publishing</strong> (GitHub, npm, Docker...)</li>
-          <li><strong>MCP server for AI agents</strong> (Claude, GPT, custom agents)</li>
-          <li><strong>Local & CI-safe execution</strong> (Zero-install Action)</li>
+          <li><strong>Semantic version planning</strong> from conventional commits — with heuristic fallback for messy histories</li>
+          <li><strong>AI-assisted release notes</strong> via OpenAI, Anthropic, Gemini, Azure, or Ollama</li>
+          <li><strong>Approval & audit trail</strong> with configurable policy DSL</li>
+          <li><strong>Plugin-based publishing</strong> — GitHub, npm, Docker, Slack, Jira, Helm, and more</li>
+          <li><strong>MCP server for AI agents</strong> — full release workflow via Claude, GPT, or custom agents</li>
+          <li><strong>Monorepo & multi-repo</strong> — independent, lockstep, or hybrid versioning with dependency coordination</li>
         </ul>
         <div class="hero-actions">
            <a class="btn solid" href="https://docs.relicta.tech/install">Install Relicta</a>
@@ -133,31 +404,39 @@ const description = "Relicta governs change in an AI-driven world. From release 
         <div>Plugins</div>
         <div>Protocol ecosystem (MCP, CGP)</div>
       </div>
+      <div class="table-row">
+        <div>Single repo</div>
+        <div>Multi-repo federation</div>
+      </div>
+      <div class="table-row">
+        <div>Pass/fail gates</div>
+        <div>Probabilistic risk scoring</div>
+      </div>
     </div>
   </section>
 
   <!-- Who Relicta Is For -->
   <section class="section reveal">
     <div class="section-heading">
-      <p class="eyebrow">Segments</p>
-      <h2>Built for teams shipping at scale</h2>
+      <p class="eyebrow">Built For</p>
+      <h2>Teams shipping at scale</h2>
     </div>
     <div class="feature-cards">
       <article class="card">
         <h3>Platform Engineers</h3>
-        <p>Standardize release workflows across hundreds of services.</p>
+        <p>Standardize release workflows across hundreds of services. One config, consistent governance, full observability. Monorepo support with independent, lockstep, and hybrid versioning.</p>
       </article>
       <article class="card">
         <h3>Release Managers</h3>
-        <p>Regain visibility and control without slowing down devs.</p>
+        <p>Regain visibility without slowing anyone down. Risk scores surface what needs attention; auto-approval handles what doesn't. Real-time dashboard with WebSocket streaming.</p>
       </article>
       <article class="card">
         <h3>Security & Compliance</h3>
-        <p>Audit trails and approval gates built into the pipeline.</p>
+        <p>Immutable hash-chain audit log. SLSA in-toto attestation with Sigstore signing. SBOM generation. OIDC/SSO with role-based access.</p>
       </article>
       <article class="card">
         <h3>Teams Adopting Agents</h3>
-        <p>Safe guardrails for AI-generated code changes.</p>
+        <p>CGP protocol governs agent-initiated changes. Policy DSL defines what agents can auto-approve. Actor trust scores track reliability over time.</p>
       </article>
     </div>
   </section>
@@ -166,27 +445,52 @@ const description = "Relicta governs change in an AI-driven world. From release 
   <section class="section reveal">
     <div class="section-heading">
       <p class="eyebrow">AI-Native</p>
-      <h2>Built for AI agents from day one.</h2>
-      <p class="lede">Natural language release management with Claude, GPT, and custom agents via MCP.</p>
+      <h2>The first release tool built for AI agents.</h2>
+      <p class="lede">MCP is the industry standard for connecting AI agents to tools. Relicta is a native MCP server — not a wrapper, not a plugin.</p>
     </div>
     <div class="mcp-demo">
       <div class="mcp-conversation">
         <div class="mcp-message user">
           <span class="mcp-label">You</span>
-          <p>"What's the release status for this project?"</p>
+          <p>"What's the release risk for this project?"</p>
         </div>
         <div class="mcp-message agent">
           <span class="mcp-label">Claude</span>
-          <p>4 commits pending since v1.0.0. Breaking change detected. Suggesting v2.0.0 (major).</p>
+          <p>Risk score: 0.62 (medium). 3 breaking API changes detected across 2 packages. Blast radius: auth-service, api-gateway. Recommending v2.0.0 with 2-approver gate.</p>
         </div>
         <div class="mcp-message user">
           <span class="mcp-label">You</span>
-          <p>"Generate release notes and publish"</p>
+          <p>"Approve and publish."</p>
         </div>
         <div class="mcp-message agent">
           <span class="mcp-label">Claude</span>
-          <p>✓ v2.0.0 published. GitHub release created. Team notified on Slack.</p>
+          <p>&check; v2.0.0 published. GitHub release created, Slack notified, in-toto attestation signed via Sigstore.</p>
         </div>
+      </div>
+    </div>
+    <div class="mcp-tools-grid">
+      <div class="mcp-tools-col">
+        <h4>Tools (Agent Actions)</h4>
+        <ul class="mcp-tool-list">
+          <li><code>relicta.plan</code> Analyze commits & suggest version</li>
+          <li><code>relicta.bump</code> Apply semantic version</li>
+          <li><code>relicta.notes</code> Generate release notes</li>
+          <li><code>relicta.evaluate</code> CGP risk evaluation</li>
+          <li><code>relicta.approve</code> Governance gate</li>
+          <li><code>relicta.publish</code> Execute release</li>
+          <li><code>relicta.blast_radius</code> Impact analysis</li>
+          <li><code>relicta.validate_release</code> Pre-flight checks</li>
+        </ul>
+      </div>
+      <div class="mcp-tools-col">
+        <h4>Resources (Agent Reads)</h4>
+        <ul class="mcp-tool-list">
+          <li><code>relicta://state</code> Release state machine</li>
+          <li><code>relicta://config</code> Project configuration</li>
+          <li><code>relicta://commits</code> Pending commits</li>
+          <li><code>relicta://changelog</code> Generated changelog</li>
+          <li><code>relicta://risk-report</code> Risk assessment</li>
+        </ul>
       </div>
     </div>
     <div class="mcp-apps">
@@ -241,8 +545,9 @@ const description = "Relicta governs change in an AI-driven world. From release 
         <div class="feature-list">
             <ul>
                 <li>Open CLI (MIT Licensed)</li>
-                <li>Plugin ecosystem (gRPC based)</li>
+                <li>Plugin ecosystem (gRPC based, sandboxed)</li>
                 <li>MCP server & interactive apps for AI agents</li>
+                <li>Change Governance Protocol specification</li>
                 <li>Protocol-first mindset</li>
             </ul>
         </div>
@@ -254,7 +559,10 @@ const description = "Relicta governs change in an AI-driven world. From release 
   <section class="section cta-band reveal-scale">
     <div>
       <h2>Start governing change today.</h2>
-      <p class="lede">Join the teams building the future of software delivery.</p>
+      <p class="lede">One binary. Zero cloud dependencies. Full governance trail.</p>
+      <div class="cta-install">
+        <code>brew install relicta-tech/tap/relicta</code>
+      </div>
     </div>
     <div class="hero-actions">
       <a class="btn solid" href="https://docs.relicta.tech/install">Get started</a>
@@ -266,6 +574,7 @@ const description = "Relicta governs change in an AI-driven world. From release 
 </SiteLayout>
 
 <style>
+  /* Hero diagram */
   .abstract-diagram {
     display: flex;
     align-items: center;
@@ -290,7 +599,256 @@ const description = "Relicta governs change in an AI-driven world. From release 
     color: var(--color-muted);
     font-size: 1.2rem;
   }
-  
+
+  /* Numbers Bar */
+  .numbers-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: 32px 0;
+  }
+  .number-item {
+    background: var(--color-surface);
+    padding: 24px;
+    text-align: center;
+  }
+  .number-value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .number-label {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    line-height: 1.3;
+  }
+
+  /* Pipeline */
+  .pipeline {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: 32px 0 24px;
+    overflow-x: auto;
+  }
+  .pipeline-step {
+    flex: 1;
+    min-width: 140px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    text-align: center;
+  }
+  .pipeline-step h4 {
+    margin: 8px 0 4px;
+  }
+  .pipeline-step p {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+  .pipeline-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+  .step-accent .pipeline-icon {
+    background: rgba(92, 240, 200, 0.15);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+  .pipeline-connector {
+    width: 24px;
+    min-width: 24px;
+    height: 2px;
+    background: var(--color-border);
+    align-self: center;
+    margin-top: 20px;
+  }
+  .pipeline-terminal {
+    margin-top: 0;
+  }
+  .pipeline-terminal pre {
+    margin: 0;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .pipeline-terminal code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+  .t-muted { color: #5a6a7a; }
+  .t-step { color: #6b8afd; font-weight: 700; }
+  .t-accent { color: var(--color-accent); }
+  .t-warn { color: var(--color-accent-warm); }
+
+  /* Differentiators Grid */
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .diff-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: border-color 0.2s ease;
+  }
+  .diff-card:hover {
+    border-color: rgba(92, 240, 200, 0.3);
+  }
+  .diff-number {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .diff-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+  }
+  .diff-card p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  /* Comparison Table */
+  .compare-table-wrap {
+    overflow-x: auto;
+    margin-top: 24px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .compare-table th,
+  .compare-table td {
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .compare-table th {
+    background: var(--color-card);
+    font-weight: 700;
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+  .compare-table th:first-child,
+  .compare-table td:first-child {
+    text-align: left;
+    font-weight: 600;
+  }
+  .compare-table .col-relicta {
+    color: var(--color-accent);
+  }
+  .compare-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .compare-table .check { color: var(--color-muted); }
+  .compare-table .dash { color: rgba(255,255,255,0.2); }
+  .compare-table .accent { color: var(--color-accent); font-weight: 600; }
+
+  /* Trust Grid */
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .trust-item {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+  }
+  .trust-item h4 {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+  }
+  .trust-item p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  /* MCP Tools Grid */
+  .mcp-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 700px;
+    margin: 32px auto 0;
+  }
+  .mcp-tools-col h4 {
+    margin: 0 0 12px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-muted);
+  }
+  .mcp-tool-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .mcp-tool-list li {
+    padding: 6px 0;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .mcp-tool-list li:last-child {
+    border-bottom: none;
+  }
+  .mcp-tool-list code {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-accent);
+    margin-right: 6px;
+  }
+
+  /* CTA Install */
+  .cta-install {
+    margin: 16px 0;
+  }
+  .cta-install code {
+    font-family: var(--font-mono);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    display: inline-block;
+  }
+
+  /* Evolution table */
   .comparison-table {
     margin-top: 32px;
     border: 1px solid var(--color-border);
@@ -321,15 +879,7 @@ const description = "Relicta governs change in an AI-driven world. From release 
     border-bottom: none;
   }
   .table-row div:last-child {
-    color: var(--color-accent); 
-  }
-  @media (max-width: 640px) {
-    .abstract-diagram {
-      flex-direction: column;
-    }
-    .diagram-arrow {
-      transform: rotate(90deg);
-    }
+    color: var(--color-accent);
   }
 
   /* MCP Demo */
@@ -416,8 +966,43 @@ const description = "Relicta governs change in an AI-driven world. From release 
     color: var(--color-muted);
     line-height: 1.3;
   }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .numbers-bar {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .diff-grid {
+      grid-template-columns: 1fr;
+    }
+    .trust-grid {
+      grid-template-columns: 1fr;
+    }
+    .pipeline {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .pipeline-connector {
+      width: 2px;
+      height: 16px;
+      align-self: center;
+      margin-top: 0;
+    }
+    .mcp-tools-grid {
+      grid-template-columns: 1fr;
+    }
+  }
   @media (max-width: 640px) {
+    .abstract-diagram {
+      flex-direction: column;
+    }
+    .diagram-arrow {
+      transform: rotate(90deg);
+    }
     .mcp-apps-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .numbers-bar {
       grid-template-columns: repeat(2, 1fr);
     }
   }
