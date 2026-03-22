@@ -2,14 +2,14 @@
 import SiteLayout from "../layouts/SiteLayout.astro";
 
 const title = "Relicta Vision — The Future of Change Governance";
-const description = "Why we are building the governance layer for the agentic era.";
+const description = "Why we are building the governance layer for the agentic era. Three themes: Risk-Awareness, Agent Identity, Universal Ledger.";
 ---
 <SiteLayout {title} {description}>
   <section class="hero">
     <div class="hero-text">
       <p class="eyebrow">Vision</p>
       <h1>The Agentic Shift</h1>
-      <p class="lede">We are entering an era where most code will be written by agents, not humans. The bottleneck is no longer creation—it’s decision.</p>
+      <p class="lede">We are entering an era where most code will be written by agents, not humans. The bottleneck is no longer creation — it's decision.</p>
     </div>
   </section>
 
@@ -52,24 +52,190 @@ const description = "Why we are building the governance layer for the agentic er
     </div>
   </section>
 
+  <!-- Three Themes -->
   <section class="section reveal">
     <div class="section-heading">
-      <p class="eyebrow">Long-term Direction</p>
+      <p class="eyebrow">Strategic Themes</p>
       <h2>Where we are going</h2>
+      <p class="lede">Three themes define Relicta's evolution from release CLI to governance platform.</p>
     </div>
-    <div class="grid">
-      <div class="card">
-        <h3>Theme 1: Risk-Awareness</h3>
-        <p>Moving from "pass/fail" tests to probabilistic risk scoring.</p>
+  </section>
+
+  <!-- Theme 1: Risk-Awareness -->
+  <section class="section reveal">
+    <div class="theme-header">
+      <div class="theme-number">01</div>
+      <div>
+        <h2>Risk-Awareness</h2>
+        <p class="lede">Moving from "pass/fail" tests to probabilistic risk scoring that learns from outcomes.</p>
       </div>
-      <div class="card">
-        <h3>Theme 2: Agent Identity</h3>
-        <p>Cryptographically signing changes with agent identities.</p>
+    </div>
+    <div class="theme-grid">
+      <div class="theme-card">
+        <h4>Outcome-Based Calibration</h4>
+        <p>Risk weights today are static. Tomorrow, they calibrate against actual outcomes — correlating risk scores with post-release incidents, rollbacks, and hotfixes. The model improves with every release.</p>
       </div>
-      <div class="card">
-        <h3>Theme 3: Universal Ledger</h3>
-        <p>A decentralized audit log of every change decision.</p>
+      <div class="theme-card">
+        <h4>Predictive Risk Patterns</h4>
+        <p>Detect patterns that static factors miss. Friday deployments. Actor fatigue after high release frequency. Cascading risk when dependent packages release simultaneously. Seasonal patterns around team capacity.</p>
       </div>
+      <div class="theme-card">
+        <h4>Org-Wide Risk Aggregation</h4>
+        <p>When multiple repos release simultaneously, aggregate risk across the organization. Set risk budgets per team, per week, per freeze window. Surface the org-level view that no individual repo can see.</p>
+      </div>
+      <div class="theme-card">
+        <h4>External Risk Signals</h4>
+        <p>Ingest signals from PagerDuty, Datadog, and GitHub Security Advisories into the risk calculation. Active incidents increase release risk. Anomalous metrics trigger caution. Known CVEs auto-escalate.</p>
+      </div>
+    </div>
+    <div class="theme-evolution">
+      <div class="evo-step">
+        <span class="evo-label">Today</span>
+        <span>7-factor static risk scoring</span>
+      </div>
+      <div class="evo-arrow">&rarr;</div>
+      <div class="evo-step">
+        <span class="evo-label">Next</span>
+        <span>Calibrated models, predictive patterns</span>
+      </div>
+      <div class="evo-arrow">&rarr;</div>
+      <div class="evo-step">
+        <span class="evo-label">Future</span>
+        <span>Org-wide risk intelligence, budgets, external signals</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Theme 2: Agent Identity -->
+  <section class="section reveal">
+    <div class="theme-header">
+      <div class="theme-number">02</div>
+      <div>
+        <h2>Agent Identity</h2>
+        <p class="lede">Cryptographically signing changes with agent identities. Trust earned, not assumed.</p>
+      </div>
+    </div>
+    <div class="theme-grid">
+      <div class="theme-card">
+        <h4>Actor Trust Framework</h4>
+        <p>Every actor — human or agent — has a verifiable identity and earned trust level. Trust scores aggregate across repos, weighted by recency. Agents earn autonomy through track record, not configuration.</p>
+      </div>
+      <div class="theme-card">
+        <h4>Capability Certificates</h4>
+        <p>Short-lived, Sigstore-signed certificates encode what an agent is allowed to do. "Claude can plan and bump patch versions, but publishing requires a human." Capabilities are scoped, time-limited, and revocable.</p>
+      </div>
+      <div class="theme-card">
+        <h4>Multi-Agent Orchestration</h4>
+        <p>As MCP v2 enables agent-to-agent communication, Relicta becomes the coordination hub. Agent A writes code. Agent B reviews. Relicta governs the release. Chain-of-custody is cryptographically verifiable.</p>
+      </div>
+      <div class="theme-card">
+        <h4>Reputation System</h4>
+        <p>Trust scores based on verifiable outcomes. Release success rate. Risk prediction accuracy. Time-to-detection for issues. Reputation decays for inactive agents and grows for agents that consistently ship safely.</p>
+      </div>
+    </div>
+    <div class="theme-evolution">
+      <div class="evo-step">
+        <span class="evo-label">Today</span>
+        <span>Per-repo actor trust scoring</span>
+      </div>
+      <div class="evo-arrow">&rarr;</div>
+      <div class="evo-step">
+        <span class="evo-label">Next</span>
+        <span>Org-level identity, capability certificates</span>
+      </div>
+      <div class="evo-arrow">&rarr;</div>
+      <div class="evo-step">
+        <span class="evo-label">Future</span>
+        <span>Multi-agent orchestration, cross-org reputation</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Theme 3: Universal Ledger -->
+  <section class="section reveal">
+    <div class="theme-header">
+      <div class="theme-number">03</div>
+      <div>
+        <h2>Universal Ledger</h2>
+        <p class="lede">A decentralized audit log of every change decision. Tamper-evident, verifiable, permanent.</p>
+      </div>
+    </div>
+    <div class="theme-grid">
+      <div class="theme-card">
+        <h4>Org-Level Governance Store</h4>
+        <p>Aggregate all governance decisions from individual repos into a single source of truth. Query across repos: "Show me every major version release in Q1 that was auto-approved." Generate compliance reports automatically.</p>
+      </div>
+      <div class="theme-card">
+        <h4>Governance Analytics</h4>
+        <p>Mean time to release. Approval bottleneck analysis. Policy effectiveness scoring. Risk trend analysis. DORA metrics derived from governance data. The numbers that tell you if your release process is improving.</p>
+      </div>
+      <div class="theme-card">
+        <h4>Transparency Log</h4>
+        <p>Move from database to tamper-evident, append-only ledger. Every governance decision becomes a signed, timestamped entry in a transparency log — verifiable by any party, like Certificate Transparency for releases.</p>
+      </div>
+      <div class="theme-card">
+        <h4>Supply Chain Governance</h4>
+        <p>Extend governance beyond internal changes to dependency updates. Apply CGP risk assessment to Dependabot PRs. SBOM diff before and after. Policy: "CVE fixes auto-approve; major dependency bumps require human review."</p>
+      </div>
+    </div>
+    <div class="theme-evolution">
+      <div class="evo-step">
+        <span class="evo-label">Today</span>
+        <span>Per-repo hash-chain audit trail</span>
+      </div>
+      <div class="evo-arrow">&rarr;</div>
+      <div class="evo-step">
+        <span class="evo-label">Next</span>
+        <span>Org-level governance store, compliance reports</span>
+      </div>
+      <div class="evo-arrow">&rarr;</div>
+      <div class="evo-step">
+        <span class="evo-label">Future</span>
+        <span>Transparency log, cross-org federation</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scaling Path -->
+  <section class="section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">The Path</p>
+      <h2>From CLI to platform</h2>
+    </div>
+    <div class="scale-timeline">
+      <div class="scale-phase">
+        <div class="scale-label">Now</div>
+        <h4>Developer CLI</h4>
+        <p>Single binary. Local governance. Per-repo state. MCP server for AI agents.</p>
+      </div>
+      <div class="scale-phase">
+        <div class="scale-label">Phase 1</div>
+        <h4>Team Platform</h4>
+        <p>Shared PostgreSQL state. Dashboard with WebSocket streaming. Org-level actor registry. Risk calibration from outcomes.</p>
+      </div>
+      <div class="scale-phase">
+        <div class="scale-label">Phase 2</div>
+        <h4>Org Hub</h4>
+        <p>Central governance store. Cross-repo risk aggregation. Compliance report generation. Agent capability certificates.</p>
+      </div>
+      <div class="scale-phase phase-future">
+        <div class="scale-label">Phase 3</div>
+        <h4>Governance Network</h4>
+        <p>CGP as open standard. Cross-org federation. Transparency log. Supply chain governance. Agent reputation system.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-band reveal-scale">
+    <div>
+      <h2>The future of shipping is governed.</h2>
+      <p class="lede">Start with the CLI today. Scale to the platform tomorrow.</p>
+    </div>
+    <div class="hero-actions">
+      <a class="btn solid" href="https://docs.relicta.tech/install">Get started</a>
+      <a class="btn ghost" href="https://github.com/relicta-tech/relicta">View on GitHub</a>
+      <a class="btn ghost" href="https://docs.relicta.tech/cgp">Read the CGP spec</a>
     </div>
   </section>
 
@@ -98,4 +264,155 @@ const description = "Why we are building the governance layer for the agentic er
   .layer-3 { background: rgba(92, 240, 200, 0.1); border-color: var(--color-accent); color: var(--color-accent); }
   .layer-2 { background: rgba(255, 255, 255, 0.05); }
   .layer-1 { background: rgba(255, 255, 255, 0.02); color: var(--color-muted); }
+
+  /* Theme Sections */
+  .theme-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .theme-number {
+    font-family: var(--font-mono);
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--color-accent);
+    line-height: 1;
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+  .theme-header h2 {
+    margin: 0 0 8px;
+  }
+  .theme-header .lede {
+    margin: 0;
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .theme-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 24px;
+  }
+  .theme-card h4 {
+    margin: 0 0 8px;
+    font-size: 0.95rem;
+  }
+  .theme-card p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    line-height: 1.55;
+  }
+
+  /* Evolution Timeline */
+  .theme-evolution {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    padding: 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+  .evo-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .evo-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+  }
+  .evo-step span:last-child {
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+  .evo-arrow {
+    color: var(--color-border);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  /* Scale Timeline */
+  .scale-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .scale-phase {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    position: relative;
+  }
+  .scale-phase::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-accent);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    opacity: 0.5;
+  }
+  .phase-future::before {
+    background: var(--color-accent-warm);
+  }
+  .scale-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+  }
+  .phase-future .scale-label {
+    color: var(--color-accent-warm);
+  }
+  .scale-phase h4 {
+    margin: 0 0 8px;
+    font-size: 0.95rem;
+  }
+  .scale-phase p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .theme-grid {
+      grid-template-columns: 1fr;
+    }
+    .theme-evolution {
+      flex-direction: column;
+    }
+    .evo-arrow {
+      transform: rotate(90deg);
+    }
+    .scale-timeline {
+      grid-template-columns: 1fr;
+    }
+    .theme-header {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
 </style>
