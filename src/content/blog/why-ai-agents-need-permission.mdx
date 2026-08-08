@@ -9,6 +9,7 @@ draft: false
 ---
 import DiagramCard from '../../components/DiagramCard.astro';
 import DiagramCompare from '../../components/DiagramCompare.astro';
+import Mermaid from '../../components/Mermaid.astro';
 
 AI agents are rapidly moving from experimentation to execution.
 
@@ -182,25 +183,21 @@ Below are Relicta-specific diagrams you can render using Mermaid (supported by m
   caption="Relicta introduces a control plane that validates intent before execution."
 >
   <div slot="before">
-    ```mermaid
-    flowchart TD
-      AgentA["AI Agent"] -->|Direct API| GitHub["GitHub"]
-      AgentA -->|Direct API| Cloud["Cloud"]
-      AgentA -->|Direct API| Prod[("Production")]
-    ```
+    <Mermaid code={`flowchart TD
+  AgentA["AI Agent"] -->|Direct API| GitHub["GitHub"]
+  AgentA -->|Direct API| Cloud["Cloud"]
+  AgentA -->|Direct API| Prod[("Production")]`} />
   </div>
   <div slot="after">
-    ```mermaid
-    flowchart TD
-      AgentB["AI Agent"] -->|Intent| Relicta["Relicta"]
-      Relicta -->|Policy| Gate{"Gate"}
-      Gate -->|Approved| GitHub["GitHub"]
-      Gate -->|Approved| Cloud["Cloud"]
-      Relicta --> Audit["Audit"]
+    <Mermaid code={`flowchart TD
+  AgentB["AI Agent"] -->|Intent| Relicta["Relicta"]
+  Relicta -->|Policy| Gate{"Gate"}
+  Gate -->|Approved| GitHub["GitHub"]
+  Gate -->|Approved| Cloud["Cloud"]
+  Relicta --> Audit["Audit"]
 
-      classDef accent fill:#5cf0c8,stroke:#333,stroke-width:2px,color:currentColor;
-      class Relicta accent;
-    ```
+  classDef accent fill:#5cf0c8,stroke:#333,stroke-width:2px,color:currentColor;
+  class Relicta accent;`} />
   </div>
 </DiagramCompare>
 
@@ -214,22 +211,20 @@ Below are Relicta-specific diagrams you can render using Mermaid (supported by m
   caption="The decision flow for permissioned execution"
   takeaway="The default posture becomes controlled: deny by default, require approvals for risk, and always audit."
 >
-```mermaid
-flowchart TD
-  Start(["Agent proposes an action"]) --> Ctx["Attach context\n(repo/service/env/tenant/risk)"]
-  Ctx --> Classify["Classify action\n(read/write/deploy/config/etc.)"]
-  Classify --> Policy["Evaluate policy\n(RBAC + rules + constraints)"]
-  Policy -->|Denied| Deny["Reject + Explain reason\n+ suggested safe alternative"]
+<Mermaid code={`flowchart TD
+  Start(["Agent proposes an action"]) --> Ctx["Attach context\\n(repo/service/env/tenant/risk)"]
+  Ctx --> Classify["Classify action\\n(read/write/deploy/config/etc.)"]
+  Classify --> Policy["Evaluate policy\\n(RBAC + rules + constraints)"]
+  Policy -->|Denied| Deny["Reject + Explain reason\\n+ suggested safe alternative"]
   Policy -->|Allowed| ExecType{"Execution mode"}
-  ExecType -->|Propose only| PR["Create proposal artifact\n(PR/plan/change request)"]
+  ExecType -->|Propose only| PR["Create proposal artifact\\n(PR/plan/change request)"]
   ExecType -->|Auto-execute| Run["Execute via connectors"]
-  ExecType -->|Needs approval| Approvals["Collect approvals\n(HITL / multi-party / time window)"]
+  ExecType -->|Needs approval| Approvals["Collect approvals\\n(HITL / multi-party / time window)"]
   Approvals -->|Rejected| Deny
   Approvals -->|Approved| Run
-  PR --> Evidence["Record evidence\n(policy decision, diffs, approvers)"]
+  PR --> Evidence["Record evidence\\n(policy decision, diffs, approvers)"]
   Run --> Evidence
-  Evidence --> Done(["Action completed + auditable"])
-```
+  Evidence --> Done(["Action completed + auditable"])`} />
 </DiagramCard>
 
 ---
@@ -240,8 +235,7 @@ flowchart TD
   caption="How permissions map to organization structure"
   takeaway="Permissions aren’t just 'tool access.' They’re scoped to product lines, services, environments, and tenants."
 >
-```mermaid
-flowchart TB
+<Mermaid code={`flowchart TB
     subgraph OrgStructure ["Organization Structure"]
         direction TB
         Org["Organization"] --> PL["Product Line"]
@@ -270,8 +264,7 @@ flowchart TB
     class PERM accent;
 
     style OrgStructure fill:transparent,stroke:#333,stroke-dasharray: 5 5
-    style AccessModel fill:transparent,stroke:#333,stroke-dasharray: 5 5
-```
+    style AccessModel fill:transparent,stroke:#333,stroke-dasharray: 5 5`} />
 </DiagramCard>
 
 ---
@@ -282,8 +275,7 @@ flowchart TB
   caption="Relicta acting as the governed highway"
   takeaway="Relicta sits between agents and the systems that change production, ensuring every action is governed."
 >
-```mermaid
-flowchart TB
+<Mermaid code={`flowchart TB
   subgraph Agents
     direction LR
     A1["Release Agent"]
@@ -316,8 +308,7 @@ flowchart TB
   Co --> Systems
 
   classDef accent fill:#5cf0c8,stroke:#333,stroke-width:2px,color:currentColor;
-  class RelictaCP accent;
-```
+  class RelictaCP accent;`} />
 </DiagramCard>
 
 **Translation:** Relicta is the “governed highway” between agents and the systems that can change production.

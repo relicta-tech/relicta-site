@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 
 // Define types for teaser posts
 interface PlaceholderPost {
     isPlaceholder: true;
-    slug: string;
+    id: string;
     data: {
         title: string;
         description: string;
@@ -25,23 +25,23 @@ function isPlaceholder(post: TeaserPost): post is PlaceholderPost {
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map((post) => ({
-		params: { slug: post.slug },
+		params: { slug: post.id },
 		props: post,
 	}));
 }
 
 const post = Astro.props;
-const { Content, headings } = await post.render();
+const { Content, headings } = await render(post);
 
 // Get other posts for teaser
 const realPosts = (await getCollection('blog', ({ data }) => data.draft !== true))
-    .filter(p => p.slug !== post.slug)
+    .filter(p => p.id !== post.id)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const comingSoonPosts: PlaceholderPost[] = [
     {
         isPlaceholder: true,
-        slug: '#',
+        id: '#',
         data: {
             title: "From Prompts to Policies",
             description: "Why instructions fail as governance—and what replaces them",
@@ -50,7 +50,7 @@ const comingSoonPosts: PlaceholderPost[] = [
     },
     {
         isPlaceholder: true,
-        slug: '#',
+        id: '#',
         data: {
             title: "Why AI Needs a Control Plane",
             description: "How permissioned execution becomes the backbone of safe autonomy",
@@ -111,7 +111,7 @@ const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
                     </nav>
                     <div class="sidebar-divider"></div>
                     <div class="sidebar-share">
-                        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=https://relicta.tech/blog/${post.slug}`} target="_blank" rel="noopener" class="share-link">
+                        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=https://relicta.tech/blog/${post.id}`} target="_blank" rel="noopener" class="share-link">
                             Share on X
                         </a>
                     </div>
@@ -142,7 +142,7 @@ const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
                                 </article>
                             </div>
                         ) : (
-                            <a href={`/blog/${p.slug}`} class="teaser-card-link">
+                            <a href={`/blog/${p.id}`} class="teaser-card-link">
                                 <article class="teaser-card">
                                     <span class="teaser-date">
                                         {p.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}

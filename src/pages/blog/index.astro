@@ -33,7 +33,7 @@ const description = "Thoughts on change governance, AI agents, and software deli
   <section class="section">
     <div class="grid">
         {posts.map((post) => (
-            <a href={`/blog/${post.slug}`} class="card-link">
+            <a href={`/blog/${post.id}`} class="card-link">
                 <article class="card">
                     <p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     <h3>{post.data.title}</h3>
