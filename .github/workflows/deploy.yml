@@ -28,6 +28,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Deploy only if the output is actually correct — a green `astro build` is
+      # not sufficient evidence. See scripts/verify-build.mjs.
+      - name: Verify build output
+        run: node scripts/verify-build.mjs src dist
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
@@ -50,15 +55,22 @@ jobs:
         with:
           node-version: 20
 
+      # Was `rm -rf node_modules package-lock.json && npm install`, which
+      # discarded the committed lockfile and resolved fresh versions at deploy
+      # time — so the deployed docs were not reproducible and Dependabot's lock
+      # updates had no effect here. The lockfile was out of sync with
+      # package.json (missing esbuild's optional platform binaries), which is
+      # what `npm ci` was failing on; regenerating it fixed the cause.
       - name: Install dependencies
         working-directory: docs
-        run: |
-          rm -rf node_modules package-lock.json
-          npm install
+        run: npm ci
 
       - name: Build
         working-directory: docs
         run: npm run build
+
+      - name: Verify build output
+        run: node scripts/verify-build.mjs docs/src docs/dist
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
