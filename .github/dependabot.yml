@@ -35,6 +35,11 @@ updates:
       site-dependencies:
         patterns:
           - "*"
+        # Majors get their own PR: one breaking change must not hold back
+        # every safe update in the group (relicta#224).
+        update-types:
+          - "minor"
+          - "patch"
         exclude-patterns:
           - "astro"
           - "@astrojs/*"
@@ -58,3 +63,8 @@ updates:
       github-actions:
         patterns:
           - "*"
+        # Majors get their own PR: one breaking change must not hold back
+        # every safe update in the group (relicta#224).
+        update-types:
+          - "minor"
+          - "patch"
