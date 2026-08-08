@@ -1,0 +1,60 @@
+version: 2
+
+# This repository had no Dependabot configuration, and `npm audit --omit=dev`
+# reported 27 advisories (14 high) including astro, vite, postcss and sharp —
+# on a site that deploys to Cloudflare Pages on every push to main
+# (issue relicta-tech/relicta#198).
+#
+# Grouped aggressively on purpose: ungrouped, the existing backlog would arrive
+# as dozens of separate PRs. Security updates still arrive individually and
+# immediately, regardless of this grouping.
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "felixgeelhaar"
+    labels:
+      - "dependencies"
+      - "javascript"
+    commit-message:
+      prefix: "deps"
+    groups:
+      # Astro and its build chain move together; bumping them separately tends
+      # to produce PRs that cannot pass on their own.
+      astro:
+        patterns:
+          - "astro"
+          - "@astrojs/*"
+          - "vite"
+          - "@vitejs/*"
+      # Everything else in one weekly PR.
+      site-dependencies:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "astro"
+          - "@astrojs/*"
+          - "vite"
+          - "@vitejs/*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "felixgeelhaar"
+    labels:
+      - "dependencies"
+      - "ci"
+    commit-message:
+      prefix: "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
