@@ -46,10 +46,18 @@ const notes = []
 const contentFiles = walk(sourceDir, (f) => /\.(md|mdx)$/.test(f))
 let sourceFences = 0
 for (const file of contentFiles) {
+  const text = readFileSync(file, 'utf8')
+
   // Fences may be indented (inside a list item), so leading whitespace is
   // allowed — anchoring on the line start alone silently undercounts.
-  const matches = readFileSync(file, 'utf8').match(/^[ \t]*```mermaid\b/gm)
-  if (matches) sourceFences += matches.length
+  sourceFences += (text.match(/^[ \t]*```mermaid\b/gm) || []).length
+
+  // MDX declares diagrams through the <Mermaid> component rather than a fence,
+  // because astro-mermaid's fence transform emits a raw-HTML node that MDX
+  // cannot render (see src/components/Mermaid.astro). Counting only fences
+  // would report "no mermaid in source" for those files and skip the check
+  // entirely — the guard would go quiet exactly where it is needed.
+  sourceFences += (text.match(/<Mermaid\b/g) || []).length
 }
 
 const htmlFiles = walk(distDir, (f) => f.endsWith('.html'))

@@ -1,0 +1,21 @@
+---
+/**
+ * Renders a mermaid diagram in MDX.
+ *
+ * Takes the diagram as a `code` prop rather than relying on a ```mermaid fence.
+ * astro-mermaid transforms fences into a raw-HTML mdast node, which MDX has no
+ * node type for and emits as escaped text — see docs/adr or the PR that added
+ * this. Passing the source through a component sidesteps the markdown pipeline
+ * entirely: the element is real from the start.
+ *
+ * astro-mermaid's client script initialises any element with class="mermaid",
+ * so theming and rendering still come from the integration.
+ */
+interface Props {
+  code: string
+}
+
+const { code } = Astro.props
+---
+
+<pre class="mermaid">{code}</pre>
