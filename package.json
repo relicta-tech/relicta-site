@@ -15,11 +15,11 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "astro": "^7.1.6",
+    "astro": "^7.2.4",
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@astrojs/mdx": "^7.0.5",
+    "@astrojs/mdx": "^7.0.7",
     "astro-mermaid": "^2.1.0"
   }
 }
