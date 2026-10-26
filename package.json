@@ -14,12 +14,12 @@
     "check": "astro check"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
+    "@astrojs/check": "^0.9.12",
     "astro": "^7.1.6",
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@astrojs/mdx": "^7.0.5",
+    "@astrojs/mdx": "^8.1.1",
     "astro-mermaid": "^2.1.0"
   }
 }
