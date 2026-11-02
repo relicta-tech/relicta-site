@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",
-    "astro-mermaid": "^2.1.0"
+    "astro-mermaid": "^2.2.0"
   }
 }
