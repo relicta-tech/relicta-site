@@ -1,226 +1,47 @@
 ---
-title: "From CLI to Platform: Relicta Ships Enterprise Foundation"
-description: "Relicta now supports OIDC/SSO authentication, PostgreSQL persistence, multi-repo governance, runtime observability, and a formalized Change Governance Protocol. Here's what we built and why."
-pubDate: 2026-03-17
+title: "What Relicta v4.2.0 adds to release governance"
+description: "A closer look at the latest published Relicta release: stronger actor context, macOS plugin sandboxing, and structured MCP responses."
+pubDate: 2026-11-26
 author: "Relicta"
-tags: ["release", "enterprise", "governance", "oidc", "postgresql", "observability", "multi-repo", "cgp"]
+tags: ["release", "governance", "mcp", "security"]
 draft: false
 ---
 
-Relicta started as a CLI that governs software change. Today, we're shipping the enterprise foundation that makes it ready for teams, platforms, and production environments at scale.
+Release automation can create a tag and upload an artifact. A release owner still needs to understand what changed, what context informed the decision, and which checks or approvals happened before publication.
 
-This isn't a single feature announcement — it's the result of three engineering phases that transform Relicta from a single-developer tool into an enterprise governance platform.
+Relicta v4.2.0, published in July 2026, adds more context to that release-time decision and improves how Relicta works with plugins and MCP clients. It is a focused update to the release workflow, not a general-purpose control plane for every action an AI agent takes.
 
----
+## More context for release decisions
 
-## What shipped
+Relicta can include verifiable contribution history and organization-granted identities when evaluating whether an actor may approve a change. Governance decisions can also include commit authorship and available agent-memory context.
 
-### Authentication: OIDC/SSO and session management
+That context helps a configured policy make a more informed release decision. It does not prove that a change is correct or safe, and it does not replace code review, repository permissions, or CI checks. Teams remain responsible for deciding which evidence and policy rules are appropriate for their repositories.
 
-Enterprise teams don't create local accounts. They use identity providers.
+## Safer plugin execution on macOS
 
-Relicta now supports **OpenID Connect** with any compliant IdP — Okta, Azure AD, Google Workspace, Keycloak. The flow is standard: authorization code exchange with PKCE, ID token verification via discovery, and configurable claim-to-role mapping.
+Relicta v4.2.0 applies operating-system sandbox restrictions to macOS plugins. Plugin isolation still depends on the platform and the restrictions the plugin declares; review the plugin's trust and sandbox details before enabling it.
 
-```yaml
-dashboard:
-  auth:
-    mode: oidc
-    oidc:
-      issuer_url: https://login.microsoftonline.com/tenant-id/v2.0
-      client_id: ${AZURE_CLIENT_ID}
-      client_secret: ${AZURE_CLIENT_SECRET}
-      claim_mappings:
-        - claim: groups
-          value: relicta-admins
-          role: admin
-```
+Relicta's plugin boundary applies to plugin processes launched by Relicta. It does not constrain other tools or actions performed directly by an AI agent, developer, or CI runner.
 
-Three roles — **Admin**, **Approver**, **Viewer** — map directly to governance actions. An approver can sign off on releases. A viewer can see the audit trail but not act on it.
+## Structured responses for MCP clients
 
-For teams that prefer local authentication, JWT-based sessions with refresh tokens and revocation are built in.
+The MCP server publishes output schemas for its data tools. MCP clients can use those schemas to interpret responses more consistently when they plan or review a release.
 
-### Persistence: PostgreSQL for scale
+An agent can ask Relicta for a release recommendation and use the returned change summary as source material. In the current public v4.2.0 release, customer-facing prose still comes from deterministic templates or a configured AI provider. Saving notes composed with product context from the agent's conversation is part of the unreleased v5 source workflow, not a v4.2.0 capability.
 
-Relicta's file-based storage works for single-machine use. But when multiple instances need to share state, or when you need queryable release history, files aren't enough.
+## The boundary Relicta covers
 
-PostgreSQL is now a first-class persistence backend:
+Relicta governs release operations that teams route through its configured workflow: planning, policy evaluation, approval, and configured publishing steps. An agent with separate credentials can still call other services directly. Keep those permissions narrow and use source-control protections, CI checks, and deployment controls alongside Relicta.
 
-```yaml
-persistence:
-  backend: postgres
-  connection_string: ${DATABASE_URL}
-  pool_size: 10
-  migration_mode: auto
-```
+The audit trail records release decisions and can be checked with `relicta audit verify`. It is tamper-evident evidence about the recorded workflow; it is not a guarantee that all organizational or production actions were routed through Relicta.
 
-Migrations are embedded in the binary and run automatically on startup. The schema is append-only events with JSONB payloads — the same event-sourcing model as the file backend, but with concurrent access, indexes, and SQL queryability.
+## Try the published release
 
-The file backend remains the default. PostgreSQL is opt-in. Both implement the same port interface.
-
-### The Change Governance Protocol as a wire format
-
-The CGP has always been Relicta's conceptual foundation. Now it's a concrete wire format with a public Go SDK.
-
-```go
-import "github.com/relicta-tech/relicta/pkg/cgp"
-
-proposal := &cgp.ChangeProposal{
-    Actor: cgp.Actor{Kind: "agent", ID: "refactor-bot"},
-    Scope: cgp.Scope{Repository: "platform/auth-service"},
-    Intent: cgp.Intent{
-        Summary:    "Refactor session middleware",
-        Confidence: 0.74,
-    },
-}
-
-data, _ := cgp.Marshal(proposal)
-// {"cgpVersion":"0.1","type":"change.proposal","payload":{...}}
-```
-
-Three new MCP tools — `cgp_propose`, `cgp_authorize`, `cgp_status` — let AI agents interact with governance via the protocol. An agent proposes a change. Relicta evaluates risk, applies policy, and returns a decision. The agent cannot bypass the decision.
-
-This is the foundation for Relicta as a neutral governance layer that any tool or agent can integrate with.
-
-### Multi-repo governance
-
-Most platforms aren't one repository. They're many repositories with dependency relationships.
-
-Relicta now supports **repository groups** — collections of repos with declared dependencies and coordinated release strategies:
-
-```yaml
-repository_groups:
-  - name: platform
-    strategy: coordinated
-    repositories:
-      - name: auth-service
-        url: https://github.com/org/auth-service
-      - name: api-gateway
-        url: https://github.com/org/api-gateway
-        dependencies: [auth-service]
-```
-
-`relicta group plan` analyzes changes across all repos and computes a topological release order. `relicta group release` executes releases in dependency order — auth-service before api-gateway.
-
-For distributed teams, **CGP federation** enables separate Relicta instances to coordinate via webhook-based governance messages.
-
-### Monorepo workspace detection
-
-On the other end of the spectrum, monorepos need per-package governance.
-
-Relicta auto-detects workspace structures — Go modules (`go.work`), npm workspaces, pnpm, and Cargo — and analyzes changes per package. Three versioning strategies are supported:
-
-- **Independent**: each package has its own version
-- **Lockstep**: all packages share a version
-- **Hybrid**: lockstep within groups, independent between them
-
-Cross-package dependency propagation ensures that if package A changes and package B depends on it, B gets at least a patch bump.
-
-### Pre-release channels
-
-Not every change goes straight to stable.
-
-Relicta now supports **release channels** with promotion workflows:
+Relicta v4.2.0 is open source. Review the [installation guidance](https://docs.relicta.tech/install), [release notes](https://github.com/relicta-tech/relicta/releases/tag/v4.2.0), and the documented platform and security limits before adopting it.
 
 ```bash
-# Release to canary
-relicta bump --channel canary    # v1.3.0-canary.1
-
-# Promote to beta
-relicta promote --from canary --to beta    # v1.3.0-beta.1
-
-# Promote to stable
-relicta promote --from beta --to stable    # v1.3.0
-```
-
-Each promotion step goes through governance. Channel-specific policies control approval requirements — canary might auto-approve, while stable requires a human sign-off.
-
-### Audience-aware communication
-
-Changelogs are for developers. Product managers need impact summaries. Executives need risk assessments.
-
-The new `relicta communicate` command generates **audience-specific narratives** from the same set of approved changes:
-
-```bash
-relicta communicate --audiences all --format markdown
-```
-
-Four audience types — engineering, product, executive, external — each with tailored tone, detail level, and emphasis. AI providers generate the narratives; template-based fallback works without any API keys.
-
-### Release memory and learning
-
-Relicta now remembers outcomes.
-
-When a release leads to an incident, rollback, or hotfix, that outcome is recorded and linked to the release's characteristics — files changed, change size, time of deployment, packages involved.
-
-Over time, Relicta detects patterns:
-
-- "Changes to `auth/middleware.go` have a 40% rollback rate"
-- "Friday afternoon releases fail 3x more often"
-- "Changes touching both `api` and `database` packages together are high-risk"
-
-These patterns feed back into risk scoring. The next time a similar change is proposed, the risk score is adjusted based on historical evidence — not just static analysis.
-
-### Runtime observability integration
-
-Risk scoring at release time is useful. But the real signal comes from production.
-
-Relicta now integrates with observability platforms to **close the feedback loop**:
-
-- **Prometheus** for metric queries (error rates, latency)
-- **Webhook receiver** for Alertmanager, PagerDuty, Datadog alerts
-- **Deployment health monitor** that watches metrics after each release
-- **Correlation engine** that links incidents to releases by time, service, and deployment labels
-
-When error rates spike after a release, Relicta automatically records a negative outcome. When the health window passes without issues, it records success. This data feeds the memory system.
-
-### Dashboard: from embedded to deployable
-
-The dashboard has grown from a monitoring view to a governance cockpit.
-
-New views:
-- **Analytics** — risk trends, decision distribution, team velocity
-- **Multi-Repo** — repository group dependency graphs and release state
-- **Observability** — deployment health, provider status, incident correlations
-- **Release Memory** — pattern detection, success rates, historical insights
-
-The backend now supports **standalone API mode** (`relicta server --mode api`) with proper CORS, WebSocket authentication, Server-Sent Events fallback, and health/readiness probes. The frontend can be deployed independently to any CDN.
-
-### Rollback command
-
-Sometimes the right governance decision is to undo.
-
-```bash
-relicta rollback --to-version 1.2.3
-```
-
-Creates a revert tag, records the rollback in the audit trail, and feeds the outcome back to release memory.
-
----
-
-## What this means
-
-Relicta is no longer just a CLI that automates releases.
-
-It's a **governance platform** that:
-- Authenticates users and agents via industry-standard protocols
-- Persists decisions in production-grade storage
-- Coordinates releases across repository boundaries
-- Learns from production outcomes
-- Communicates decisions to every stakeholder in their language
-- Exposes an open protocol that any tool can implement
-
-The core thesis remains: as AI agents generate more change, the decision layer — not the execution layer — becomes the critical infrastructure.
-
-We're building that layer.
-
----
-
-## Get started
-
-```bash
-brew install relicta-tech/tap/relicta
 relicta init
-relicta release
+relicta plan
 ```
 
-[Documentation](https://github.com/relicta-tech/relicta) | [GitHub Action](https://github.com/relicta-tech/relicta-action) | [CGP SDK](https://pkg.go.dev/github.com/relicta-tech/relicta/pkg/cgp)
+The plan is a reviewable recommendation. Approval and publication remain separate steps governed by your configuration.

@@ -6,7 +6,7 @@ interface Props {
 }
 
 // Generate a unique ID if none provided
-const { caption, takeaway, id = `diagram-${Math.random().toString(36).substr(2, 9)}` } = Astro.props;
+const { caption, takeaway, id = `diagram-${Math.random().toString(36).slice(2, 11)}` } = Astro.props;
 ---
 
 <figure class="diagram-card" id={id}>
@@ -34,7 +34,7 @@ const { caption, takeaway, id = `diagram-${Math.random().toString(36).substr(2, 
   )}
 </figure>
 
-<script define:vars={{ id }}>
+<script is:inline define:vars={{ id }}>
   const card = document.getElementById(id);
   const btn = card?.querySelector('.zoom-btn');
   const content = card?.querySelector('.diagram-content');

@@ -7,9 +7,9 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
 <SiteLayout {title} {description}>
   <section class="hero">
     <div class="hero-text">
-      <p class="eyebrow">Product</p>
+      <p class="eyebrow">Product · Current release v4.2.0</p>
       <h1>Capabilities</h1>
-      <p class="lede">From a developer's terminal to a compliance officer's dashboard. Relicta spans the full lifecycle of a release.</p>
+      <p class="lede">From a developer's terminal to a release owner's review. Relicta connects change analysis, approval, release notes, and publication in one workflow.</p>
     </div>
   </section>
 
@@ -42,18 +42,18 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
       <div>
         <div class="section-heading">
           <p class="eyebrow">The Solution</p>
-          <h2>Relicta governs change — not just releases.</h2>
+          <h2>Governed software releases.</h2>
         </div>
-        <p class="lede">Relicta sits between humans, agents, and CI systems. It decides what changes, how risky it is, who approves, and how it’s communicated.</p>
+        <p class="lede">Relicta analyzes repository changes, recommends a version, prepares release communication, applies configured policy, records approvals, and runs configured publishing steps.</p>
       </div>
       <div class="feature-list">
         <div>
           <h4>The Core Decisions</h4>
           <ul>
-            <li>What changed? (Semantic Analysis)</li>
-            <li>Is it risky? (Risk Scoring)</li>
-            <li>Who approves? (Governance)</li>
-            <li>How to tell users? (Communication)</li>
+            <li>What changed? (Change Summary)</li>
+            <li>What risk signals apply? (Risk Evaluation)</li>
+            <li>What approval does policy require? (Governance)</li>
+            <li>How should the release be explained? (Release Notes)</li>
           </ul>
         </div>
       </div>
@@ -65,11 +65,11 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
     <div class="grid">
       <div>
         <h2>The CLI</h2>
-        <p>Built in Go. Single binary. Runs anywhere.</p>
+        <p>Built in Go and available as a command-line application. Install options and supported prebuilt platforms depend on the release.</p>
         <div class="feature-list">
             <ul>
                 <li><strong>Plan</strong>: Analyze commits and determine the next version.</li>
-                <li><strong>Notes</strong>: Generate changelogs using LLMs.</li>
+                <li><strong>Notes</strong>: Prepare release notes with templates or a configured AI provider.</li>
                 <li><strong>Approve</strong>: Interactive gate for human review.</li>
                 <li><strong>Publish</strong>: Execute release steps via plugins.</li>
             </ul>
@@ -85,7 +85,7 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
   <section class="section reveal">
     <div class="section-container">
         <h2>Governance Flow</h2>
-        <p>Relicta isn't just a script runner. It's a state machine for releases. It ensures that planning happens before publishing, and approval happens before side-effects.</p>
+        <p>Relicta tracks planning, versioning, review, and publishing as release stages. Your configured approval policy is applied before publication; planning, version updates, and note drafting can happen before approval.</p>
     </div>
   </section>
 
@@ -93,12 +93,12 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
   <section class="section reveal">
     <div class="section-heading">
       <p class="eyebrow">The Evolution</p>
-      <h2>From release automation to change governance</h2>
+          <h2>Today’s release workflow and its direction</h2>
     </div>
     <div class="comparison-table">
       <div class="table-header">
-        <div>Today</div>
-        <div>Where It's Going</div>
+        <div>Available today</div>
+        <div>Product direction</div>
       </div>
       <div class="table-row">
         <div>Version bumps</div>
@@ -124,10 +124,10 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
     <div class="grid">
         <div>
             <h2>Approval & Audit</h2>
-            <p>Every decision is recorded. Who approved the release? When? What was the risk score? Relicta generates a signed manifest of the release event.</p>
+            <p>Release decisions can record the approver, time, risk context, and rationale. Governance attestations record decision context; build provenance and artifact signing are separate release-workflow steps.</p>
             <div class="card" style="margin-top: 24px;">
                 <h3>AI Integration</h3>
-                <p>Bring Your Own Key (BYOK). Support for OpenAI, Anthropic, Gemini, Azure, and Ollama (local). We don't train on your data.</p>
+                <p>Optional providers include OpenAI, Anthropic, Gemini, Azure OpenAI, and local Ollama. When you configure a hosted provider, the prompts and data required for the request are sent to that provider under its terms and settings.</p>
             </div>
         </div>
         <div class="terminal">
@@ -140,24 +140,24 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
   <section class="section reveal">
     <div class="section-heading">
       <p class="eyebrow">Built for Scale</p>
-      <h2>Enterprise-grade governance for modern teams</h2>
+      <h2>Release governance for software teams</h2>
     </div>
     <div class="feature-cards">
       <article class="card">
         <h3>Platform Engineers</h3>
-        <p>Standardize release workflows across hundreds of services.</p>
+        <p>Apply consistent release policies across repositories and teams.</p>
       </article>
       <article class="card">
         <h3>Release Managers</h3>
-        <p>Regain visibility and control without slowing down devs.</p>
+        <p>Review planned versions, risk signals, notes, and approval status in one workflow.</p>
       </article>
       <article class="card">
         <h3>Security & Compliance</h3>
-        <p>Audit trails and approval gates built into the pipeline.</p>
+        <p>Inspect release decisions, approval gates, and recorded evidence.</p>
       </article>
       <article class="card">
         <h3>Teams Adopting Agents</h3>
-        <p>Safe guardrails for AI-generated code changes.</p>
+        <p>Route agent-authored release actions through configured governance checks.</p>
       </article>
     </div>
   </section>
@@ -166,7 +166,7 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
   <section id="plugins" class="section plugins reveal">
     <div class="section-heading">
         <h2>Plugin Ecosystem</h2>
-        <p class="lede">30 official plugins. Extensible via gRPC. Write plugins in any language. Zero configuration, open source, installable via CLI.</p>
+        <p class="lede">Plugins extend release workflows through gRPC and are installed separately. Registry entries vary in verification; review publisher and trust details before enabling a plugin.</p>
     </div>
 
     <!-- Featured plugins -->
@@ -211,7 +211,7 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
 
     <!-- All other plugins -->
     <div class="plugin-more">
-      <p class="plugin-more-label">+ 26 more plugins</p>
+      <p class="plugin-more-label">+ 25 additional registry entries</p>
       <div class="plugin-tags">
         <span>GitLab</span>
         <span>PyPI</span>
@@ -251,9 +251,9 @@ const description = "Explore the capabilities of the Relicta CLI. Governance, Pl
   <!-- MCP Apps -->
   <section class="section reveal">
     <div class="section-heading">
-      <p class="eyebrow">MCP Apps</p>
-      <h2>Interactive MCP Apps</h2>
-      <p class="lede">6 built-in interactive apps that render directly inside AI agents. Visual dashboards for release status, risk, approvals, and more — no browser needed.</p>
+      <p class="eyebrow">Planned for v5</p>
+      <h2>MCP app concepts</h2>
+      <p class="lede">These interface concepts are being developed in the v5 source and are not included in the current public v4.2.0 release.</p>
     </div>
     <div class="plugin-featured mcp-apps-grid">
       <div class="plugin-card">

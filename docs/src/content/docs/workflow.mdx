@@ -1,87 +1,78 @@
 ---
 title: Workflow
-description: Govern changes from plan to publish with risk-aware decisions.
+description: Plan, prepare, review, and publish a release with the current Relicta CLI.
 draft: false
 ---
 
-Relicta governs the full release flow — from analyzing changes to publishing with audit trails.
+This guide describes the published Relicta **v4.2.0** command line. The v5 source includes additional capabilities that are not part of the public release.
 
-## Quick Release (Recommended)
+## Quick release
 
-Run the complete workflow with a single command:
+Use the dry run to preview the workflow. Run the live command only when you intend to prepare and publish a release:
 
 ```bash
-# Interactive release
-relicta release
-
-# CI/CD (auto-approve)
-relicta release -y
-
-# Preview without changes
 relicta release --dry-run
+relicta release
 ```
 
-This runs: **plan → bump → notes → approve → publish**
+A live release runs **plan → bump → notes → approve → publish**. The default flow prompts for approval. `relicta release --yes` skips that prompt; use it only when an external CI or repository control supplies the approval required by your process.
 
----
+## Step-by-step workflow
 
-## Step-by-Step Workflow
+### 1. Plan
 
-For more control, run each step individually:
-
-## 1) Plan
 ```bash
 relicta plan
-relicta plan -a  # Include detailed analysis
 ```
-- Analyzes commits since the last tag.
-- Calculates the required semantic bump.
-- Shows a preview of the release plan.
-- Flags: `-f/--from`, `-t/--to`, `-a/--analyze`, `--json`, `--dry-run`.
 
-## 2) Generate notes (optional AI)
+Relicta analyzes changes since the latest tag and recommends a semantic version. Useful v4.2.0 options include:
+
+- `--from <ref>` and `--to <ref>` to select the analysis range.
+- `--analyze` to classify commits and stop after analysis.
+- `--no-ai` to disable AI-assisted classification.
+- `--review` to review and adjust commit classifications before planning.
+- `--json` for machine-readable output.
+
+### 2. Apply the version
+
 ```bash
-relicta notes -a   # Enable AI-powered notes
-relicta notes --ai # Same as above
+relicta bump
 ```
-- Drafts release notes and changelog entries.
-- Uses your configured AI provider and tone.
-- Flags: `-a/--ai`, `-s/--save`, `--tone`, `--audience`, `--json`, `--dry-run`.
 
-## 3) Approve
+Review the proposed version and configured version-file changes before continuing. Use `relicta bump --help` to see version-selection options supported by the installed release.
+
+### 3. Generate notes
+
+```bash
+relicta notes
+```
+
+The default notes are deterministic and based on repository history. In v4.2.0, `--ai` enables provider-generated prose when a provider is configured. `-a` is the short form of `--audience`, not an AI switch.
+
+```bash
+relicta notes --ai --audience public --tone professional
+```
+
+Options also include `--language`, `--emoji`, and `--output`. Review all generated claims before approval. Drafting customer notes with product context from a coding-agent conversation and saving that draft through MCP is a v5 source capability, not part of v4.2.0.
+
+### 4. Approve
+
 ```bash
 relicta approve
-relicta approve -y  # Auto-approve without prompting
 ```
-- Locks the plan and captures approval context.
-- Keeps an audit trail before publishing.
-- Flags: `-y/--yes`, `-e/--edit`, `-i/--interactive`, `--by <name>`, `--note <text>`.
 
-## 4) Publish
+Review the prepared release. `--edit` opens the notes in an editor; `--interactive` opens the approval interface. `--yes` approves without an interactive prompt, so use it only when your configured governance policy and surrounding controls permit it.
+
+### 5. Publish
+
 ```bash
 relicta publish
-relicta publish -P  # Skip pushing to remote
 ```
-- Creates the tag and runs plugins (GitHub release, npm, Slack, etc.).
-- Uses your config for tag prefix, push behavior, and targets.
-- Flags: `-A/--skip-approval`, `-T/--skip-tag`, `-P/--skip-push`, `-G/--skip-plugins`.
 
-## Dry runs
-Add `--dry-run` to preview without modifying the repo.
+Publishing performs configured release actions. v4.2.0 provides `--skip-tag`, `--skip-push`, and `--skip-plugins` for workflows where another system owns those actions. `--skip-approval` bypasses Relicta's approval check and should only be used when an equivalent external gate is in force.
 
-## JSON + automation
-Every command supports `--json` for structured output. Pair with `jq` to feed dashboards, chat notifications, or custom CI steps.
+## Configuration and safety
 
-## Common patterns
-- **Standard release**: `relicta release` for interactive, `relicta release -y` for CI/CD.
-- **Local preview**: `relicta release --dry-run` to validate the entire workflow.
-- **Approval flow**: Have a second reviewer run `relicta approve --by "<name>" --note "<context>"` before publish.
-- **Force version**: `relicta release -F v2.0.0` to set a specific version.
-- **Hotfix**: Run `relicta plan -f <last-release> -t HEAD --json` to verify the bump and publish from a hotfix branch; ensure branch is in `allowed_branches`.
-- **Skip push**: `relicta publish -P` when CI handles git operations.
+The current configuration file is `.relicta.yaml`. Use `relicta init` to create it, then review versioning, governance, Git, and publisher settings before running a live release.
 
-## Governance integration
-Enable risk-aware decisions with the [Change Governance Protocol (CGP)](/governance):
-- **Risk scoring**: Automatic assessment of blast radius, actor trust, and security impact.
-- **Approval gates**: Require human review for high-risk or breaking changes.
-- **Audit trails**: Every decision is captured for compliance.
+`--dry-run` previews a command; it is not a substitute for reviewing external effects configured by publishers. See the [configuration guide](/configuration) and the [v4.2.0 CLI reference](https://github.com/relicta-tech/relicta/tree/v4.2.0/docs/cli) for the exact release command contract.

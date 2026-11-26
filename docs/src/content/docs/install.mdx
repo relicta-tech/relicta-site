@@ -1,17 +1,20 @@
 ---
 title: Install the CLI
-description: Install Relicta via Homebrew, direct download, or Go.
+description: Install the current Relicta v4.2.0 CLI on supported platforms.
 draft: false
 ---
 
-Pick the install path that fits your environment.
+The current published CLI release is **v4.2.0**. The v5 source is not yet published.
 
 ## Requirements
 - Git installed and available on PATH
-- macOS, Linux, or Windows (x86_64/arm64)
+- Linux (x86_64 or arm64) or Windows (x86_64) for published binary archives
+- macOS: install from the Go module or build from source; published macOS archives are unsigned and may be blocked by Gatekeeper
 - For AI features: provider API keys (OpenAI, Anthropic, Gemini, Azure OpenAI, or local Ollama)
 
-## Homebrew (recommended)
+## Homebrew (Linux)
+
+The current formula is supported on Linux. Do not use its unsigned Darwin archives on macOS.
 ```bash
 brew install relicta-tech/tap/relicta
 ```
@@ -21,20 +24,114 @@ Upgrade:
 brew upgrade relicta
 ```
 
-## Direct download (macOS Apple Silicon example)
+## Go install (Linux, macOS, and Windows)
 ```bash
-curl -L https://github.com/relicta-tech/\
-relicta/releases/latest/download/relicta_\
-Darwin_aarch64.tar.gz | tar xz
-sudo mv relicta_Darwin_aarch64/relicta /usr/local/bin/
+go install github.com/relicta-tech/relicta/v4/cmd/relicta@v4.2.0
 ```
 
-Replace platform/arch as needed (`Darwin_x86_64`, `Linux_x86_64`, `Linux_aarch64`, `Windows_x86_64`).
+Go 1.25 or newer is required. This installs the CLI from source; the `go install` build does not include the embedded dashboard.
 
-## Go install
+## Verified Linux binary (amd64 or arm64)
+
+This pinned v4.2.0 procedure verifies the signed checksum manifest, archive digest, and GitHub provenance before installing. It requires `curl`, Cosign, the GitHub CLI (`gh`), and `sha256sum` or `shasum`.
+
 ```bash
-go install github.com/relicta-tech/relicta/cmd/relicta@latest
+set -euo pipefail
+VERSION=v4.2.0
+case "$(uname -s)" in
+  Linux) OS=linux ;;
+  *) echo "Use go install or build from source on macOS" >&2; exit 1 ;;
+esac
+case "$(uname -m)" in
+  x86_64|amd64) ARCH=amd64 ;;
+  arm64|aarch64) ARCH=arm64 ;;
+  *) echo "Unsupported CPU architecture" >&2; exit 1 ;;
+esac
+ASSET="relicta_${OS}_${ARCH}.tar.gz"
+BASE="https://github.com/relicta-tech/relicta/releases/download/${VERSION}"
+TMP="$(mktemp -d)"
+trap 'rm -rf "$TMP"' EXIT
+curl -fLsS "$BASE/$ASSET" -o "$TMP/$ASSET"
+curl -fLsS "$BASE/checksums.txt" -o "$TMP/checksums.txt"
+curl -fLsS "$BASE/checksums.txt.sigstore.json" -o "$TMP/checksums.txt.sigstore.json"
+IDENTITY="^https://github\.com/relicta-tech/relicta/\.github/workflows/release\.yaml@refs/tags/${VERSION//./\.}$"
+cosign verify-blob --bundle "$TMP/checksums.txt.sigstore.json" \
+  --certificate-identity-regexp "$IDENTITY" \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  "$TMP/checksums.txt"
+awk -v asset="$ASSET" '$2 == asset { print; found++ } END { if (found != 1) exit 1 }' \
+  "$TMP/checksums.txt" | (cd "$TMP" && sha256sum -c - 2>/dev/null || shasum -a 256 -c -)
+gh attestation verify "$TMP/$ASSET" --repo relicta-tech/relicta \
+  --signer-workflow relicta-tech/relicta/.github/workflows/release.yaml \
+  --source-ref "refs/tags/$VERSION"
+tar -xzf "$TMP/$ASSET" -C "$TMP" relicta
+mkdir -p "$HOME/.local/bin"
+install -m 755 "$TMP/relicta" "$HOME/.local/bin/relicta"
+"$HOME/.local/bin/relicta" version
 ```
+
+Add `$HOME/.local/bin` to `PATH` if it is not already present. The v4.2.0 macOS archives are unsigned and are not recommended; use the Go module or build from source instead.
+
+### Verified Windows binary (amd64)
+
+The published v4.2.0 release includes a Windows amd64 archive. This pinned example verifies the
+signed checksum manifest, the archive digest, and GitHub build provenance before extracting the
+binary. Install [Cosign](https://docs.sigstore.dev/cosign/system_config/installation/) and the
+[GitHub CLI](https://cli.github.com/) first; authenticate `gh` if it asks.
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$version = 'v4.2.0'
+$archive = 'relicta_windows_amd64.zip'
+$base = "https://github.com/relicta-tech/relicta/releases/download/$version"
+$temp = Join-Path $env:TEMP "relicta-$version"
+New-Item -ItemType Directory -Path $temp -Force | Out-Null
+$archivePath = Join-Path $temp $archive
+$checksumsPath = Join-Path $temp 'checksums.txt'
+$bundlePath = Join-Path $temp 'checksums.txt.sigstore.json'
+
+Invoke-WebRequest "$base/$archive" -OutFile $archivePath
+Invoke-WebRequest "$base/checksums.txt" -OutFile $checksumsPath
+Invoke-WebRequest "$base/checksums.txt.sigstore.json" -OutFile $bundlePath
+
+$identity = '^https://github\.com/relicta-tech/relicta/\.github/workflows/release\.yaml@refs/tags/' + [regex]::Escape($version) + '$'
+& cosign verify-blob --bundle $bundlePath --certificate-identity-regexp $identity `
+  --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' $checksumsPath
+if ($LASTEXITCODE -ne 0) { throw 'Checksum manifest signature verification failed.' }
+
+$entries = @(
+  Get-Content $checksumsPath | ForEach-Object {
+    if ($_ -match '^([a-fA-F0-9]{64})\s+\*?(.+)$') {
+      [PSCustomObject]@{ Hash = $Matches[1].ToLowerInvariant(); Name = $Matches[2].Trim() }
+    }
+  } | Where-Object { $_.Name -eq $archive }
+)
+if ($entries.Count -ne 1) { throw "Expected one checksum entry for $archive; found $($entries.Count)." }
+$actual = (Get-FileHash $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+if ($actual -ne $entries[0].Hash) { throw 'Archive checksum does not match the signed manifest.' }
+
+& gh attestation verify $archivePath --repo relicta-tech/relicta `
+  --signer-workflow relicta-tech/relicta/.github/workflows/release.yaml `
+  --source-ref "refs/tags/$version"
+if ($LASTEXITCODE -ne 0) { throw 'Archive provenance verification failed.' }
+
+$extractPath = Join-Path $temp 'extracted'
+Expand-Archive -Path $archivePath -DestinationPath $extractPath -Force
+$binary = Get-ChildItem $extractPath -Filter 'relicta.exe' -File -Recurse | Select-Object -First 1
+if (-not $binary) { throw 'The verified archive did not contain relicta.exe.' }
+$installPath = Join-Path $env:LOCALAPPDATA 'Programs\Relicta'
+New-Item -ItemType Directory -Path $installPath -Force | Out-Null
+Copy-Item $binary.FullName (Join-Path $installPath 'relicta.exe') -Force
+
+$userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+if (($userPath -split ';') -notcontains $installPath) {
+  $updatedUserPath = if ([string]::IsNullOrWhiteSpace($userPath)) { $installPath } else { "$userPath;$installPath" }
+  [Environment]::SetEnvironmentVariable('Path', $updatedUserPath, 'User')
+}
+$env:Path = "$installPath;$env:Path"
+& (Join-Path $installPath 'relicta.exe') version
+```
+
 
 ## Verify & self-check
 ```bash
@@ -44,7 +141,7 @@ relicta plan --help
 
 ## Uninstall
 - Homebrew: `brew uninstall relicta`
-- Manual: remove the binary you placed on PATH
+- Go install: `rm "$(go env GOPATH)/bin/relicta"` (or remove the executable you installed)
 
 ## Troubleshooting
 - **“command not found”**: Ensure the install path (e.g., `/usr/local/bin` or `$HOME/go/bin`) is on PATH.

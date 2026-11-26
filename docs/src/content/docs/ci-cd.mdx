@@ -1,21 +1,15 @@
 ---
 title: CI/CD (GitHub Action)
-description: Use Relicta in GitHub Actions for zero-install pipelines.
+description: Run Relicta in GitHub Actions with explicit release controls.
 draft: false
 ---
 
-Use the GitHub Action to avoid installing the CLI in your workflow runner. Checksums are verified automatically.
-
-<video controls width="100%" style="border-radius: 8px; margin: 1rem 0;">
-  <source src="/videos/cicd.mp4" type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
+The [Relicta GitHub Action](https://github.com/relicta-tech/relicta-action) installs the CLI and can run release commands in a workflow. Its default command is `full`, which runs the release workflow. Treat that as a publishing action: protect the workflow and repository credentials accordingly.
 
 ```yaml
 name: Release
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   release:
@@ -23,33 +17,40 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
-      - uses: relicta-tech/relicta-action@v2
+      # Pin the action to a reviewed commit; update this SHA deliberately.
+      - uses: relicta-tech/relicta-action@0268e9a3001e9483874e5501d59fa929a42130f3 # v2
         with:
+          version: v4.2.0
+          command: plan
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          plugins: 'github'  # Download GitHub plugin for release creation
-          config: relicta.config.yaml
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}  # Optional: for AI release notes
+          dry-run: true
 ```
 
-## Inputs to know
-- `github-token` (required for GitHub releases and repo access).
-- `plugins`: comma-separated list of plugins to download (`github`, `slack`, `discord`, `jira`, `launchnotes`, `gitlab`, `npm`).
-- `config`: path to `relicta.config.yaml` (defaults to repo root).
-- `command`: `full` (default), `plan`, `bump`, `notes`, `approve`, `publish`.
-- `dry-run`: `true` to preview without tagging/publishing.
-- `auto-approve`: `true` (default) to skip interactive approval.
+This example runs a plan preview on demand and does not publish. To execute a release, change the command deliberately and review the action's approval and dry-run settings first. The action's current metadata sets `auto-approve` to `true` by default, so do not assume an interactive approval prompt will protect an automated run.
 
-See the action docs: https://github.com/relicta-tech/relicta-action
+## Action inputs
 
-## Secrets and environment
-- Set provider tokens as encrypted secrets (e.g., `OPENAI_API_KEY`, `SLACK_WEBHOOK_URL`, `NPM_TOKEN`, `LAUNCHNOTES_API_TOKEN`).
-- Ensure `actions/checkout` fetches tags if you plan to publish (`fetch-depth: 0`).
+The action metadata currently documents these inputs:
 
-## CI patterns
-- **Plan-only PR check**: run `publish: false` with `args: --json` and annotate the PR with the proposed version and notes.
-- **Manual approval gate**: combine with environment protection rules; run `publish: true` only after approval.
-- **Matrix releases**: use strategy matrices for multi-platform testing, then a single release job that runs Relicta once.
+- `version`: Relicta CLI version to install.
+- `command`: `full` (default), `plan`, `bump`, `notes`, `approve`, `publish`, or `custom`.
+- `github-token`: token used for GitHub release operations.
+- `config` or `config-content`: configuration file path or inline YAML.
+- `auto-approve`: automatically approve a release; currently defaults to `true`.
+- `dry-run`: simulate actions; defaults to `false`.
+- `working-directory`: directory for the command; defaults to `.`.
+- `plugins`: comma-separated plugin names to download; defaults to none.
+
+The action version in the example is pinned to the reviewed v2 commit. Confirm its inputs and behavior in that revision's [action metadata](https://github.com/relicta-tech/relicta-action/blob/0268e9a3001e9483874e5501d59fa929a42130f3/action.yaml) before relying on them, and review updates before changing the pin. The CLI's default config filename in v4.2.0 is `.relicta.yaml`.
+
+## Secrets and permissions
+
+- Store provider and plugin credentials as encrypted repository or environment secrets.
+- Grant only the permissions the selected command needs. Release publication requires write access.
+- Fetch full history and tags when your release plan depends on earlier commits or tags.
+- Protect release workflows with branch rules and GitHub environment reviewers when human review is required.
+
+For a manual release, prefer a protected `workflow_dispatch` job or a staged plan and publish workflow that your team can review. A successful plan is not approval to publish.

@@ -12,8 +12,9 @@
 // files on disk under src/content/<collection> — so entry ids stay the same
 // shape as the old slugs and existing URLs do not change.
 
-import { defineCollection, z } from 'astro:content'
+import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
+import { z } from 'astro/zod'
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
@@ -28,13 +29,4 @@ const blog = defineCollection({
   }),
 })
 
-// Five entries exist under src/content/tutorials but no page renders them, so
-// this collection is currently unpublished content. Kept defined and loaded so
-// the migration does not quietly drop it; whether to publish or remove it is a
-// content decision, not a migration one.
-const tutorials = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/tutorials' }),
-  schema: z.object({}).catchall(z.any()),
-})
-
-export const collections = { blog, tutorials }
+export const collections = { blog }

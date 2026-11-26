@@ -10,12 +10,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check",
-    "postinstall": "node scripts/patch-starlight-head.js"
+    "check": "astro check"
   },
   "dependencies": {
-    "@astrojs/starlight": "0.37.1",
-    "astro": "5.16.5"
+    "@astrojs/starlight": "0.43.1",
+    "astro": "7.4.13"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
