@@ -161,7 +161,7 @@ and session management.
 - **Template notes**: Lists commit messages verbatim, technical and developer-focused
 - **AI notes**: Summarizes meaningfully, explains user impact, adds migration guidance
 
-Enable AI notes with: `relicta notes --ai` or `relicta release -y --ai`
+Enable AI notes with `relicta notes --ai`. In v4.2.0, `--ai` is an option on `relicta notes`; review the generated notes before approval.
 
 ---
 
@@ -248,13 +248,13 @@ Claude: "✓ v2.0.0 published. GitHub release created."
 **Available MCP tools:**
 | Tool | Description |
 |------|-------------|
-| `relicta.status` | Get current release state |
-| `relicta.plan` | Analyze commits and suggest version |
-| `relicta.bump` | Calculate and set version |
-| `relicta.notes` | Generate release notes |
-| `relicta.evaluate` | CGP risk assessment |
-| `relicta.approve` | Approve release |
-| `relicta.publish` | Execute release |
+| `relicta_status` | Get current release state |
+| `relicta_plan` | Analyze commits and suggest version |
+| `relicta_bump` | Calculate and set version |
+| `relicta_notes` | Generate release notes |
+| `relicta_evaluate` | CGP risk assessment |
+| `relicta_approve` | Approve release |
+| `relicta_publish` | Execute release |
 
 See the full [MCP Integration Guide](/mcp) for detailed configuration.
 

@@ -1,32 +1,32 @@
 ---
 title: Relicta overview
-description: The governance layer for software change. Risk-aware release decisions for humans and agents.
+description: Plan software releases, review risk, prepare notes, apply approval policy, and record decisions.
 draft: false
 ---
 
-Relicta is the governance layer for software change. As AI agents and CI systems generate more code, deciding what should ship becomes the hardest problem. Relicta governs change — before it reaches production.
+Relicta helps release owners turn repository changes into a reviewable release: a proposed version, change summary, release notes, governance decision, and approval record.
 
-**Today**, Relicta is a production-ready CLI that automates semantic versioning, release notes, approvals, and publishing. **Tomorrow**, it's the decision layer for risk-aware releases in an AI-driven world.
+The current published version is **v4.2.0**. Relicta is open-source software; review the current installation instructions, release notes, and support limits before adopting it. Newer v5 source features are not available in the public release yet.
 
 ## When to use Relicta
-- You need to **govern what changes** reach production — not just automate delivery.
+- You need to **govern which changes are approved for release** through a configured Relicta workflow.
 - You want **risk-aware decisions** about releases, especially with AI-generated code.
-- You require **approval gates and audit trails** for compliance.
+- You require **approval gates and audit trails** to support your release process.
 - You want one CLI that can **plan, approve, and publish** across your release channels.
 
 ## Core decisions Relicta makes
 - **What changed?** — Semantic analysis of commits to determine version impact.
 - **Is it risky?** — Risk scoring based on blast radius, actor trust, and security impact.
 - **Who approves?** — Governance gates with approval workflows and audit trails.
-- **How to communicate?** — AI-powered release notes and multi-channel notifications.
+- **How to communicate?** — Template-based or optionally AI-assisted release notes and configured notifications.
 
 ## What Relicta does
 - **Plan**: Analyze commits and assess risk to propose the correct semantic version.
-- **Notes**: Draft release notes with AI (OpenAI, Anthropic, Gemini, Ollama).
+- **Notes**: Draft release notes with templates or an optionally configured AI provider.
 - **Approve**: Lock the plan with governance checks and audit context.
-- **Publish**: Create tags and drive plugins (GitHub, npm, Slack, Docker, and more).
+- **Publish**: Create the release tag and run configured publisher plugins (such as GitHub, npm, Slack, or Docker).
 - **Govern**: Risk-aware decisions for breaking changes, security updates, and agent-generated code.
-- **CI-first**: GitHub Action with signed binaries; no toolchain required on runners.
+- **CI**: A GitHub Action is available. See its repository for current verification and platform-support details.
 
 ## Quickstart (local)
 
@@ -36,23 +36,23 @@ Relicta is the governance layer for software change. As AI agents and CI systems
 </video>
 
 ```bash
-brew install relicta-tech/tap/relicta
-relicta init                        # write relicta.config.yaml
+brew install relicta-tech/tap/relicta # Linux only
+relicta init                         # write .relicta.yaml
 ```
 
 ### Option A: One-Command Release
 ```bash
-relicta release                     # complete workflow (plan → bump → notes → approve → publish)
-relicta release --yes               # auto-approve for CI/CD
+relicta release --dry-run            # preview the workflow
+relicta release                     # run the workflow and review approval prompts
 ```
 
 ### Option B: Step-by-Step
 ```bash
 relicta plan                        # analyze commits, propose version
-relicta bump                        # apply version, create tag
-relicta notes --ai                  # generate AI-powered release notes
+relicta bump                        # apply version to configured files
+relicta notes                       # generate release notes; AI is optional in v4.2.0
 relicta approve                     # review and lock the release
-relicta publish                     # tag + run plugins
+relicta publish                     # create the tag + run configured publisher plugins
 ```
 
 See [Workflow](/workflow) for detailed command options.

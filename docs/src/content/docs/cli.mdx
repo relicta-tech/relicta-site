@@ -1,149 +1,68 @@
 ---
 title: CLI commands
-description: All Relicta CLI commands, flags, and when to use them.
+description: Core Relicta commands for planning, preparing, reviewing, and publishing a release.
 draft: false
 ---
 
-Relicta ships as a single binary with a handful of core commands. Every command supports `--help`, `--dry-run`, and `--json` for safe previews and machine-readable output.
+The current published Relicta CLI is **v4.2.0**. This page describes that release. v5 capabilities in the source repository, including drafting customer notes in a coding-agent session and saving them through MCP, are not available in v4.2.0.
 
-## `relicta release` (Recommended)
-Run the complete release workflow in a single command.
+Install the CLI using the [installation guide](/install), then run `relicta --help` or `relicta <command> --help` for options supported by your installed version.
+
+## Recommended: review the full workflow
+
+`relicta release --dry-run` previews the release without making changes. Running `relicta release` executes the workflow, including versioning, notes, approval, and publishing. Publishing can create a Git tag and run configured plugins; review the preview and repository configuration before running it.
 
 ```bash
-relicta release [--yes|-y] [--skip-push|-P] [--force|-F <version>] [--dry-run]
-```
-
-This is equivalent to running: `plan → bump → notes → approve → publish`
-
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--yes` | `-y` | Auto-approve the release (for CI/CD) |
-| `--skip-push` | `-P` | Skip pushing tags to remote |
-| `--force <version>` | `-F` | Force a specific version (e.g., `v2.0.0`) |
-| `--ai` | `-a` | Enable AI-powered notes generation |
-| `--dry-run` | | Preview the entire workflow without changes |
-
-**Examples:**
-```bash
-# Interactive release (prompts for approval)
-relicta release
-
-# CI/CD auto-approve
-relicta release -y
-
-# Preview changes
 relicta release --dry-run
-
-# Force specific version
-relicta release -F v2.0.0
+relicta release
 ```
 
----
+For unattended automation, `--yes` skips the interactive approval prompt. Use it only when your CI policy provides the required approval outside that prompt.
 
-## Step-by-Step Commands
+## Step-by-step workflow
 
-For more control, use individual commands:
-
-## `relicta init`
-Scaffold a `relicta.config.yaml` in the current repo.
+Use the individual commands when you want to inspect and control each stage:
 
 ```bash
+# Detect the repository and write .relicta.yaml if it does not exist
 relicta init
-```
-- Prompts for providers (AI, GitHub, npm) and writes a starter config.
-- Use `--config <path>` to write to a custom location.
 
-## `relicta plan`
-Analyze commits since the last tag and propose the next semantic version.
+# Analyze changes and recommend a version
+relicta plan
 
-```bash
-relicta plan [--from|-f <ref>] [--to|-t <ref>] [--analyze|-a] [--json] [--dry-run]
-```
+# Apply the chosen version to configured version files
+relicta bump
 
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--from <ref>` | `-f` | Starting reference (default: latest tag) |
-| `--to <ref>` | `-t` | Ending reference (default: HEAD) |
-| `--analyze` | `-a` | Include detailed commit analysis |
-| `--json` | | Machine-readable output |
-| `--dry-run` | | Preview without changes |
+# Generate release notes from repository history
+relicta notes
 
-Detects major/minor/patch (supports prerelease/build metadata via config).
+# Optionally request provider-generated prose (requires configured provider credentials)
+relicta notes --ai
 
-## `relicta notes`
-Generate release notes and changelog entries (optionally with AI).
+# Review the release before approval
+relicta approve
 
-```bash
-relicta notes [--ai|-a] [--save|-s] [--json] [--dry-run]
+# Publish after approval
+relicta publish
 ```
 
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--ai` | `-a` | Enable AI-powered notes generation |
-| `--save` | `-s` | Save notes to changelog file |
-| `--tone <tone>` | | Set AI tone (professional, casual, technical) |
-| `--audience <audience>` | | Target audience (developers, users, stakeholders) |
-| `--json` | | Machine-readable output |
-| `--dry-run` | | Preview without changes |
+The notes command supports audience, tone, language, and output options. In v4.2.0, `--ai` is a flag on `relicta notes`; it is not a flag on `relicta release`. Review generated notes and claims before approval.
 
-Uses your configured AI provider (OpenAI, Anthropic, Gemini, Azure, Ollama).
+## Common command reference
 
-## `relicta approve`
-Lock the planned release and capture approval context.
+| Command | Purpose |
+| --- | --- |
+| `relicta init` | Initialize repository configuration in `.relicta.yaml`. |
+| `relicta plan` | Analyze changes and recommend the next release version. |
+| `relicta bump` | Apply the selected version to configured files. |
+| `relicta notes` | Generate deterministic release notes; `--ai` enables provider-generated prose in v4.2.0. |
+| `relicta approve` | Review the prepared release and approve it for publishing. |
+| `relicta publish` | Execute the approved release, including configured tags and plugins. |
+| `relicta status` | Show current release state. |
+| `relicta mcp serve` | Start the MCP server for a connected agent. |
 
-```bash
-relicta approve [--yes|-y] [--edit|-e] [--editor|-E <editor>] [--interactive|-i]
-```
+See the [workflow guide](/workflow), [configuration reference](/configuration), and [MCP integration guide](/mcp) for detailed setup.
 
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--yes` | `-y` | Auto-approve without prompting |
-| `--edit` | `-e` | Edit release notes before approving |
-| `--editor` | `-E` | Editor to use (default: $EDITOR or vim) |
-| `--interactive` | `-i` | Use interactive TUI for approval |
-| `--by <name>` | | Record approver name |
-| `--note <text>` | | Add approval context note |
+## Version-specific documentation
 
-Records approver info for auditability before publish.
-
-## `relicta publish`
-Tag the repo and run plugins (GitHub releases, npm, Slack, LaunchNotes, custom gRPC).
-
-```bash
-relicta publish [--skip-approval|-A] [--skip-tag|-T] [--skip-push|-P] [--skip-plugins|-G]
-```
-
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--skip-approval` | `-A` | Skip approval check |
-| `--skip-tag` | `-T` | Skip git tag creation |
-| `--skip-push` | `-P` | Skip pushing to remote |
-| `--skip-plugins` | `-G` | Skip running plugins |
-| `--force` | | Skip approval if policy allows |
-| `--dry-run` | | Validate without making changes |
-
-Creates the tag and executes configured plugins.
-
-## Global flags
-
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--config <path>` | `-c` | Point to a specific config file |
-| `--verbose` | `-v` | Enable verbose output |
-| `--dry-run` | | Preview without changing the repo |
-| `--json` | | Emit machine-readable output for automation |
-| `--ci` | | CI/CD mode: auto-approve, JSON output, non-interactive |
-| `--model` | | AI model to use (format: `provider/model`) |
-| `--redact` | | Redact secrets and API keys from output |
-| `--no-color` | | Disable colored output |
-
-## Environment variables
-- AI: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT`, `OLLAMA_HOST`
-- GitHub: `GITHUB_TOKEN`
-- Plugins: `SLACK_WEBHOOK_URL`, `NPM_TOKEN`, `LAUNCHNOTES_API_TOKEN` (see [Plugins](/plugins)).
-
-## Tips
-- **Use `relicta release`** for most releases - it handles the entire workflow.
-- Pair `--json` with `jq` for CI annotations and dashboards.
-- Use `relicta release --dry-run` to validate the entire workflow before a real release.
-- Keep `relicta.config.yaml` in git so local and CI runs behave identically.
+The repository maintains a generated reference for every CLI command. Use the reference matching your installed version: [v4.2.0 CLI reference on GitHub](https://github.com/relicta-tech/relicta/tree/v4.2.0/docs/cli). The `main` branch reference may describe unreleased v5 source and should not be treated as the current public CLI contract.

@@ -19,7 +19,6 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@astrojs/mdx": "^7.0.5",
-    "astro-mermaid": "^2.1.0"
+    "@astrojs/mdx": "^7.0.5"
   }
 }

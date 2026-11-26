@@ -1,12 +1,12 @@
 ---
 title: Plugins
-description: Extend Relicta with 20 official plugins for publishing, notifications, and integrations.
+description: Extend Relicta with separately distributed plugins for publishing, notifications, and integrations.
 draft: false
 ---
 
 import { Tabs, TabItem, Card, CardGrid, Badge, Aside } from '@astrojs/starlight/components';
 
-Relicta's plugin system lets you integrate with external services at any point in the release lifecycle. All official plugins are distributed separately and installed via the plugin registry.
+Relicta's plugin system lets you integrate with external services at points in the release lifecycle. Plugins are distributed separately and installed via the registry. Registry entries vary in verification; review the publisher, source, permissions, and sandbox status before enabling a plugin.
 
 ## Quick Start
 
@@ -26,7 +26,7 @@ relicta plugin info github
 
 ## Available Plugins
 
-Relicta provides **30 official plugins** across 6 categories:
+The registry lists plugins across these categories. Availability and verification status can change:
 
 <CardGrid>
   <Card title="Version Control" icon="github">
